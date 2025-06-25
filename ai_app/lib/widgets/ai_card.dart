@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prompt_learn_app/models/ai_info.dart';
+import '../models/ai_info.dart';
 
 /// 個別AIカードウィジェット（再利用可能設計）
 class AiCard extends StatelessWidget {
@@ -31,69 +31,45 @@ class AiCard extends StatelessWidget {
                   CircleAvatar(
                     radius: 24,
                     backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
-                    child: Icon(aiInfo.icon, size: 28, color: Theme.of(context).colorScheme.primary),
+                    child: Icon(_getMaterialIcon(aiInfo.icon), size: 28, color: Theme.of(context).colorScheme.primary),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Text(
                       aiInfo.name,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               Text(
                 aiInfo.description,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: const TextStyle(fontSize: 14),
               ),
-              const SizedBox(height: 16),
-
-              // 強み
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                children: aiInfo.strengths
+                    .map((str) => Chip(
+                          label: Text(str, style: const TextStyle(fontSize: 12)),
+                          backgroundColor: Colors.green.shade50,
+                        ))
+                    .toList(),
+              ),
+              Wrap(
+                spacing: 8,
+                children: aiInfo.weaknesses
+                    .map((str) => Chip(
+                          label: Text(str, style: const TextStyle(fontSize: 12)),
+                          backgroundColor: Colors.red.shade50,
+                        ))
+                    .toList(),
+              ),
+              const SizedBox(height: 6),
               Row(
                 children: [
-                  Icon(Icons.thumb_up, color: Colors.green, size: 20),
-                  const SizedBox(width: 4),
-                  Text('強み', style: TextStyle(fontWeight: FontWeight.bold)),
-                ],
-              ),
-              ...aiInfo.strengths.map((s) => Padding(
-                    padding: const EdgeInsets.only(left: 28, top: 2),
-                    child: Row(
-                      children: [
-                        Icon(Icons.check, color: Colors.green.shade600, size: 16),
-                        const SizedBox(width: 6),
-                        Expanded(child: Text(s)),
-                      ],
-                    ),
-                  )),
-              const SizedBox(height: 8),
-
-              // 弱み
-              Row(
-                children: [
-                  Icon(Icons.thumb_down, color: Colors.red, size: 20),
-                  const SizedBox(width: 4),
-                  Text('弱み', style: TextStyle(fontWeight: FontWeight.bold)),
-                ],
-              ),
-              ...aiInfo.weaknesses.map((w) => Padding(
-                    padding: const EdgeInsets.only(left: 28, top: 2),
-                    child: Row(
-                      children: [
-                        Icon(Icons.close, color: Colors.red.shade600, size: 16),
-                        const SizedBox(width: 6),
-                        Expanded(child: Text(w)),
-                      ],
-                    ),
-                  )),
-
-              const Divider(height: 24),
-
-              // 料金・使用例・公式リンク
-              Row(
-                children: [
-                  Icon(Icons.monetization_on, color: Colors.amber, size: 20),
+                  Icon(Icons.attach_money, color: Colors.orangeAccent, size: 20),
                   const SizedBox(width: 4),
                   Text('料金:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(width: 8),
@@ -125,9 +101,8 @@ class AiCard extends StatelessWidget {
                     child: Text(
                       '公式サイト',
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Colors.blue,
                         decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -138,5 +113,15 @@ class AiCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  IconData _getMaterialIcon(String iconName) {
+    const iconMap = {
+      'chat_bubble_rounded': Icons.chat_bubble_rounded,
+      'auto_awesome': Icons.auto_awesome,
+      'lightbulb_circle': Icons.lightbulb_circle,
+      // 必要に応じて追加
+    };
+    return iconMap[iconName] ?? Icons.android;
   }
 }

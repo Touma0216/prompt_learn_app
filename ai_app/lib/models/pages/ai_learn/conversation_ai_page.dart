@@ -1,18 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:prompt_learn_app/models/ai_info.dart';
-import 'package:prompt_learn_app/widgets/ai_card.dart';
-
-IconData getMaterialIcon(String iconName) {
-  const iconMap = {
-    'chat_bubble_rounded': Icons.chat_bubble_rounded,
-    'auto_awesome': Icons.auto_awesome,
-    'lightbulb_circle': Icons.lightbulb_circle,
-    // 必要なら他も追加
-  };
-  return iconMap[iconName] ?? Icons.android;
-}
+import 'package:ai_app/models/ai_info.dart';
+import 'package:ai_app/widgets/ai_card.dart';
 
 class ConversationAiListPage extends StatelessWidget {
   const ConversationAiListPage({super.key});
@@ -43,7 +33,6 @@ class ConversationAiListPage extends StatelessWidget {
               final ai = aiList[index];
               return AiCard(
                 aiInfo: ai,
-                iconData: getMaterialIcon(ai.icon),
                 onTap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('${ai.name}：詳細ページへ遷移予定')),
