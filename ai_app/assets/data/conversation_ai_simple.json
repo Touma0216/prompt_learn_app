@@ -1,20 +1,51 @@
 [
   {
     "name": "ChatGPT",
-    "description": "OpenAIが開発した会話特化型AI。自然な日本語対応が特徴。",
+    "description": "OpenAIが開発した強力な会話型AI。幅広い話題に対応し、自然な日本語応答が可能。",
     "icon": "chat_bubble_rounded",
-    "tagline": "日常会話や学習に最適なAI"
+    "strengths": [
+      "知識量が豊富",
+      "日本語対応が自然",
+      "API・サービスが多い"
+    ],
+    "weaknesses": [
+      "最新情報は取得できない場合がある",
+      "専門分野の正確性に限界"
+    ],
+    "pricing": "無料（有料プランあり）",
+    "usageExample": "日常会話・学習・プログラミング質問",
+    "officialUrl": "https://chat.openai.com/"
   },
   {
     "name": "Gemini",
-    "description": "Google提供のマルチモーダルAI。検索連携が強み。",
+    "description": "Googleが提供する多用途AI。検索連携やマルチモーダル対応が特徴。",
     "icon": "auto_awesome",
-    "tagline": "検索連携や画像理解にも強い"
+    "strengths": [
+      "Google検索との連携",
+      "画像やファイル入力にも対応"
+    ],
+    "weaknesses": [
+      "一部機能は英語のみ",
+      "API公開範囲が限定的"
+    ],
+    "pricing": "無料（Googleアカウント必要）",
+    "usageExample": "情報検索・画像解析・Q&A",
+    "officialUrl": "https://gemini.google.com/"
   },
-    {
-    "name": "Claude",
-    "description": "Anthropicが開発したAI。倫理的な設計が特徴。",
-    "icon": "psychology",
-    "tagline": "倫理的な会話体験を提供"
-    }
+{
+  "name": "Claude",
+  "description": "Anthropicが開発した会話AI。倫理的な設計と安全性に重点を置いている。",
+  "icon": "psychology",
+  "strengths": [
+    "倫理的な設計",
+    "安全性の高い応答"
+  ],
+  "weaknesses": [
+    "日本語対応は限定的",
+    "専門的な質問には弱い"
+  ],
+  "pricing": "無料（有料プランあり）",
+  "usageExample": "倫理的な相談・一般的な質問",
+  "officialUrl": "https://claude.ai/"
+}
 ]

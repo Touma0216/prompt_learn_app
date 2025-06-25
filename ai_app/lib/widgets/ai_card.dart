@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/ai_info.dart';
+import 'package:prompt_learn_app/models/ai_info.dart';
 
 /// 個別AIカードウィジェット（再利用可能設計）
 class AiCard extends StatelessWidget {

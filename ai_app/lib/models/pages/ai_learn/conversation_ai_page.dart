@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../models/ai_info.dart';
-import '../../../widgets/ai_card.dart';
+import 'package:prompt_learn_app/models/ai_info.dart';
+import 'package:prompt_learn_app/widgets/ai_card.dart';
 
 IconData getMaterialIcon(String iconName) {
   const iconMap = {
     'chat_bubble_rounded': Icons.chat_bubble_rounded,
     'auto_awesome': Icons.auto_awesome,
     'lightbulb_circle': Icons.lightbulb_circle,
-    // 必要に応じて追加
+    // 必要なら他も追加
   };
   return iconMap[iconName] ?? Icons.android;
 }
