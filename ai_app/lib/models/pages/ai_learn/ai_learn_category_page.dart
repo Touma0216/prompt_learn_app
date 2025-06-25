@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../ai_category.dart';
 import 'conversation_ai_page.dart';
-// 他ジャンルの詳細ページもここにimport予定
+import 'text_ai_page.dart'; // ← 追加
 
 class AiLearnCategoryPage extends StatefulWidget {
   const AiLearnCategoryPage({super.key});
@@ -37,11 +37,15 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
         context,
         MaterialPageRoute(builder: (_) => const ConversationAiListPage()),
       );
+    } else if (category.id == "text") { // ← 文章AIカテゴリIDに合わせて遷移
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const TextAiListPage()),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('${category.title}は今後実装予定です')),
       );
-      // 実装後はここで各ジャンルの詳細ページに遷移
     }
   }
 
@@ -56,51 +60,31 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
           : GridView.builder(
               padding: const EdgeInsets.all(16),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // スマホは1列, タブレットなら2列に調整可
-                childAspectRatio: 1.1,
+                crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
+                childAspectRatio: 1.2,
               ),
               itemCount: _categories.length,
-              itemBuilder: (context, idx) {
-                final cat = _categories[idx];
+              itemBuilder: (context, index) {
+                final category = _categories[index];
                 return GestureDetector(
-                  onTap: () => _onCategoryTap(context, cat),
+                  onTap: () => _onCategoryTap(context, category),
                   child: Card(
                     elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Image.asset(
-                              cat.imagePath,
-                              fit: BoxFit.contain,
-                              errorBuilder: (c, e, s) => const Icon(Icons.image_not_supported, size: 48, color: Colors.grey),
-                            ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(category.icon, size: 44),
+                          const SizedBox(height: 8),
+                          Text(
+                            category.title,
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            cat.title,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                          child: Text(
-                            cat.description,
-                            style: const TextStyle(fontSize: 13, color: Colors.black54),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
