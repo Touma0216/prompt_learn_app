@@ -8,7 +8,6 @@ class ConversationAiListPage extends StatelessWidget {
   const ConversationAiListPage({super.key});
 
   Future<List<AiInfo>> loadAiList() async {
-    // ここを修正: simple用jsonを読む
     final String jsonStr = await rootBundle.loadString('assets/data/conversation_ai_simple.json');
     final List<dynamic> jsonList = json.decode(jsonStr);
     return jsonList.map((e) => AiInfo.fromJson(e)).toList();

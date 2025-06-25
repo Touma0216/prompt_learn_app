@@ -21,14 +21,14 @@ class AiInfo {
 
   factory AiInfo.fromJson(Map<String, dynamic> json) {
     return AiInfo(
-      name: json['name'] as String,
-      description: json['description'] as String,
-      icon: json['icon'] as String,
-      strengths: List<String>.from(json['strengths'] ?? []),
-      weaknesses: List<String>.from(json['weaknesses'] ?? []),
-      pricing: json['pricing'] as String,
-      usageExample: json['usageExample'] as String,
-      officialUrl: json['officialUrl'] as String,
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      icon: json['icon'] ?? 'android',
+      strengths: (json['strengths'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
+      weaknesses: (json['weaknesses'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
+      pricing: json['pricing'] ?? '',
+      usageExample: json['usageExample'] ?? '',
+      officialUrl: json['officialUrl'] ?? '',
     );
   }
 }
