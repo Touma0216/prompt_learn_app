@@ -87,3 +87,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter:
+  assets:
+    - assets/data/categories.json
+    - assets/icons/conversation_ai.png
+    - assets/icons/text_ai.png
+    - assets/icons/image_ai.png
+    - assets/icons/audio_ai.png
+    - assets/icons/code_ai.png
+    - assets/icons/video_ai.png
+    - assets/icons/data_ai.png

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'ai_learn/conversation_ai_page.dart';
+import 'ai_learn/ai_learn_category_page.dart';
 
 // 仮のPlaceholderPage
 class PlaceholderPage extends StatelessWidget {
@@ -196,7 +196,7 @@ class TopPage extends StatelessWidget {
                           if (feature['label'] == 'AIを学ぶ') {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) => const ConversationAiListPage(),
+                                builder: (_) => const AiLearnCategoryPage(),
                               ),
                             );
                           } else {
