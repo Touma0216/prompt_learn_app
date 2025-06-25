@@ -21,4 +21,4 @@ flutter:
   assets:
     - assets/data/categories.json
     - assets/data/conversation_ai_simple.json
-    
+    - assets/data/text_ai_simple.json  
