@@ -1,0 +1,20 @@
+[
+  {
+    "name": "ChatGPT",
+    "description": "OpenAIが開発した会話特化型AI。自然な日本語対応が特徴。",
+    "icon": "chat_bubble_rounded",
+    "tagline": "日常会話や学習に最適なAI"
+  },
+  {
+    "name": "Gemini",
+    "description": "Google提供のマルチモーダルAI。検索連携が強み。",
+    "icon": "auto_awesome",
+    "tagline": "検索連携や画像理解にも強い"
+  },
+    {
+    "name": "Claude",
+    "description": "Anthropicが開発したAI。倫理的な設計が特徴。",
+    "icon": "psychology",
+    "tagline": "倫理的な会話体験を提供"
+    }
+]
