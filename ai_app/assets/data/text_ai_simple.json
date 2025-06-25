@@ -1,0 +1,35 @@
+[
+  {
+    "name": "DeepL Translator",
+    "description": "高精度かつ自然な翻訳を提供する、初心者にも優しい翻訳AI。",
+    "icon": "translate",
+    "strengths": [
+      "日本語⇔英語翻訳の自然さ",
+      "シンプルなUI",
+      "無料版でも十分"
+    ],
+    "weaknesses": [
+      "無料版は文字数制限あり",
+      "対応言語がやや少ない"
+    ],
+    "pricing": "無料（Pro: 約¥1,150〜）",
+    "usageExample": "メール翻訳・海外ニュースの把握・記事の英訳",
+    "officialUrl": "https://www.deepl.com/translator"
+  },
+  {
+    "name": "Grammarly",
+    "description": "英語の文法・トーンチェックが得意なライティング支援AI。",
+    "icon": "spellcheck",
+    "strengths": [
+      "英文法チェックが高精度",
+      "自動返信や提案機能あり"
+    ],
+    "weaknesses": [
+      "日本語非対応",
+      "無料版では機能制限あり"
+    ],
+    "pricing": "無料プランあり、有料は月$12〜30",
+    "usageExample": "メール文の添削・トーン調整・英文改善",
+    "officialUrl": "https://www.grammarly.com/"
+  }
+]
