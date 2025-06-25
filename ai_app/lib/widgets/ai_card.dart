@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/ai_info.dart';
 
-/// 個別AIカードウィジェット（再利用可能設計）
 class AiCard extends StatelessWidget {
   final AiInfo aiInfo;
   final VoidCallback? onTap;
@@ -25,7 +24,6 @@ class AiCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // アイコン＋AI名＋概要
               Row(
                 children: [
                   CircleAvatar(
@@ -43,71 +41,9 @@ class AiCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              Text(
-                aiInfo.description,
-                style: const TextStyle(fontSize: 14),
-              ),
-              const SizedBox(height: 10),
-              Wrap(
-                spacing: 8,
-                children: aiInfo.strengths
-                    .map((str) => Chip(
-                          label: Text(str, style: const TextStyle(fontSize: 12)),
-                          backgroundColor: Colors.green.shade50,
-                        ))
-                    .toList(),
-              ),
-              Wrap(
-                spacing: 8,
-                children: aiInfo.weaknesses
-                    .map((str) => Chip(
-                          label: Text(str, style: const TextStyle(fontSize: 12)),
-                          backgroundColor: Colors.red.shade50,
-                        ))
-                    .toList(),
-              ),
-              const SizedBox(height: 6),
-              Row(
-                children: [
-                  Icon(Icons.attach_money, color: Colors.orangeAccent, size: 20),
-                  const SizedBox(width: 4),
-                  Text('料金:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(aiInfo.pricing)),
-                ],
-              ),
-              const SizedBox(height: 6),
-              Row(
-                children: [
-                  Icon(Icons.tips_and_updates, color: Colors.blueAccent, size: 20),
-                  const SizedBox(width: 4),
-                  Text('使用例:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(aiInfo.usageExample)),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Icon(Icons.link, color: Colors.indigo, size: 20),
-                  const SizedBox(width: 4),
-                  GestureDetector(
-                    onTap: () {
-                      // 今後url_launcherで公式ページ遷移予定
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('公式サイト遷移は今後実装予定です')),
-                      );
-                    },
-                    child: Text(
-                      '公式サイト',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              Text(aiInfo.description,
+                  style: const TextStyle(fontSize: 14)),
+              // ...（以降も画像は一切使わず、全てIconで）
             ],
           ),
         ),
