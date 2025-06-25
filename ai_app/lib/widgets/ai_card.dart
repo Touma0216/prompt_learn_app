@@ -1,63 +1,49 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../models/ai_info.dart';
+import 'package:flutter/services.dart';
+import 'package:ai_app/models/ai_info.dart';
+import 'package:ai_app/widgets/ai_card.dart';
 
-class AiCard extends StatelessWidget {
-  final AiInfo aiInfo;
-  final VoidCallback? onTap;
+class ConversationAiListPage extends StatelessWidget {
+  const ConversationAiListPage({super.key});
 
-  const AiCard({
-    super.key,
-    required this.aiInfo,
-    this.onTap,
-  });
+  Future<List<AiInfo>> loadAiList() async {
+    // ここを修正: simple用jsonを読む
+    final String jsonStr = await rootBundle.loadString('assets/data/conversation_ai_simple.json');
+    final List<dynamic> jsonList = json.decode(jsonStr);
+    return jsonList.map((e) => AiInfo.fromJson(e)).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      elevation: 2,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
-                    child: Icon(_getMaterialIcon(aiInfo.icon), size: 28, color: Theme.of(context).colorScheme.primary),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Text(
-                      aiInfo.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Text(aiInfo.description,
-                  style: const TextStyle(fontSize: 14)),
-              // ...（以降も画像は一切使わず、全てIconで）
-            ],
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(title: const Text('会話するAI 一覧')),
+      body: FutureBuilder<List<AiInfo>>(
+        future: loadAiList(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('データがありません'));
+          }
+          final aiList = snapshot.data!;
+          return ListView.builder(
+            itemCount: aiList.length,
+            itemBuilder: (context, index) {
+              final ai = aiList[index];
+              return AiCard(
+                aiInfo: ai,
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('${ai.name}：詳細ページへ遷移予定')),
+                  );
+                },
+              );
+            },
+          );
+        },
       ),
     );
-  }
-
-  IconData _getMaterialIcon(String iconName) {
-    const iconMap = {
-      'chat_bubble_rounded': Icons.chat_bubble_rounded,
-      'auto_awesome': Icons.auto_awesome,
-      'lightbulb_circle': Icons.lightbulb_circle,
-      // 必要に応じて追加
-    };
-    return iconMap[iconName] ?? Icons.android;
   }
 }
