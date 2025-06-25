@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../models/ai_category.dart';
+import '../../ai_category.dart';
 import 'conversation_ai_page.dart';
 // 他ジャンルの詳細ページもここにimport予定
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/ai_info.dart';
-import '../../widgets/ai_card.dart';
+import '../../ai_info.dart';
+import '../../../widgets/ai_card.dart';
 
 /// 「会話するAI」カテゴリのAI一覧ページ
 class ConversationAiListPage extends StatelessWidget {

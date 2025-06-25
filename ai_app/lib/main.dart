@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/top_page.dart';
+import 'models/pages/top_page.dart';
 
 void main() {
   runApp(const PromptLearnApp());
