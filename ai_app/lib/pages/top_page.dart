@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'ai_learn/conversation_ai_page.dart';
 
 // 仮のPlaceholderPage
 class PlaceholderPage extends StatelessWidget {
@@ -191,11 +192,20 @@ class TopPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => PlaceholderPage(title: feature['label']),
-                            ),
-                          );
+                          // ここを修正！「AIを学ぶ」を押したときだけConversationAiListPageへ遷移
+                          if (feature['label'] == 'AIを学ぶ') {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const ConversationAiListPage(),
+                              ),
+                            );
+                          } else {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => PlaceholderPage(title: feature['label']),
+                              ),
+                            );
+                          }
                         },
                         child: Row(
                           children: [
