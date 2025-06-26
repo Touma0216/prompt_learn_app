@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../ai_category.dart';
 import 'conversation_ai_page.dart';
-import 'text_ai_page.dart'; // ← 追加
+import 'text_ai_page.dart';
+
 
 class AiLearnCategoryPage extends StatefulWidget {
   const AiLearnCategoryPage({super.key});
@@ -37,7 +38,7 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
         context,
         MaterialPageRoute(builder: (_) => const ConversationAiListPage()),
       );
-    } else if (category.id == "text") { // ← 文章AIカテゴリIDに合わせて遷移
+    } else if (category.id == "text") {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const TextAiListPage()),
@@ -57,35 +58,44 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
-          : GridView.builder(
+          : ListView.separated(
               padding: const EdgeInsets.all(16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 1.2,
-              ),
               itemCount: _categories.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final category = _categories[index];
-                return GestureDetector(
-                  onTap: () => _onCategoryTap(context, category),
-                  child: Card(
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(category.icon, size: 44),
-                          const SizedBox(height: 8),
-                          Text(
-                            category.title,
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        ],
+                return Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        category.image,
+                        width: 54,
+                        height: 54,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.broken_image, size: 48, color: Colors.grey),
                       ),
                     ),
+                    title: Text(
+                      category.title,
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Text(
+                        category.description,
+                        style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    onTap: () => _onCategoryTap(context, category),
                   ),
                 );
               },
