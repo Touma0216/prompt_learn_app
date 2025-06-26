@@ -31,16 +31,18 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
   }
 
   int getCrossAxisCount(double width) {
-    if (width >= 900) return 4; // PC
-    if (width >= 600) return 3; // タブレット
-    return 2; // スマホ
+    if (width <= 400) return 1; // iPhone SEなど
+    if (width <= 700) return 2; // 一般スマホ
+    if (width <= 1100) return 3; // タブレット・小型PC
+    return 4; // PC
   }
 
-  double getChildAspectRatio(double width) {
-    // 列数ごとにバランス良くする
-    if (width >= 900) return 0.95;
-    if (width >= 600) return 1.05;
-    return 1.1;
+  double getCardMinHeight(double width, int crossAxisCount) {
+    // 最小でも画像＋テキスト2種＋余白を確保
+    if (crossAxisCount == 1) return 240;
+    if (crossAxisCount == 2) return 240;
+    if (crossAxisCount == 3) return 220;
+    return 210;
   }
 
   void _onCategoryTap(BuildContext context, AiCategory category) {
@@ -65,7 +67,18 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final crossAxisCount = getCrossAxisCount(width);
-    final childAspectRatio = getChildAspectRatio(width);
+    final minHeight = getCardMinHeight(width, crossAxisCount);
+
+    // カードの横幅を計算
+    double gridPadding = 12 * 2;
+    double crossSpacing = 16 * (crossAxisCount - 1);
+    double usableWidth = width - gridPadding - crossSpacing;
+    double cardWidth = usableWidth / crossAxisCount;
+
+    // === 固定値で見やすい画像サイズとテキストサイズ ===
+    double imageBoxHeight = 120; // スマホ・PC全てで固定値
+    double titleFontSize = 17; // 16〜18でバランス
+    double descFontSize = 13.5; // 13〜14でバランス
 
     return Scaffold(
       appBar: AppBar(
@@ -73,81 +86,92 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(12),
-              child: GridView.builder(
-                itemCount: _categories.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 14,
-                  mainAxisSpacing: 14,
-                  childAspectRatio: childAspectRatio,
-                ),
-                itemBuilder: (context, index) {
-                  final category = _categories[index];
-                  return InkWell(
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: () => _onCategoryTap(context, category),
-                    child: Card(
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
+          : LayoutBuilder(
+              builder: (context, constraints) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: GridView.builder(
+                    itemCount: _categories.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 18,
+                      childAspectRatio: cardWidth / minHeight, // 縦長に見せる
+                    ),
+                    itemBuilder: (context, index) {
+                      final category = _categories[index];
+                      return InkWell(
                         borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // 画像領域
-                            SizedBox(
-                              height: 80,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.asset(
-                                  category.image,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) => Container(
-                                    color: Colors.grey.shade200,
-                                    child: const Center(
-                                      child: Icon(Icons.extension, size: 40, color: Colors.grey),
+                        onTap: () => _onCategoryTap(context, category),
+                        child: Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                // 画像（高さ固定、横はカード幅いっぱい）
+                                Container(
+                                  width: double.infinity,
+                                  height: imageBoxHeight,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade100,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.asset(
+                                      category.image,
+                                      fit: BoxFit.contain,
+                                      errorBuilder: (context, error, stackTrace) => Center(
+                                        child: Icon(Icons.extension, size: 56, color: Colors.grey),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                                const SizedBox(height: 12),
+                                // タイトル
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                  child: Text(
+                                    category.title,
+                                    style: TextStyle(
+                                      fontSize: titleFontSize,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                // 説明文
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                  child: Text(
+                                    category.description,
+                                    style: TextStyle(
+                                      fontSize: descFontSize,
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 8),
-                            // ジャンル名
-                            Text(
-                              category.title,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 4),
-                            // 説明文
-                            Text(
-                              category.description,
-                              style: const TextStyle(
-                                fontSize: 12.5,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const Spacer(),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
     );
   }
