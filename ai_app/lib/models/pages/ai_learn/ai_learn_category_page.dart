@@ -30,6 +30,19 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
     });
   }
 
+  int getCrossAxisCount(double width) {
+    if (width >= 900) return 4; // PC
+    if (width >= 600) return 3; // タブレット
+    return 2; // スマホ
+  }
+
+  double getChildAspectRatio(double width) {
+    // 列数ごとにバランス良くする
+    if (width >= 900) return 0.95;
+    if (width >= 600) return 1.05;
+    return 1.1;
+  }
+
   void _onCategoryTap(BuildContext context, AiCategory category) {
     if (category.id == "conversation") {
       Navigator.push(
@@ -48,15 +61,12 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
     }
   }
 
-  int _calcCrossAxisCount(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    if (width >= 900) return 4;
-    if (width >= 600) return 3;
-    return 2;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final crossAxisCount = getCrossAxisCount(width);
+    final childAspectRatio = getChildAspectRatio(width);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('AIジャンルを選ぶ'),
@@ -66,68 +76,71 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
           : Padding(
               padding: const EdgeInsets.all(12),
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: _calcCrossAxisCount(context),
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 0.85,
-                ),
                 itemCount: _categories.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 14,
+                  mainAxisSpacing: 14,
+                  childAspectRatio: childAspectRatio,
+                ),
                 itemBuilder: (context, index) {
                   final category = _categories[index];
                   return InkWell(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                     onTap: () => _onCategoryTap(context, category),
                     child: Card(
-                      elevation: 3,
+                      elevation: 2,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Expanded(
+                            // 画像領域
+                            SizedBox(
+                              height: 80,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: AspectRatio(
-                                  aspectRatio: 1,
-                                  child: Image.asset(
-                                    category.image,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Container(
-                                      color: Colors.grey.shade200,
-                                      child: const Center(
-                                        child: Icon(Icons.extension, size: 48, color: Colors.grey),
-                                      ),
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  category.image,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => Container(
+                                    color: Colors.grey.shade200,
+                                    child: const Center(
+                                      child: Icon(Icons.extension, size: 40, color: Colors.grey),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 8),
+                            // ジャンル名
                             Text(
                               category.title,
                               style: const TextStyle(
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
                               ),
+                              textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 4),
+                            // 説明文
                             Text(
                               category.description,
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.grey[700],
+                              style: const TextStyle(
+                                fontSize: 12.5,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.w400,
                               ),
+                              textAlign: TextAlign.center,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
                             ),
+                            const Spacer(),
                           ],
                         ),
                       ),
