@@ -18,21 +18,21 @@
     "description": "イラストや3D画像などを生成するAI"
   },
   {
-    "id": "audio",
+    "id": "sound",
     "title": "音をつくるAI",
-    "image": "assets/icons/audio_ai.png",
+    "image": "assets/icons/sound_ai.png",
     "description": "音楽・声・TTS/STTなどを生成するAI"
   },
   {
-    "id": "code",
+    "id": "programming",
     "title": "プログラムを書くAI",
-    "image": "assets/icons/code_ai.png",
+    "image": "assets/icons/programming_ai.png",
     "description": "コード生成や支援を行うAI"
   },
   {
-    "id": "video",
+    "id": "movie",
     "title": "動画をつくるAI",
-    "image": "assets/icons/video_ai.png",
+    "image": "assets/icons/movie_ai.png",
     "description": "動画生成・アニメ風変換などのAI"
   },
   {

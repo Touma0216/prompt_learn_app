@@ -28,7 +28,9 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
   }
 
   Future<void> _loadCategories() async {
-    final jsonStr = await DefaultAssetBundle.of(context).loadString('assets/data/categories.json');
+    final jsonStr = await DefaultAssetBundle.of(
+      context,
+    ).loadString('assets/data/categories.json');
     final List<dynamic> jsonList = json.decode(jsonStr);
     setState(() {
       _categories = jsonList.map((e) => AiCategory.fromJson(e)).toList();
@@ -80,10 +82,6 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
           MaterialPageRoute(builder: (_) => const DataAiListPage()),
         );
         break;
-      default:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${category.title}は今後実装予定です')),
-        );
     }
   }
 
@@ -100,22 +98,20 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
     final bool isMobile = width < 600;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('AIジャンルを選ぶ'),
-      ),
+      appBar: AppBar(title: const Text('AIジャンルを選ぶ')),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : (isMobile
-              ? _MobileCategoryGrid(
-                  categories: _categories,
-                  onCategoryTap: _onCategoryTap,
-                  calcCrossAxisCount: _calcCrossAxisCount,
-                )
-              : _WebCategoryGrid(
-                  categories: _categories,
-                  onCategoryTap: _onCategoryTap,
-                  calcCrossAxisCount: _calcCrossAxisCount,
-                )),
+                ? _MobileCategoryGrid(
+                    categories: _categories,
+                    onCategoryTap: _onCategoryTap,
+                    calcCrossAxisCount: _calcCrossAxisCount,
+                  )
+                : _WebCategoryGrid(
+                    categories: _categories,
+                    onCategoryTap: _onCategoryTap,
+                    calcCrossAxisCount: _calcCrossAxisCount,
+                  )),
     );
   }
 }
@@ -167,12 +163,17 @@ class _MobileCategoryGrid extends StatelessWidget {
                           child: Image.asset(
                             category.image,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Container(
-                              color: Colors.grey.shade200,
-                              child: const Center(
-                                child: Icon(Icons.extension, size: 48, color: Colors.grey),
-                              ),
-                            ),
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                                  color: Colors.grey.shade200,
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.extension,
+                                      size: 48,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
                           ),
                         ),
                       ),
@@ -191,10 +192,7 @@ class _MobileCategoryGrid extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       category.description,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[700],
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.grey[700]),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
@@ -256,12 +254,17 @@ class _WebCategoryGrid extends StatelessWidget {
                           child: Image.asset(
                             category.image,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Container(
-                              color: Colors.grey.shade200,
-                              child: const Center(
-                                child: Icon(Icons.extension, size: 48, color: Colors.grey),
-                              ),
-                            ),
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                                  color: Colors.grey.shade200,
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.extension,
+                                      size: 48,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
                           ),
                         ),
                       ),
@@ -280,10 +283,7 @@ class _WebCategoryGrid extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       category.description,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[700],
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.grey[700]),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
