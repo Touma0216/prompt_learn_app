@@ -1,0 +1,213 @@
+[
+  {
+    "name": "Midjourney（ミッドジャーニー）",
+    "developer": "Midjourney, Inc.（米国・サンフランシスコ）",
+    "firstRelease": "2022年7月",
+    "modelType": "画像生成AI（テキスト→画像）",
+    "description": "高品質で芸術的な画像を生成でき、多彩なアートスタイルやコミュニティでの作品共有が可能。",
+    "strengths": [
+      "高品質で芸術的な画像生成",
+      "多彩なアートスタイル対応",
+      "コミュニティ共有から学べる"
+    ],
+    "weaknesses": [
+      "無料プランなし（有料のみ）",
+      "細部描写が不自然なことも",
+      "操作は英語中心（Discord）"
+    ],
+    "pricing": "月額10ドル〜（ベーシックプラン）、商用ライセンスは上位プラン",
+    "usageExample": "ファンタジー風景画の作成、商品コンセプトのスケッチ化、AIコミュニティでイラスト共有",
+    "officialUrl": "https://www.midjourney.com"
+  },
+  {
+    "name": "OpenAI DALL·E（ダル・イー）",
+    "developer": "OpenAI（米国）",
+    "firstRelease": "2021年（DALL·E）、2023年（DALL·E 3）",
+    "modelType": "画像生成AI（テキスト→画像）",
+    "description": "ChatGPTやBingと連携、日本語入力OK。写実・イラストのバランスがよく正確な構図表現が得意。",
+    "strengths": [
+      "ChatGPTやBingと連携、日本語入力OK",
+      "正確な構図・表現で使いやすい",
+      "写実・イラストのバランスが良い"
+    ],
+    "weaknesses": [
+      "実在人物やNGテーマの制限が厳しい",
+      "生成回数や品質に制限あり（無料版）"
+    ],
+    "pricing": "一部無料（Bing Image Creator等）、有料APIは従量課金制（画像単価制）",
+    "usageExample": "ブログやプレゼンの挿絵作成、商品デザインのラフ提案、小説のキャライメージ作成",
+    "officialUrl": "https://openai.com/dall-e"
+  },
+  {
+    "name": "Stable Diffusion（ステーブル・ディフュージョン）",
+    "developer": "Stability AI（英国）＋CompVis（ドイツ）",
+    "firstRelease": "2022年8月",
+    "modelType": "画像生成AI（オープンソース）",
+    "description": "完全無料で商用利用も可能。有志による拡張モデル多数。アニメ・リアルなど自由なカスタム可。",
+    "strengths": [
+      "完全無料で商用利用も可能",
+      "多数の拡張モデルが有志により公開",
+      "アニメ・リアルなど自由なカスタム可"
+    ],
+    "weaknesses": [
+      "セットアップの手間がある（環境構築など）",
+      "顔や手など崩れるケースも多い",
+      "英語中心でドキュメントが難解"
+    ],
+    "pricing": "無料（自己導入）／DreamStudioは有料",
+    "usageExample": "オリジナルアニメキャラの生成、背景イラストの大量生成、自由な画像変換（img2img）",
+    "officialUrl": "https://stability.ai"
+  },
+  {
+    "name": "Adobe Firefly（アドビ・ファイヤーフライ）",
+    "developer": "Adobe（米国）",
+    "firstRelease": "2023年",
+    "modelType": "画像生成AI（Adobe Creative Cloud統合）",
+    "description": "商用利用可能（Adobe Stock学習）。Photoshopなどと統合し直感的操作。パーツ生成や拡張が便利。",
+    "strengths": [
+      "商用利用可能（Adobe Stock学習）",
+      "Photoshopなどと統合して直感的操作",
+      "パーツ生成や拡張が便利"
+    ],
+    "weaknesses": [
+      "無料枠は制限あり（透かし・低解像度）",
+      "複雑構図や高精細には不向き"
+    ],
+    "pricing": "無料（回数制限）／有料プランは月1,580円〜",
+    "usageExample": "チラシやSNS投稿の背景作成、Photoshopでの合成・拡張、安心して商用利用できる画像生成",
+    "officialUrl": "https://firefly.adobe.com"
+  },
+  {
+    "name": "Bing Image Creator（Bing画像クリエイター）",
+    "developer": "Microsoft（米国、OpenAI技術活用）",
+    "firstRelease": "2023年3月",
+    "modelType": "画像生成AI（ブラウザ・検索統合）",
+    "description": "完全無料、日本語入力OK。BingやEdgeから直接使え、簡単操作で初心者に最適。",
+    "strengths": [
+      "完全無料、日本語入力OK",
+      "BingやEdgeから直接使える",
+      "簡単操作で初心者に最適"
+    ],
+    "weaknesses": [
+      "高速生成は1日25回まで（ブースト制）",
+      "解像度は固定、複雑な構図は苦手"
+    ],
+    "pricing": "完全無料",
+    "usageExample": "ブログ用アイキャッチ生成、SNS投稿のイメージ作成、会話型AIから画像生成指示",
+    "officialUrl": "https://www.bing.com/create"
+  },
+  {
+    "name": "NovelAI（ノベルAI）",
+    "developer": "Anlatan Inc.（米国）",
+    "firstRelease": "2021年（画像機能は2022年）",
+    "modelType": "アニメ風画像生成＋文章生成",
+    "description": "アニメ風キャラ生成に特化。日本語UIあり、タグ入力支援も。ストーリー＋イラストの創作が可能。",
+    "strengths": [
+      "アニメ風キャラ生成に特化",
+      "日本語UIあり、タグ入力支援も",
+      "ストーリー＋イラストの創作可能"
+    ],
+    "weaknesses": [
+      "有料前提（月額制）",
+      "写実や細部表現はやや不得意"
+    ],
+    "pricing": "月額10ドル〜（画像生成は有料プランのみ）",
+    "usageExample": "美少女VTuberのキャラ生成、物語の挿絵作成、タグ指定による顔・髪型カスタム",
+    "officialUrl": "https://novelai.net"
+  },
+  {
+    "name": "Leonardo AI（レオナルドAI）",
+    "developer": "Leonardo Interactive（豪）",
+    "firstRelease": "2023年11月",
+    "modelType": "Stable Diffusion系統合AI",
+    "description": "多機能（img2img, ControlNet等）を1つに統合。無料枠あり、日本語入力可。他人のプロンプト参考もOK。",
+    "strengths": [
+      "多機能（img2img, ControlNet等）を1つに統合",
+      "無料枠あり、日本語入力可",
+      "他人のプロンプトも参考にできる"
+    ],
+    "weaknesses": [
+      "無料は生成数制限あり（150トークン/日）",
+      "UIは英語、慣れが必要"
+    ],
+    "pricing": "無料枠あり、月額10ドル〜（Pro）",
+    "usageExample": "ゲーム向けキャラ案の大量生成、ポーズ指定イラストのラフ作成、プロンプト収集・改良用",
+    "officialUrl": "https://leonardo.ai"
+  },
+  {
+    "name": "Canva「テキスト to 画像」",
+    "developer": "Canva Inc.（豪）",
+    "firstRelease": "2022年11月",
+    "modelType": "画像生成機能＋デザインツール統合",
+    "description": "テンプレ＋AIで誰でも画像デザイン可能。無料プランでも一部使える。SNS用や資料用の画像作成に強い。",
+    "strengths": [
+      "テンプレ＋AIで誰でも画像デザイン可能",
+      "無料プランでも一部使える",
+      "SNS用や資料用の画像作成に強い"
+    ],
+    "weaknesses": [
+      "生成回数制限あり（無料は初回75クレジット）",
+      "高精度な画像生成はやや弱い"
+    ],
+    "pricing": "無料／Canva Pro（月1,500円〜）で無制限",
+    "usageExample": "ブログバナーや広告画像の生成、SNSの投稿用ビジュアル整備、簡単なサムネ・チラシ制作",
+    "officialUrl": "https://www.canva.com/ja_jp/features/ai-apps/"
+  },
+  {
+    "name": "NightCafe Creator（ナイトカフェ）",
+    "developer": "NightCafe Studio（オーストラリア）",
+    "firstRelease": "2019年（AI画像生成は2021年以降強化）",
+    "modelType": "画像生成AIプラットフォーム",
+    "description": "無料クレジット制度で長く使える。多彩な生成モデルを選べ、コミュニティでプロンプト共有も可能。",
+    "strengths": [
+      "無料クレジット制度で長く使える",
+      "多彩な生成モデル（SD, VQGANなど）を選べる",
+      "コミュニティ機能が活発でプロンプト共有も可能"
+    ],
+    "weaknesses": [
+      "無料枠は生成枚数・解像度制限あり",
+      "最新技術の実装がやや遅め"
+    ],
+    "pricing": "基本無料／月額9.99ドル〜でクレジット追加",
+    "usageExample": "ゴッホ風アートに写真を変換、幻想風景の生成＋作品共有、複数モデルを試して比較学習",
+    "officialUrl": "https://creator.nightcafe.studio"
+  },
+  {
+    "name": "Kaedim（ケイディム）",
+    "developer": "Kaedim Ltd.（英国）",
+    "firstRelease": "2020年（正式提供：2021年〜）",
+    "modelType": "3D生成AI（画像→3D）",
+    "description": "2D画像から3Dモデルを自動生成。ゲームやAR/VR開発者向け。ブラウザ操作で使え、知識不要で3D試作可能。",
+    "strengths": [
+      "2D画像から3Dモデルを自動生成",
+      "ゲーム・AR/VR開発者向けに好評",
+      "ブラウザ操作だけで使える"
+    ],
+    "weaknesses": [
+      "高品質には手動修正が必要な場合あり",
+      "有料前提で、価格は高め（プロ向け）"
+    ],
+    "pricing": "月額制（プラン制）／要問合せ",
+    "usageExample": "ゲーム用キャラや乗り物の3D試作、絵から立体化してモックアップ作成、3Dモデリング知識がなくても試作可能",
+    "officialUrl": "https://www.kaedim3d.com"
+  },
+  {
+    "name": "Pixart（ピクスアート）",
+    "developer": "Picsart Inc.（米国）",
+    "firstRelease": "2012年（AI生成は2025年導入）",
+    "modelType": "画像生成AI＋画像編集一体型",
+    "description": "画像生成・編集・テンプレが一体で完結。8K出力も可能な高品質生成。スマホアプリ対応で直感操作。",
+    "strengths": [
+      "画像生成・編集・テンプレが一体で完結",
+      "8K出力も可能な高品質生成",
+      "スマホアプリ対応、操作直感的"
+    ],
+    "weaknesses": [
+      "無料版は制限あり（クレジット／機能）",
+      "細かなプロンプト制御はやや不得意"
+    ],
+    "pricing": "無料プランあり／Proプラン月数百円〜",
+    "usageExample": "SNSアイコンやチラシ用素材生成、自撮り写真からAIアバター作成、画像を生成→そのまま装飾編集",
+    "officialUrl": "https://picsart.com"
+  }
+]
