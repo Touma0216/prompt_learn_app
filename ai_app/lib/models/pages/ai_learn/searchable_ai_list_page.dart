@@ -4,14 +4,21 @@ import '../../ai_info.dart';
 import '../../../widgets/ai_card.dart';
 import 'package:flutter/services.dart';
 
-class DataAiListPage extends StatefulWidget {
-  const DataAiListPage({super.key});
+class SearchableAiListPage extends StatefulWidget {
+  final String jsonPath;
+  final String title;
+
+  const SearchableAiListPage({
+    super.key,
+    required this.jsonPath,
+    required this.title,
+  });
 
   @override
-  State<DataAiListPage> createState() => _DataAiListPageState();
+  State<SearchableAiListPage> createState() => _SearchableAiListPageState();
 }
 
-class _DataAiListPageState extends State<DataAiListPage> {
+class _SearchableAiListPageState extends State<SearchableAiListPage> {
   List<AiInfo> _aiList = [];
   List<AiInfo> _filteredList = [];
   bool _loading = true;
@@ -21,11 +28,11 @@ class _DataAiListPageState extends State<DataAiListPage> {
   @override
   void initState() {
     super.initState();
-    loadAiList();
+    _loadAiList();
   }
 
-  Future<void> loadAiList() async {
-    final String jsonStr = await rootBundle.loadString('assets/data/data_ai_simple.json');
+  Future<void> _loadAiList() async {
+    final String jsonStr = await rootBundle.loadString(widget.jsonPath);
     final List<dynamic> jsonList = json.decode(jsonStr);
     setState(() {
       _aiList = jsonList.map((e) => AiInfo.fromJson(e)).toList();
@@ -40,10 +47,11 @@ class _DataAiListPageState extends State<DataAiListPage> {
       if (text.isEmpty) {
         _filteredList = _aiList;
       } else {
-        final lower = text.toLowerCase();
-        _filteredList = _aiList.where((ai) =>
-          ai.name.toLowerCase().contains(lower)
-        ).toList();
+        _filteredList = _aiList.where((ai) {
+          final lower = text.toLowerCase();
+          return ai.name.toLowerCase().contains(lower) ||
+              ai.description.toLowerCase().contains(lower);
+        }).toList();
       }
     });
   }
@@ -56,7 +64,7 @@ class _DataAiListPageState extends State<DataAiListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('データを扱うAI 一覧')),
+      appBar: AppBar(title: Text(widget.title)),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : Column(
@@ -67,7 +75,7 @@ class _DataAiListPageState extends State<DataAiListPage> {
                     controller: _controller,
                     onChanged: _onSearchChanged,
                     decoration: InputDecoration(
-                      hintText: 'AI名で検索',
+                      hintText: 'AI名や説明で検索',
                       prefixIcon: const Icon(Icons.search),
                       suffixIcon: _searchText.isEmpty
                           ? null
@@ -88,11 +96,19 @@ class _DataAiListPageState extends State<DataAiListPage> {
                 Expanded(
                   child: _filteredList.isEmpty
                       ? const Center(
-                          child: Text('該当するAIは見つかりませんでした',
+                          child: Text(
+                            '該当するAIは見つかりませんでした',
                             style: TextStyle(fontSize: 16, color: Colors.grey),
                           ),
                         )
-                      : ListView.builder(
+                      : GridView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                            childAspectRatio: 0.85,
+                          ),
                           itemCount: _filteredList.length,
                           itemBuilder: (context, index) {
                             final ai = _filteredList[index];

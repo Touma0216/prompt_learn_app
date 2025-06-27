@@ -1,48 +1,114 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../../ai_info.dart';         // ← ../../で"models/ai_info.dart"を参照
-import '../../../widgets/ai_card.dart'; // ← ../../../で"widgets/ai_card.dart"を参照
+import '../../ai_info.dart';
+import '../../../widgets/ai_card.dart';
 import 'package:flutter/services.dart';
 
-class ProgrammingAiListPage extends StatelessWidget {
+class ProgrammingAiListPage extends StatefulWidget {
   const ProgrammingAiListPage({super.key});
 
-  Future<List<AiInfo>> loadAiList() async {
+  @override
+  State<ProgrammingAiListPage> createState() => _ProgrammingAiListPageState();
+}
+
+class _ProgrammingAiListPageState extends State<ProgrammingAiListPage> {
+  List<AiInfo> _aiList = [];
+  List<AiInfo> _filteredList = [];
+  bool _loading = true;
+  String _searchText = '';
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    loadAiList();
+  }
+
+  Future<void> loadAiList() async {
     final String jsonStr = await rootBundle.loadString('assets/data/programming_ai_simple.json');
     final List<dynamic> jsonList = json.decode(jsonStr);
-    return jsonList.map((e) => AiInfo.fromJson(e)).toList();
+    setState(() {
+      _aiList = jsonList.map((e) => AiInfo.fromJson(e)).toList();
+      _filteredList = _aiList;
+      _loading = false;
+    });
+  }
+
+  void _onSearchChanged(String text) {
+    setState(() {
+      _searchText = text;
+      if (text.isEmpty) {
+        _filteredList = _aiList;
+      } else {
+        final lower = text.toLowerCase();
+        _filteredList = _aiList.where((ai) =>
+          ai.name.toLowerCase().contains(lower)
+        ).toList();
+      }
+    });
+  }
+
+  void _clearSearch() {
+    _controller.clear();
+    _onSearchChanged('');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('プログラムを書くAI 一覧')),
-      body: FutureBuilder<List<AiInfo>>(
-        future: loadAiList(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('データがありません'));
-          }
-          final aiList = snapshot.data!;
-          return ListView.builder(
-            itemCount: aiList.length,
-            itemBuilder: (context, index) {
-              final ai = aiList[index];
-              return AiCard(
-                aiInfo: ai,
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('${ai.name}：詳細ページへ遷移予定')),
-                  );
-                },
-              );
-            },
-          );
-        },
-      ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: TextField(
+                    controller: _controller,
+                    onChanged: _onSearchChanged,
+                    decoration: InputDecoration(
+                      hintText: 'AI名で検索',
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: _searchText.isEmpty
+                          ? null
+                          : IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: _clearSearch,
+                            ),
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: _filteredList.isEmpty
+                      ? const Center(
+                          child: Text('該当するAIは見つかりませんでした',
+                            style: TextStyle(fontSize: 16, color: Colors.grey),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: _filteredList.length,
+                          itemBuilder: (context, index) {
+                            final ai = _filteredList[index];
+                            return AiCard(
+                              aiInfo: ai,
+                              onTap: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('${ai.name}：詳細ページへ遷移予定')),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                ),
+              ],
+            ),
     );
   }
 }
