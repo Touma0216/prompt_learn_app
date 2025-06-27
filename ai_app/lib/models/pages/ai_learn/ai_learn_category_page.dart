@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../ai_category.dart';
 import 'conversation_ai_page.dart';
 import 'text_ai_page.dart';
-// ここから新規追加
 import 'image_ai_page.dart';
 import 'sound_ai_page.dart';
 import 'programming_ai_page.dart';
