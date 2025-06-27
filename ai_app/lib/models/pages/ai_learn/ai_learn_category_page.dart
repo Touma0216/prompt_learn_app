@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import '../../ai_category.dart';
 import 'conversation_ai_page.dart';
 import 'text_ai_page.dart';
+// ここから新規追加
+import 'image_ai_page.dart';
+import 'audio_ai_page.dart';
+import 'code_ai_page.dart';
+import 'video_ai_page.dart';
+import 'data_ai_page.dart';
 
 class AiLearnCategoryPage extends StatefulWidget {
   const AiLearnCategoryPage({super.key});
@@ -31,20 +37,53 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
   }
 
   void _onCategoryTap(BuildContext context, AiCategory category) {
-    if (category.id == "conversation") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const ConversationAiListPage()),
-      );
-    } else if (category.id == "text") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const TextAiListPage()),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${category.title}は今後実装予定です')),
-      );
+    switch (category.id) {
+      case "conversation":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const ConversationAiListPage()),
+        );
+        break;
+      case "text":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const TextAiListPage()),
+        );
+        break;
+      case "image":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const ImageAiListPage()),
+        );
+        break;
+      case "sound":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const AudioAiListPage()),
+        );
+        break;
+      case "programming":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CodeAiListPage()),
+        );
+        break;
+      case "movie":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const VideoAiListPage()),
+        );
+        break;
+      case "data":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const DataAiListPage()),
+        );
+        break;
+      default:
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${category.title}は今後実装予定です')),
+        );
     }
   }
 
@@ -81,6 +120,7 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
   }
 }
 
+// 以下は既存のまま
 class _MobileCategoryGrid extends StatelessWidget {
   final List<AiCategory> categories;
   final void Function(BuildContext, AiCategory) onCategoryTap;
