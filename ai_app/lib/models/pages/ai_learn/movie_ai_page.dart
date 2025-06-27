@@ -4,11 +4,11 @@ import '../../ai_info.dart';         // ← ../../で"models/ai_info.dart"を参
 import '../../../widgets/ai_card.dart'; // ← ../../../で"widgets/ai_card.dart"を参照
 import 'package:flutter/services.dart';
 
-class CodeAiListPage extends StatelessWidget {
-  const CodeAiListPage({super.key});
+class MovieAiListPage extends StatelessWidget {
+  const MovieAiListPage({super.key});
 
   Future<List<AiInfo>> loadAiList() async {
-    final String jsonStr = await rootBundle.loadString('assets/data/programming_ai_simple.json');
+    final String jsonStr = await rootBundle.loadString('assets/data/movie_ai_simple.json');
     final List<dynamic> jsonList = json.decode(jsonStr);
     return jsonList.map((e) => AiInfo.fromJson(e)).toList();
   }
@@ -16,7 +16,7 @@ class CodeAiListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('プログラムを書くAI 一覧')),
+      appBar: AppBar(title: const Text('動画を作るAI 一覧')),
       body: FutureBuilder<List<AiInfo>>(
         future: loadAiList(),
         builder: (context, snapshot) {

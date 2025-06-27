@@ -16,7 +16,7 @@ class DataAiListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('絵を作るAI 一覧')),
+      appBar: AppBar(title: const Text('データを扱うAI 一覧')),
       body: FutureBuilder<List<AiInfo>>(
         future: loadAiList(),
         builder: (context, snapshot) {

@@ -5,9 +5,9 @@ import 'conversation_ai_page.dart';
 import 'text_ai_page.dart';
 // ここから新規追加
 import 'image_ai_page.dart';
-import 'audio_ai_page.dart';
-import 'code_ai_page.dart';
-import 'video_ai_page.dart';
+import 'sound_ai_page.dart';
+import 'programming_ai_page.dart';
+import 'movie_ai_page.dart';
 import 'data_ai_page.dart';
 
 class AiLearnCategoryPage extends StatefulWidget {
@@ -59,19 +59,19 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
       case "sound":
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const AudioAiListPage()),
+          MaterialPageRoute(builder: (_) => const SoundAiListPage()),
         );
         break;
       case "programming":
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const CodeAiListPage()),
+          MaterialPageRoute(builder: (_) => const ProgrammingAiListPage()),
         );
         break;
       case "movie":
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const VideoAiListPage()),
+          MaterialPageRoute(builder: (_) => const MovieAiListPage()),
         );
         break;
       case "data":

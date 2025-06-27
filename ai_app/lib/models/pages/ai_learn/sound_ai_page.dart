@@ -4,8 +4,8 @@ import '../../ai_info.dart';         // ← ../../で"models/ai_info.dart"を参
 import '../../../widgets/ai_card.dart'; // ← ../../../で"widgets/ai_card.dart"を参照
 import 'package:flutter/services.dart';
 
-class AudioAiListPage extends StatelessWidget {
-  const AudioAiListPage({super.key});
+class SoundAiListPage extends StatelessWidget {
+  const SoundAiListPage({super.key});
 
   Future<List<AiInfo>> loadAiList() async {
     final String jsonStr = await rootBundle.loadString('assets/data/sound_ai_simple.json');

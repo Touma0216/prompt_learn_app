@@ -1,201 +1,202 @@
 [
   {
-    "name": "GitHub Copilot",
-    "developer": "GitHub（米国、Microsoft傘下）",
-    "firstRelease": "2021年6月",
-    "modelType": "OpenAI Codex（GPT系）",
-    "description": "コメントから関数を生成可能で、多言語対応・IDE統合によるシームレス補完も強み。学習や開発用途に幅広く使える。",
-    "strengths": [
-      "コメントから関数を生成可能",
-      "多言語対応で学習用途にも便利",
-      "IDE統合でシームレスに補完"
-    ],
-    "weaknesses": [
-      "出力コードの正確性が保証されない",
-      "ライセンスの懸念があるコードも生成される可能性"
-    ],
-    "pricing": "月額約10ドル（学生・OSS貢献者は無料）",
-    "usageExample": "Pythonで簡単なアルゴリズム実装補助、関数のコメントからスニペット生成",
-    "officialUrl": "https://github.com/features/copilot/"
-  },
-  {
-    "name": "Amazon CodeWhisperer",
-    "developer": "Amazon Web Services（米国）",
-    "firstRelease": "2022年6月（プレビュー）、2023年4月（正式版）",
-    "modelType": "コード補完LLM（AWS+OSSコード学習）",
-    "description": "個人利用は無料＆無制限。セキュリティスキャン機能やAWSサービス向けの高精度補完が特長。",
-    "strengths": [
-      "個人利用は無料＆無制限で使える",
-      "セキュリティスキャン機能が内蔵され脆弱性の自動検出が可能",
-      "AWSサービス（S3, Lambda等）向けの補完精度が高い"
-    ],
-    "weaknesses": [
-      "対応IDEは限定的（主にVS CodeとJetBrains）",
-      "GitHub Copilotに比べて提案精度がやや劣ることも",
-      "AWS特化なので汎用性はやや下がる場合もある"
-    ],
-    "pricing": "個人利用は無料、プロフェッショナル版：月額19ドル／ユーザー（企業向け機能強化あり）",
-    "usageExample": "コメントに処理内容を書くとPythonコードを生成、AWS Lambda関数の自動生成、書いたコードをスキャンして脆弱性があれば修正提案",
-    "officialUrl": "https://aws.amazon.com/codewhisperer/"
-  },
-  {
-    "name": "Codeium",
-    "developer": "Exafunction社（米国）",
-    "firstRelease": "2022年",
-    "modelType": "汎用LLMをコード向けに調整した独自モデル",
-    "description": "個人利用は完全無料・無制限。70以上の言語に対応し、プライバシー重視設計のコード補完AI。",
-    "strengths": [
-      "個人利用は完全無料・無制限",
-      "70以上の言語に対応し、マイナー言語にも強い",
-      "ユーザーコードを再学習に使わないプライバシー重視設計"
-    ],
-    "weaknesses": [
-      "応答速度や提案精度がCopilotに劣る場面あり",
-      "UIは英語中心で、設定や連携に手間がかかる場合も",
-      "開発が活発なため、安定性より新機能重視の傾向あり"
-    ],
-    "pricing": "個人向け：無料、企業向け：月額15ドル〜（オンプレ導入やカスタムモデルあり）",
-    "usageExample": "関数の署名を書くだけで中身を自動生成、コメントから並列処理コードへの変換提案、「○○の関数を実装して」と自然文で指示",
-    "officialUrl": "https://codeium.com/"
-  },
-  {
-    "name": "Tabnine",
-    "developer": "Tabnine社（旧Codota、イスラエル）",
-    "firstRelease": "2018年（Codota）、2021年（LLM版）",
-    "modelType": "軽量コード生成モデル＋クラウドLLMのハイブリッド構成",
-    "description": "オフライン利用対応や主要IDEサポート、Chat機能もあるカスタマイズ性の高いコード補完AI。",
-    "strengths": [
-      "オフライン利用対応（ローカルモデル）でセキュリティ性が高い",
-      "主要IDE（VSCode, JetBrains, Vimなど）すべてに対応",
-      "Chat機能や自社モデル選択などカスタマイズ性に優れる"
-    ],
-    "weaknesses": [
-      "無料版は機能制限があり、強力な補完やチャットは有料",
-      "ローカルモデルの精度は低めで、高度なアルゴリズムには不向き",
-      "設定項目が多く、シンプルさではCopilotに劣る"
-    ],
-    "pricing": "Basic（無料）：単純補完のみ、Pro：月額12ドル／ユーザー、Enterprise：月額39ドル／ユーザー（オンプレ・専用モデル対応）",
-    "usageExample": "コードを打ち始めると続きの行を自動補完、コメントから関数実装を自動生成、古いコードを最新構文に書き換えるチャット機能もあり",
-    "officialUrl": "https://www.tabnine.com/"
-  },
-  {
-    "name": "Sourcegraph Cody",
-    "developer": "Sourcegraph社（米国）",
-    "firstRelease": "2023年（正式版は12月）",
-    "modelType": "コードグラフ×LLM（StarCoder/GPT/Claude連携）",
-    "description": "プロジェクト全体を把握し、複数ファイル横断の補完やカスタムプロンプト機能を持つ次世代AIアシスタント。",
-    "strengths": [
-      "プロジェクト全体を把握し、複数ファイル横断のコード補完が可能",
-      "「○○の機能はどこ？」など自然文での検索＆回答が得意",
-      "カスタムレシピ（プロンプト）機能で作業を自動化"
-    ],
-    "weaknesses": [
-      "無料プランは月200回までの利用制限あり",
-      "IDE統合はVSCode中心。他はベータ版対応のみ",
-      "プライベートコード利用時はクラウド送信への配慮が必要"
-    ],
-    "pricing": "無料：補完無制限＋チャット200回/月、Pro：月額9ドル（制限解除、カスタムLLM対応）、Enterprise：自己ホスト対応／要見積もり",
-    "usageExample": "「この関数はどこで使われてる？」と聞くと一覧とコードリンクを返答、プロジェクト内の設計把握に便利、テストコードの自動生成、コードレビュー支援も可能",
-    "officialUrl": "https://about.sourcegraph.com/cody"
-  },
-  {
-    "name": "ChatGPT（コード生成目的）",
+    "name": "ChatGPT",
     "developer": "OpenAI（米国）",
-    "firstRelease": "2022年11月（GPT-3.5版）、2023年3月（GPT-4版）",
-    "modelType": "汎用大規模言語モデル（GPT-3.5 / GPT-4）",
-    "description": "対話形式でコードの背景やエラー解説もできる万能型。自然文での指示や幅広い言語・アルゴリズム対応が特長。",
+    "firstRelease": "2022年11月",
+    "modelType": "大規模言語モデル（GPT-3.5 / GPT-4）",
+    "description": "自然言語でCSVファイル分析やグラフ生成が可能。データの意味や傾向を初心者向けに解説でき、対話形式で少しずつ分析の幅を広げられる。",
     "strengths": [
-      "対話形式でコードの背景や意図も丁寧に解説",
-      "エラーを伝えれば即座に修正案を提案してくれる",
-      "自然文での指示で幅広い言語・アルゴリズムに対応可能"
+      "自然言語でCSVファイル分析やグラフ生成が可能",
+      "データの意味や傾向を初心者向けに解説できる",
+      "対話形式で少しずつ分析の幅を広げられる"
     ],
     "weaknesses": [
-      "幻覚（事実誤認）により動かないコードを出すことがある",
-      "無料版はGPT-3.5のみで、GPT-4は有料（ChatGPT Plus）",
-      "プロジェクト全体など大規模コードには弱い（トークン制限あり）"
+      "幻覚（誤情報）の可能性があり、内容の検証が必要",
+      "データサイズや処理時間に制限あり",
+      "高精度な統計分析には不向きな場合も"
     ],
-    "pricing": "無料：GPT-3.5（基本的なやりとり）、Plus：月額20ドル（GPT-4、優先利用、長文処理）、Enterprise/API：従量課金",
-    "usageExample": "「FizzBuzzのPythonコードを作って」と言えば解説付きで返してくれる、「このエラーの原因は？」とエラー文を渡せば原因と修正案をくれる、関数の処理内容を自然文で指示し自動生成させる",
-    "officialUrl": "https://chat.openai.com/"
+    "pricing": "無料（GPT-3.5）、有料（ChatGPT Plus: 月額20ドル）",
+    "usageExample": "「このCSVの月別売上をグラフにして」と頼むと、グラフ生成＋解説付きで返答",
+    "officialUrl": "https://chat.openai.com"
   },
   {
-    "name": "Gemini（旧Bard）",
-    "developer": "Google DeepMind（米国）",
-    "firstRelease": "Bard（2023年3月）、Gemini統合（2023年12月）",
-    "modelType": "マルチモーダル対応LLM（テキスト・コード・画像など）",
-    "description": "Google検索と連携可能な多機能型。日本語や画像指示にも強く、最新の技術情報にも対応。",
+    "name": "Microsoft 365 Copilot",
+    "developer": "Microsoft（米国）",
+    "firstRelease": "2023年3月",
+    "modelType": "GPTベースのOffice統合AIアシスタント",
+    "description": "ExcelやWord、PowerPoint内で自然言語指示が使え、表やスライド、分析文まで一括生成。企業データ連携やメール文生成も可能。",
     "strengths": [
-      "Google検索と連携し、最新の技術情報や仕様も反映可能",
-      "日本語を含む多言語対応で自然なやり取りができる",
-      "画像や音声などからも情報を読み取って指示に活かせる"
+      "ExcelやWord、PowerPoint内で自然言語指示が使える",
+      "表やスライド、分析文まで一括生成可能",
+      "企業データとの連携やメール文生成も可能"
     ],
     "weaknesses": [
-      "GPT-4よりコード生成力はやや劣るとの評価あり",
-      "IDEとの連携やプラグイン対応はまだ限定的",
-      "高性能版（Gemini Ultra）は有料プラン限定"
+      "基本は企業向け（個人利用は一部制限あり）",
+      "月額30ドルでやや高額",
+      "言い間違いをAIが誤認識して誤動作する場合も"
     ],
-    "pricing": "無料：Gemini Pro相当、有料：Gemini Advanced（Google One Premium加入が必要）",
-    "usageExample": "コードのエラー原因を質問すると、修正案付きで返してくれる、「このUI画像をHTML/CSSにして」と指示する応用も可能（画像→コード）、日本語で「この関数の中身を変更したい」と伝えても自然に対応可能",
-    "officialUrl": "https://bard.google.com/"
+    "pricing": "法人: 月額30ドル/ユーザー、一部個人向けWindows統合版は無料提供中",
+    "usageExample": "「この表をもとに来月の売上予測をして」と言えば、グラフとレポート案を自動作成",
+    "officialUrl": "https://www.microsoft.com/ja-jp/microsoft-365/copilot"
   },
   {
-    "name": "Claude",
-    "developer": "Anthropic（米国）",
-    "firstRelease": "2023年3月（Claude 1）、Claude 3系は2024年3月以降",
-    "modelType": "高精度LLM（会話＋コード理解・生成に優れる）",
-    "description": "数万行のコードを一括処理でき、丁寧で論理的なコード提案や設計補助も可能なAIアシスタント。",
+    "name": "Excel「分析」機能",
+    "developer": "Microsoft（米国）",
+    "firstRelease": "2018年（旧称 Ideas）",
+    "modelType": "自然言語処理＋パターン検出AI",
+    "description": "表データから自動でグラフや洞察を提示。「平均売上は？」など自然文で質問でき、初心者向けのサジェスト機能も搭載。",
     "strengths": [
-      "入力トークンが多く、数万行のコードを読み込んで一括処理が可能",
-      "安定した自然言語理解により、丁寧で論理的なコード提案が得意",
-      "エラー分析・設計補助・ドキュメント要約などソフトな支援力が高い"
+      "表データから自動でグラフや洞察を提示",
+      "「平均売上は？」など自然文での質問に対応",
+      "Excelの中で完結。初心者向けのサジェスト機能あり"
     ],
     "weaknesses": [
-      "実行可能な具体コード生成ではGPT-4やCopilotに劣る場面も",
-      "ChatGPTのようなUIやコード用プラグイン機能はまだ未成熟",
-      "Claude 3 Opusは有料プランのみ"
+      "Microsoft 365契約が必要",
+      "日本語の質問精度に限界あり",
+      "クロス集計や複雑データには不向き"
     ],
-    "pricing": "Claude.ai（無料）：Claude 3 Sonnet利用可能、Claude Pro（月額20ドル）：Claude 3 Opus利用、API利用：トークン従量課金（Opusは高価格帯）",
-    "usageExample": "1ファイル全体を読み込ませて「このコードの目的は？」と尋ねる、バグ修正や関数整理、変数名の見直し案を提案してもらう、複雑な仕様書を要約し、対応するコード構造を提案させる",
-    "officialUrl": "https://claude.ai"
+    "pricing": "Microsoft 365プラン内で利用可能（月額数百円〜）",
+    "usageExample": "家計簿データに「分析」ボタンを押すと支出傾向やグラフを自動表示",
+    "officialUrl": "https://support.microsoft.com/ja-jp/office/3223aab8-f543-4fda-85ed-76bb0295ffc4"
   },
   {
-    "name": "Replit Ghostwriter",
-    "developer": "Replit Inc.（米国）",
-    "firstRelease": "2022年10月（正式版）",
-    "modelType": "独自コード生成AI（Replit Codeモデル）",
-    "description": "Replitに組み込まれた入門者学習に強いコード生成AI。エラー解説やHTML/CSS自動生成にも対応。",
+    "name": "Tableau",
+    "developer": "Salesforce（米国）",
+    "firstRelease": "2019年（Ask Data）、2023年〜GPT統合強化",
+    "modelType": "自然言語＋可視化特化BIツール",
+    "description": "「何曜日が売上最大？」のような質問が可能。データをもとにAIが自動でチャートを提案し、初心者から上級者まで使える分析基盤。",
     "strengths": [
-      "ブラウザ上の統合開発環境（Replit）に組み込まれており即コーディングが可能",
-      "入門者向けの学習機能が豊富でコードの意味も丁寧に説明してくれる",
-      "エラーの原因や対処法も自然文でわかりやすく提示してくれる"
+      "「何曜日が売上最大？」のように質問可能",
+      "データをもとにAIが自動でチャートを提案",
+      "初心者から上級者まで幅広く使える分析基盤"
     ],
     "weaknesses": [
-      "対応言語はReplitの主要言語中心（Python、JavaScriptなど）",
-      "高度なコードや設計提案では他モデルにやや劣る",
-      "有料プラン限定（無料プランでは利用不可）"
+      "専用環境が必要（Tableau Server/Cloud）",
+      "高額（月額70ドルなど）で個人利用に不向き",
+      "データの整理が前提"
     ],
-    "pricing": "Ghostwriter：月額20ドル前後（Replit Proと統合）、Replit Pro：月額7ドル（一部Ghostwriter機能含む）",
-    "usageExample": "Pythonの練習課題で「このコードを解説して」と尋ねる、関数の補完や提案をワンクリックで反映可能、入門用Webアプリ制作に必要なHTML/CSSを生成",
-    "officialUrl": "https://replit.com/ghostwriter"
+    "pricing": "Creator: 月額70ドル、Viewer: 月額12ドル〜",
+    "usageExample": "売上データを取り込んで「前年比成長率は？」と入力するとグラフで回答",
+    "officialUrl": "https://www.tableau.com/ja-jp"
   },
   {
-    "name": "Blackbox AI",
-    "developer": "Blackbox AI Inc.（米国）",
-    "firstRelease": "2021年頃（Chrome拡張／Web版展開）",
-    "modelType": "GPT系列を利用したWebベースのコード生成補助AI",
-    "description": "Web上のコードスニペット抽出や自然文からのコード生成に強い。拡張機能やCLIでも利用可能。",
+    "name": "Power BI",
+    "developer": "Microsoft（米国）",
+    "firstRelease": "2014年（Q&A）、2023年 Copilot登場",
+    "modelType": "自然言語クエリ＋ビジュアル分析＋GPT統合",
+    "description": "自然言語で分析レポートを丸ごと自動生成でき、ExcelやTeamsとの連携も強力なBIツール。",
     "strengths": [
-      "Web上のコードスニペットやStack Overflowのコードをコピー可能形式で抽出",
-      "自然文からコードを生成するチャット形式にも対応",
-      "ブラウザ拡張・VSCode統合・CLI利用など導入が簡単"
+      "「どの商品が今週売れてる？」などの質問が可能",
+      "分析レポートを丸ごと自動生成できるCopilot搭載",
+      "ExcelやTeamsとの連携も強力"
     ],
     "weaknesses": [
-      "GPTベースのため、精度や応答速度はAPI制限に依存",
-      "無料プランは生成制限あり、表示速度やUIに広告あり",
-      "入力したコードの取り扱いに注意（プライバシーポリシー確認が必要）"
+      "日本語での精度はまだ改善途上",
+      "質問文の表現にコツがいる",
+      "Pro版が事実上必要（月額10ドル）"
     ],
-    "pricing": "無料プラン：生成回数に制限あり、Proプラン：月額9ドル〜",
-    "usageExample": "Stack Overflowのコード例を即コピペ形式で抽出して学習、「この関数の改良版を書いて」と伝えて改善案をもらう、複雑な関数の構造を視覚的に整理してくれる",
-    "officialUrl": "https://www.useblackbox.io/"
+    "pricing": "Power BI Desktop: 無料、Power BI Pro: 月額10ドル",
+    "usageExample": "在庫表に「今週足りなくなりそうな商品は？」と聞くと、自動で予測・警告チャートが生成される",
+    "officialUrl": "https://powerbi.microsoft.com/ja-jp/"
+  },
+  {
+    "name": "ThoughtSpot",
+    "developer": "ThoughtSpot Inc.（米国）",
+    "firstRelease": "2014年頃",
+    "modelType": "検索型BIツール（自然言語検索＋高速分析）",
+    "description": "Google検索のように打ち込むだけで分析結果を返す。自動インサイト機能や高速大規模データ分析が特長。",
+    "strengths": [
+      "Google検索のように打ち込むだけで分析結果を返す",
+      "自動インサイト機能で異常値やトレンドを検出",
+      "データ量が多くても高速（億単位の行を瞬時に分析）"
+    ],
+    "weaknesses": [
+      "完全な自然文理解にはまだ限界あり",
+      "導入コストが高く、大企業向け",
+      "自由な表現ではなく項目名の理解が必要"
+    ],
+    "pricing": "月額1,250ドル〜（中小向けには非現実的）",
+    "usageExample": "「2023年第1四半期の欧州売上トップ5は？」と検索 → 自動でグラフ＋数値を返す",
+    "officialUrl": "https://www.thoughtspot.com"
+  },
+  {
+    "name": "Otter.ai",
+    "developer": "AISense（米国）",
+    "firstRelease": "2018年2月",
+    "modelType": "音声認識＋自然言語処理（議事録生成AI）",
+    "description": "会議や講義の録音をリアルタイムで自動文字起こし。話者ごとに分けた議事録作成やキーワード検索も可能。",
+    "strengths": [
+      "会議や講義の録音をリアルタイムで自動文字起こし",
+      "話者ごとに分けて議事録が作成される",
+      "重要ワードのハイライトや検索も可能"
+    ],
+    "weaknesses": [
+      "無料プランは300分までの録音制限あり",
+      "録音精度は環境に依存（雑音に弱い）",
+      "プライバシーやセキュリティに注意が必要"
+    ],
+    "pricing": "無料（300分/月）、有料プラン：月額8〜30ドル（Pro/Business）",
+    "usageExample": "講義を録音してOtterに渡せば、自動で議事録＆キーワード検索付きで保存",
+    "officialUrl": "https://otter.ai"
+  },
+  {
+    "name": "Google Lens",
+    "developer": "Google（米国）",
+    "firstRelease": "2017年10月",
+    "modelType": "コンピュータビジョン（画像解析AI）",
+    "description": "カメラで映した物体をリアルタイムで解析。テキスト翻訳や画像ベースの情報取得も強力で日常利用に便利。",
+    "strengths": [
+      "カメラで映した物体をリアルタイムで解析",
+      "テキスト翻訳・植物の名前・建物の認識など幅広い",
+      "日常で使える画像ベースの情報取得に強い"
+    ],
+    "weaknesses": [
+      "オフラインでは利用不可（通信必須）",
+      "一部ニッチな対象物には誤認がある",
+      "カメラを常時使うため、使用マナーも重要"
+    ],
+    "pricing": "完全無料（Googleアプリで利用可能）",
+    "usageExample": "海外のレストランでメニューを写すと日本語に翻訳、花にかざせば植物名を即表示",
+    "officialUrl": "https://lens.google"
+  },
+  {
+    "name": "Google Bard",
+    "developer": "Google（米国）",
+    "firstRelease": "2023年3月",
+    "modelType": "Geminiモデル搭載の会話型AI",
+    "description": "検索連携が強く、常に最新の情報を活用可能。GmailやGoogleドキュメント連携や画像読み取りもできる。",
+    "strengths": [
+      "検索連携が強く、常に最新の情報を活用できる",
+      "GmailやGoogleドキュメントと連携可能",
+      "画像読み取りやテキスト生成も可能"
+    ],
+    "weaknesses": [
+      "事実誤認（幻覚）を起こすことがある",
+      "出力の精度はプロンプト次第でばらつきあり",
+      "専門的な数式処理はやや苦手"
+    ],
+    "pricing": "無料で利用可能（ベータ段階）",
+    "usageExample": "「このデータでプレゼンを作って」と頼むと、構成と要約案を作成してドキュメント化可能",
+    "officialUrl": "https://bard.google.com"
+  },
+  {
+    "name": "Wolfram Alpha",
+    "developer": "Wolfram Research（米国）",
+    "firstRelease": "2009年5月",
+    "modelType": "計算知識エンジン",
+    "description": "数式・統計・天文など理系データに強く、入力式から計算・グラフ描画・解説まで自動で実行。ChatGPT連携も対応。",
+    "strengths": [
+      "数式・統計・天文など理系データに強い",
+      "入力式から計算・グラフ描画・解説まで自動",
+      "ChatGPTとの統合でも計算補助に使われる"
+    ],
+    "weaknesses": [
+      "独自データのみでWeb検索は行わない",
+      "日本語は非対応（英語での操作推奨）",
+      "無料版では解説非表示など制限あり"
+    ],
+    "pricing": "無料プランあり、Pro版：月額5ドル〜",
+    "usageExample": "「x^2 - 5x + 6 = 0」の解を入力 → 解とグラフ、解法まで自動で表示",
+    "officialUrl": "https://www.wolframalpha.com"
   }
 ]
