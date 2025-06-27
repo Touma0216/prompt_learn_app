@@ -30,37 +30,17 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
     });
   }
 
-  // レスポンシブな列数（1〜4列）
-  int getCrossAxisCount(double width) {
-    if (width >= 1100) return 4; // PC
-    if (width >= 700) return 3;  // タブレット
-    return 2;                    // スマホ
-  }
-
-  // カードごとの最小高さ
-  double getCardMinHeight(double width) {
-    if (width >= 1100) return 240;
-    if (width >= 700) return 240;
-    return 260; // スマホはやや高く
-  }
-
-  // 正方形画像サイズ（カード幅の約55%、最小90最大160）
-  double getImageBoxSize(double cardWidth) {
-    double size = cardWidth * 0.55;
-    if (size < 90) return 90;
-    if (size > 160) return 160;
-    return size;
-  }
-
-  // テキストサイズ（固定値で安定させる）
-  double getTitleFontSize() => 16.5;
-  double getDescFontSize() => 13.5;
-
   void _onCategoryTap(BuildContext context, AiCategory category) {
     if (category.id == "conversation") {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => const ConversationAiListPage()));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ConversationAiListPage()),
+      );
     } else if (category.id == "text") {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => const TextAiListPage()));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const TextAiListPage()),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('${category.title}は今後実装予定です')),
@@ -68,19 +48,15 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
     }
   }
 
+  int _calcCrossAxisCount(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    if (width >= 900) return 4;
+    if (width >= 600) return 3;
+    return 2;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
-    final int crossAxisCount = getCrossAxisCount(width);
-    final double cardMinHeight = getCardMinHeight(width);
-
-    // カードの横幅計算
-    double gridPadding = 12 * 2;
-    double crossSpacing = 16 * (crossAxisCount - 1);
-    double usableWidth = width - gridPadding - crossSpacing;
-    double cardWidth = usableWidth / crossAxisCount;
-    double imageSize = getImageBoxSize(cardWidth);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('AIジャンルを選ぶ'),
@@ -88,87 +64,69 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              padding: const EdgeInsets.all(12),
               child: GridView.builder(
-                itemCount: _categories.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
+                  crossAxisCount: _calcCrossAxisCount(context),
                   crossAxisSpacing: 16,
-                  mainAxisSpacing: 18,
-                  childAspectRatio: cardWidth / cardMinHeight,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.85,
                 ),
+                itemCount: _categories.length,
                 itemBuilder: (context, index) {
                   final category = _categories[index];
                   return InkWell(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(12),
                     onTap: () => _onCategoryTap(context, category),
                     child: Card(
-                      elevation: 2,
+                      elevation: 3,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Container(
-                        constraints: BoxConstraints(minHeight: cardMinHeight),
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            // 正方形画像枠・中央配置
-                            Center(
-                              child: Container(
-                                width: imageSize,
-                                height: imageSize,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(13),
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: AspectRatio(
+                                  aspectRatio: 1,
                                   child: Image.asset(
                                     category.image,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (context, error, stackTrace) => Icon(
-                                      Icons.extension,
-                                      size: imageSize * 0.62,
-                                      color: Colors.grey,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => Container(
+                                      color: Colors.grey.shade200,
+                                      child: const Center(
+                                        child: Icon(Icons.extension, size: 48, color: Colors.grey),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 12),
-                            // ジャンル名（1行、折り返しあり、フォントサイズ固定）
+                            const SizedBox(height: 10),
                             Text(
                               category.title,
-                              style: TextStyle(
-                                fontSize: getTitleFontSize(),
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
-                              textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              softWrap: true,
+                              textAlign: TextAlign.center,
                             ),
-                            const SizedBox(height: 6),
-                            // 補助説明文（2行まで折り返し、オーバーフローなし）
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                minHeight: 32, // 2行分程度
-                                maxHeight: 40,
+                            const SizedBox(height: 4),
+                            Text(
+                              category.description,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey[700],
                               ),
-                              child: Text(
-                                category.description,
-                                style: TextStyle(
-                                  fontSize: getDescFontSize(),
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
-                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),

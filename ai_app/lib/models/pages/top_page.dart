@@ -146,7 +146,7 @@ class TopPage extends StatelessWidget {
           'sub': '',
         },
         {
-          'label': 'AIと話す',
+          'label': 'Live2Dと話す',
           'icon': Icons.chat_bubble_outline,
           'sub': '（サブスク限定）',
         },
