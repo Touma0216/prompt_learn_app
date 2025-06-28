@@ -23,12 +23,12 @@ class CategoryCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(14.0),
           child: Column(
+            mainAxisSize: MainAxisSize.min, // 追加
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // 画像を中央に表示（正方形）
               SizedBox(
-                width: 120,
-                height: 120,
+                width: 80, // 小さくする
+                height: 80,
                 child: Image.asset(
                   imagePath,
                   fit: BoxFit.contain,
@@ -37,7 +37,7 @@ class CategoryCard extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 title,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ],
