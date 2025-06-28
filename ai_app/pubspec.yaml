@@ -27,4 +27,5 @@ flutter:
     - assets/data/movie_ai_simple.json
     - assets/data/data_ai_simple.json
     - assets/data/categories.json
-    - assets/icons/
+    - assets/seven_icons/
+    - assets/ai_icons/

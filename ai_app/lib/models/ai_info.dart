@@ -2,6 +2,7 @@ class AiInfo {
   final String name;
   final String description;
   final String icon;
+  final String? imagePath; // 追加
   final List<String> strengths;
   final List<String> weaknesses;
   final String pricing;
@@ -12,6 +13,7 @@ class AiInfo {
     required this.name,
     required this.description,
     required this.icon,
+    this.imagePath, // 追加
     required this.strengths,
     required this.weaknesses,
     required this.pricing,
