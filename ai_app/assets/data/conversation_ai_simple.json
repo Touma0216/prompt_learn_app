@@ -17,6 +17,7 @@
     ],
     "pricing": "完全無料（Microsoftアカウント登録必要）",
     "usageExample": "時事ニュースをリアルタイムで要約・エラー解決（Stack Overflow付き）・論文の構成や表を自動生成",
+    "imagePath": "assets/ai_icons/Bing_Chat.png",
     "officialUrl": "https://www.bing.com/"
   },
   {
@@ -37,6 +38,7 @@
     ],
     "pricing": "無料プランあり／有料版（c.ai+）：月額 $9.99",
     "usageExample": "好きなキャラとおしゃべり・オリジナルキャラを作って遊ぶ・設定や創作の相談をする",
+    "imagePath": "assets/ai_icons/Character_AI.png",
     "officialUrl": "https://character.ai/"
   },
   {
@@ -120,6 +122,7 @@
     ],
     "pricing": "X Premium加入者のみ利用可（月額 ¥1,280〜）",
     "usageExample": "最近のニュースを皮肉で解説・X上のトレンド話題・他AIと違う切り口で雑談",
+    "imagePath": "assets/ai_icons/Grok.png",
     "officialUrl": "https://x.ai/"
   },
   {
@@ -139,6 +142,7 @@
     ],
     "pricing": "完全無料（アカウント登録も不要）",
     "usageExample": "ストレス軽減に効果的な趣味→探索モードで提案・子ども向けにやさしく説明・日常生活での疑問を調べる",
+    "imagePath": "assets/ai_icons/Komo_AI.png",
     "officialUrl": "https://komo.ai/"
   },
   {
@@ -159,6 +163,7 @@
     ],
     "pricing": "完全無料",
     "usageExample": "DMでおすすめレシピ・画像生成・キャラAIとの雑談",
+    "imagePath": "assets/ai_icons/Character_AI.png",
     "officialUrl": "https://www.meta.ai/"
   },
   {
@@ -178,6 +183,7 @@
     ],
     "pricing": "無料プランあり／Pro：月額 $20",
     "usageExample": "なぜ虹ができるの？→簡潔で正確な説明＋出典つき・ChatGPTの回答を検証・レポート用の事実確認や引用探し",
+    "imagePath": "assets/ai_icons/Perplexity_AI.png",
     "officialUrl": "https://www.perplexity.ai/"
   },
   {
@@ -198,6 +204,7 @@
     ],
     "pricing": "完全無料（有料プラン未提供）",
     "usageExample": "日常の愚痴を聞いてほしい・不安や悩みへの軽い相談・英会話練習のような気軽なトーク",
+    "imagePath": "assets/ai_icons/Pi.png",
     "officialUrl": "https://heypi.com/"
   },
   {
@@ -217,6 +224,7 @@
     ],
     "pricing": "無料プランあり／Pro：月額 $19.99",
     "usageExample": "GPT-4とClaudeを比較しながら質問・小論文の構成案比較・英語学習時に多角的な表現を学ぶ",
+    "imagePath": "assets/ai_icons/Poe.png",
     "officialUrl": "https://poe.com/"
   },
   {
@@ -237,6 +245,7 @@
     ],
     "pricing": "無料（会話のみ）／Proプラン：月額 約$20",
     "usageExample": "寂しいときに話し相手になってくれる・自分の話を受け止めてくれるAI友達・英語の練習や軽い恋愛シミュレーション",
+    "imagePath": "assets/ai_icons/Replika.png",
     "officialUrl": "https://replika.com/"
   },
   {
@@ -256,6 +265,7 @@
     ],
     "pricing": "完全無料",
     "usageExample": "最近の火星探査ミッションは？→最新ニュース要約・英語記事を翻訳＆要約・簡単なコーディングや説明",
+    "imagePath": "assets/ai_icons/YouChat.png",
     "officialUrl": "https://you.com/"
   }
 ]
