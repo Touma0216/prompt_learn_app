@@ -27,7 +27,20 @@ class AiCard extends StatelessWidget {
               // アイコンまたは画像＋AI名
               Row(
                 children: [
-                  _buildAvatar(context),
+                  (aiInfo.imagePath != null && aiInfo.imagePath!.isNotEmpty)
+                      ? ClipOval(
+                          child: Image.asset(
+                            aiInfo.imagePath!,
+                            width: 52,
+                            height: 52,
+                            fit: BoxFit.contain,
+                          ),
+                        )
+                      : CircleAvatar(
+                          radius: 26,
+                          backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.13),
+                          child: Icon(_getMaterialIcon(aiInfo.icon), size: 32, color: Theme.of(context).colorScheme.primary),
+                        ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Text(
@@ -38,12 +51,13 @@ class AiCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              // ...（以下略、元コードと同じ）
+              // 説明
               Text(
                 aiInfo.description,
                 style: const TextStyle(fontSize: 15),
               ),
               const SizedBox(height: 14),
+              // 強み
               if (aiInfo.strengths.isNotEmpty) ...[
                 Row(
                   children: [
@@ -64,6 +78,7 @@ class AiCard extends StatelessWidget {
                 )),
                 const SizedBox(height: 8),
               ],
+              // 弱み
               if (aiInfo.weaknesses.isNotEmpty) ...[
                 Row(
                   children: [
@@ -84,6 +99,7 @@ class AiCard extends StatelessWidget {
                 )),
                 const SizedBox(height: 8),
               ],
+              // 料金
               if (aiInfo.pricing.isNotEmpty) ...[
                 Row(
                   children: [
@@ -96,6 +112,7 @@ class AiCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
               ],
+              // 使用例
               if (aiInfo.usageExample.isNotEmpty) ...[
                 Row(
                   children: [
@@ -108,6 +125,7 @@ class AiCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
               ],
+              // 公式サイト
               if (aiInfo.officialUrl.isNotEmpty) ...[
                 Row(
                   children: [
@@ -135,25 +153,6 @@ class AiCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget _buildAvatar(BuildContext context) {
-    if (aiInfo.imagePath != null && aiInfo.imagePath!.isNotEmpty) {
-      return ClipOval(
-        child: Image.asset(
-          aiInfo.imagePath!,
-          width: 52,
-          height: 52,
-          fit: BoxFit.contain,
-        ),
-      );
-    } else {
-      return CircleAvatar(
-        radius: 26,
-        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.13),
-        child: Icon(_getMaterialIcon(aiInfo.icon), size: 32, color: Theme.of(context).colorScheme.primary),
-      );
-    }
   }
 
   IconData _getMaterialIcon(String iconName) {

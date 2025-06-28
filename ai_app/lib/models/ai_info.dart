@@ -13,7 +13,7 @@ class AiInfo {
     required this.name,
     required this.description,
     required this.icon,
-    this.imagePath, // 追加
+    required this.imagePath, // 追加
     required this.strengths,
     required this.weaknesses,
     required this.pricing,
@@ -26,6 +26,7 @@ class AiInfo {
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       icon: json['icon'] ?? 'android',
+      imagePath: json['imagePath'] ?? '',
       strengths: (json['strengths'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
       weaknesses: (json['weaknesses'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
       pricing: json['pricing'] ?? '',
