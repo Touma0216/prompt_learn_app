@@ -48,7 +48,6 @@ class TopPage extends StatelessWidget {
             leading: Icon(Icons.subscriptions),
             title: Text('サブスク管理'),
           ),
-          // 必要に応じて追加
         ],
       ),
     );
@@ -102,7 +101,6 @@ class TopPage extends StatelessWidget {
           Center(
             child: TextButton(
               onPressed: () {
-                // 仮遷移
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('サブスク機能は近日公開予定です')),
                 );
@@ -197,8 +195,8 @@ class TopPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // 「AIを学ぶ」を押したときだけAiLearnCategoryPageへ遷移
-                          if (feature['label'] == 'AIを学ぶ') {
+                          // すべてのボタンで画面遷移し、「このページは準備中です」を表示
+                          if (feature['label'] == 'AI図鑑') {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) => const AiLearnCategoryPage(),
