@@ -123,26 +123,31 @@ class TopPage extends StatelessWidget {
     );
   }
 
-  // 主要機能ボタンリスト
+  // 主要機能ボタンリスト（新構成）
   List<Map<String, dynamic>> get _featureButtons => [
         {
           'label': 'AIを学ぶ',
+          'icon': Icons.school,
+          'sub': '',
+        },
+        {
+          'label': 'AI図鑑',
+          'icon': Icons.menu_book,
+          'sub': '',
+        },
+        {
+          'label': 'AIプロンプト作成支援',
           'icon': Icons.auto_awesome,
           'sub': '',
         },
         {
-          'label': 'プロンプトを学ぶ',
-          'icon': Icons.edit_note,
-          'sub': '',
-        },
-        {
-          'label': 'クイズで遊ぶ',
-          'icon': Icons.quiz,
-          'sub': '',
-        },
-        {
           'label': '便利機能',
-          'icon': Icons.apps,
+          'icon': Icons.bolt,
+          'sub': '',
+        },
+        {
+          'label': 'ミニキャラと遊ぶ',
+          'icon': Icons.pets,
           'sub': '',
         },
         {
@@ -185,14 +190,14 @@ class TopPage extends StatelessWidget {
                           minimumSize: const Size.fromHeight(60),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
-                            side: BorderSide(
+                            side: const BorderSide(
                               color: Color(0xFFBBDEFB),
                               width: 1.6,
                             ),
                           ),
                         ),
                         onPressed: () {
-                          // ここを修正！「AIを学ぶ」を押したときだけConversationAiListPageへ遷移
+                          // 「AIを学ぶ」を押したときだけAiLearnCategoryPageへ遷移
                           if (feature['label'] == 'AIを学ぶ') {
                             Navigator.of(context).push(
                               MaterialPageRoute(
@@ -209,7 +214,7 @@ class TopPage extends StatelessWidget {
                         },
                         child: Row(
                           children: [
-                            Icon(feature['icon'], color: Color(0xFF64B5F6), size: 28),
+                            Icon(feature['icon'], color: const Color(0xFF64B5F6), size: 28),
                             const SizedBox(width: 18),
                             Expanded(
                               child: Text(
@@ -249,7 +254,7 @@ class TopPage extends StatelessWidget {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: Color(0xFFE1F5FE),
+                color: const Color(0xFFE1F5FE),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
