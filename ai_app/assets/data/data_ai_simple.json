@@ -20,26 +20,6 @@
     "officialUrl": "https://chat.openai.com"
   },
   {
-    "name": "Microsoft 365 Copilot",
-    "developer": "Microsoft（米国）",
-    "firstRelease": "2023年3月",
-    "modelType": "GPTベースのOffice統合AIアシスタント",
-    "description": "ExcelやWord、PowerPoint内で自然言語指示が使え、表やスライド、分析文まで一括生成。企業データ連携やメール文生成も可能。",
-    "strengths": [
-      "ExcelやWord、PowerPoint内で自然言語指示が使える",
-      "表やスライド、分析文まで一括生成可能",
-      "企業データとの連携やメール文生成も可能"
-    ],
-    "weaknesses": [
-      "基本は企業向け（個人利用は一部制限あり）",
-      "月額30ドルでやや高額",
-      "言い間違いをAIが誤認識して誤動作する場合も"
-    ],
-    "pricing": "法人: 月額30ドル/ユーザー、一部個人向けWindows統合版は無料提供中",
-    "usageExample": "「この表をもとに来月の売上予測をして」と言えば、グラフとレポート案を自動作成",
-    "officialUrl": "https://www.microsoft.com/ja-jp/microsoft-365/copilot"
-  },
-  {
     "name": "Excel「分析」機能",
     "developer": "Microsoft（米国）",
     "firstRelease": "2018年（旧称 Ideas）",
@@ -60,84 +40,24 @@
     "officialUrl": "https://support.microsoft.com/ja-jp/office/3223aab8-f543-4fda-85ed-76bb0295ffc4"
   },
   {
-    "name": "Tableau",
-    "developer": "Salesforce（米国）",
-    "firstRelease": "2019年（Ask Data）、2023年〜GPT統合強化",
-    "modelType": "自然言語＋可視化特化BIツール",
-    "description": "「何曜日が売上最大？」のような質問が可能。データをもとにAIが自動でチャートを提案し、初心者から上級者まで使える分析基盤。",
+    "name": "Google Bard",
+    "developer": "Google（米国）",
+    "firstRelease": "2023年3月",
+    "modelType": "Geminiモデル搭載の会話型AI",
+    "description": "検索連携が強く、常に最新の情報を活用可能。GmailやGoogleドキュメント連携や画像読み取りもできる。",
     "strengths": [
-      "「何曜日が売上最大？」のように質問可能",
-      "データをもとにAIが自動でチャートを提案",
-      "初心者から上級者まで幅広く使える分析基盤"
+      "検索連携が強く、常に最新の情報を活用できる",
+      "GmailやGoogleドキュメントと連携可能",
+      "画像読み取りやテキスト生成も可能"
     ],
     "weaknesses": [
-      "専用環境が必要（Tableau Server/Cloud）",
-      "高額（月額70ドルなど）で個人利用に不向き",
-      "データの整理が前提"
+      "事実誤認（幻覚）を起こすことがある",
+      "出力の精度はプロンプト次第でばらつきあり",
+      "専門的な数式処理はやや苦手"
     ],
-    "pricing": "Creator: 月額70ドル、Viewer: 月額12ドル〜",
-    "usageExample": "売上データを取り込んで「前年比成長率は？」と入力するとグラフで回答",
-    "officialUrl": "https://www.tableau.com/ja-jp"
-  },
-  {
-    "name": "Power BI",
-    "developer": "Microsoft（米国）",
-    "firstRelease": "2014年（Q&A）、2023年 Copilot登場",
-    "modelType": "自然言語クエリ＋ビジュアル分析＋GPT統合",
-    "description": "自然言語で分析レポートを丸ごと自動生成でき、ExcelやTeamsとの連携も強力なBIツール。",
-    "strengths": [
-      "「どの商品が今週売れてる？」などの質問が可能",
-      "分析レポートを丸ごと自動生成できるCopilot搭載",
-      "ExcelやTeamsとの連携も強力"
-    ],
-    "weaknesses": [
-      "日本語での精度はまだ改善途上",
-      "質問文の表現にコツがいる",
-      "Pro版が事実上必要（月額10ドル）"
-    ],
-    "pricing": "Power BI Desktop: 無料、Power BI Pro: 月額10ドル",
-    "usageExample": "在庫表に「今週足りなくなりそうな商品は？」と聞くと、自動で予測・警告チャートが生成される",
-    "officialUrl": "https://powerbi.microsoft.com/ja-jp/"
-  },
-  {
-    "name": "ThoughtSpot",
-    "developer": "ThoughtSpot Inc.（米国）",
-    "firstRelease": "2014年頃",
-    "modelType": "検索型BIツール（自然言語検索＋高速分析）",
-    "description": "Google検索のように打ち込むだけで分析結果を返す。自動インサイト機能や高速大規模データ分析が特長。",
-    "strengths": [
-      "Google検索のように打ち込むだけで分析結果を返す",
-      "自動インサイト機能で異常値やトレンドを検出",
-      "データ量が多くても高速（億単位の行を瞬時に分析）"
-    ],
-    "weaknesses": [
-      "完全な自然文理解にはまだ限界あり",
-      "導入コストが高く、大企業向け",
-      "自由な表現ではなく項目名の理解が必要"
-    ],
-    "pricing": "月額1,250ドル〜（中小向けには非現実的）",
-    "usageExample": "「2023年第1四半期の欧州売上トップ5は？」と検索 → 自動でグラフ＋数値を返す",
-    "officialUrl": "https://www.thoughtspot.com"
-  },
-  {
-    "name": "Otter.ai",
-    "developer": "AISense（米国）",
-    "firstRelease": "2018年2月",
-    "modelType": "音声認識＋自然言語処理（議事録生成AI）",
-    "description": "会議や講義の録音をリアルタイムで自動文字起こし。話者ごとに分けた議事録作成やキーワード検索も可能。",
-    "strengths": [
-      "会議や講義の録音をリアルタイムで自動文字起こし",
-      "話者ごとに分けて議事録が作成される",
-      "重要ワードのハイライトや検索も可能"
-    ],
-    "weaknesses": [
-      "無料プランは300分までの録音制限あり",
-      "録音精度は環境に依存（雑音に弱い）",
-      "プライバシーやセキュリティに注意が必要"
-    ],
-    "pricing": "無料（300分/月）、有料プラン：月額8〜30ドル（Pro/Business）",
-    "usageExample": "講義を録音してOtterに渡せば、自動で議事録＆キーワード検索付きで保存",
-    "officialUrl": "https://otter.ai"
+    "pricing": "無料で利用可能（ベータ段階）",
+    "usageExample": "「このデータでプレゼンを作って」と頼むと、構成と要約案を作成してドキュメント化可能",
+    "officialUrl": "https://bard.google.com"
   },
   {
     "name": "Google Lens",
@@ -160,24 +80,104 @@
     "officialUrl": "https://lens.google"
   },
   {
-    "name": "Google Bard",
-    "developer": "Google（米国）",
+    "name": "Microsoft 365 Copilot",
+    "developer": "Microsoft（米国）",
     "firstRelease": "2023年3月",
-    "modelType": "Geminiモデル搭載の会話型AI",
-    "description": "検索連携が強く、常に最新の情報を活用可能。GmailやGoogleドキュメント連携や画像読み取りもできる。",
+    "modelType": "GPTベースのOffice統合AIアシスタント",
+    "description": "ExcelやWord、PowerPoint内で自然言語指示が使え、表やスライド、分析文まで一括生成。企業データ連携やメール文生成も可能。",
     "strengths": [
-      "検索連携が強く、常に最新の情報を活用できる",
-      "GmailやGoogleドキュメントと連携可能",
-      "画像読み取りやテキスト生成も可能"
+      "ExcelやWord、PowerPoint内で自然言語指示が使える",
+      "表やスライド、分析文まで一括生成可能",
+      "企業データとの連携やメール文生成も可能"
     ],
     "weaknesses": [
-      "事実誤認（幻覚）を起こすことがある",
-      "出力の精度はプロンプト次第でばらつきあり",
-      "専門的な数式処理はやや苦手"
+      "基本は企業向け（個人利用は一部制限あり）",
+      "月額30ドルでやや高額",
+      "言い間違いをAIが誤認識して誤動作する場合も"
     ],
-    "pricing": "無料で利用可能（ベータ段階）",
-    "usageExample": "「このデータでプレゼンを作って」と頼むと、構成と要約案を作成してドキュメント化可能",
-    "officialUrl": "https://bard.google.com"
+    "pricing": "法人: 月額30ドル/ユーザー、一部個人向けWindows統合版は無料提供中",
+    "usageExample": "「この表をもとに来月の売上予測をして」と言えば、グラフとレポート案を自動作成",
+    "officialUrl": "https://www.microsoft.com/ja-jp/microsoft-365/copilot"
+  },
+  {
+    "name": "Otter.ai",
+    "developer": "AISense（米国）",
+    "firstRelease": "2018年2月",
+    "modelType": "音声認識＋自然言語処理（議事録生成AI）",
+    "description": "会議や講義の録音をリアルタイムで自動文字起こし。話者ごとに分けた議事録作成やキーワード検索も可能。",
+    "strengths": [
+      "会議や講義の録音をリアルタイムで自動文字起こし",
+      "話者ごとに分けて議事録が作成される",
+      "重要ワードのハイライトや検索も可能"
+    ],
+    "weaknesses": [
+      "無料プランは300分までの録音制限あり",
+      "録音精度は環境に依存（雑音に弱い）",
+      "プライバシーやセキュリティに注意が必要"
+    ],
+    "pricing": "無料（300分/月）、有料プラン：月額8〜30ドル（Pro/Business）",
+    "usageExample": "講義を録音してOtterに渡せば、自動で議事録＆キーワード検索付きで保存",
+    "officialUrl": "https://otter.ai"
+  },
+  {
+    "name": "Power BI",
+    "developer": "Microsoft（米国）",
+    "firstRelease": "2014年（Q&A）、2023年 Copilot登場",
+    "modelType": "自然言語クエリ＋ビジュアル分析＋GPT統合",
+    "description": "自然言語で分析レポートを丸ごと自動生成でき、ExcelやTeamsとの連携も強力なBIツール。",
+    "strengths": [
+      "「どの商品が今週売れてる？」などの質問が可能",
+      "分析レポートを丸ごと自動生成できるCopilot搭載",
+      "ExcelやTeamsとの連携も強力"
+    ],
+    "weaknesses": [
+      "日本語での精度はまだ改善途上",
+      "質問文の表現にコツがいる",
+      "Pro版が事実上必要（月額10ドル）"
+    ],
+    "pricing": "Power BI Desktop: 無料、Power BI Pro: 月額10ドル",
+    "usageExample": "在庫表に「今週足りなくなりそうな商品は？」と聞くと、自動で予測・警告チャートが生成される",
+    "officialUrl": "https://powerbi.microsoft.com/ja-jp/"
+  },
+  {
+    "name": "Tableau",
+    "developer": "Salesforce（米国）",
+    "firstRelease": "2019年（Ask Data）、2023年〜GPT統合強化",
+    "modelType": "自然言語＋可視化特化BIツール",
+    "description": "「何曜日が売上最大？」のような質問が可能。データをもとにAIが自動でチャートを提案し、初心者から上級者まで使える分析基盤。",
+    "strengths": [
+      "「何曜日が売上最大？」のように質問可能",
+      "データをもとにAIが自動でチャートを提案",
+      "初心者から上級者まで幅広く使える分析基盤"
+    ],
+    "weaknesses": [
+      "専用環境が必要（Tableau Server/Cloud）",
+      "高額（月額70ドルなど）で個人利用に不向き",
+      "データの整理が前提"
+    ],
+    "pricing": "Creator: 月額70ドル、Viewer: 月額12ドル〜",
+    "usageExample": "売上データを取り込んで「前年比成長率は？」と入力するとグラフで回答",
+    "officialUrl": "https://www.tableau.com/ja-jp"
+  },
+  {
+    "name": "ThoughtSpot",
+    "developer": "ThoughtSpot Inc.（米国）",
+    "firstRelease": "2014年頃",
+    "modelType": "検索型BIツール（自然言語検索＋高速分析）",
+    "description": "Google検索のように打ち込むだけで分析結果を返す。自動インサイト機能や高速大規模データ分析が特長。",
+    "strengths": [
+      "Google検索のように打ち込むだけで分析結果を返す",
+      "自動インサイト機能で異常値やトレンドを検出",
+      "データ量が多くても高速（億単位の行を瞬時に分析）"
+    ],
+    "weaknesses": [
+      "完全な自然文理解にはまだ限界あり",
+      "導入コストが高く、大企業向け",
+      "自由な表現ではなく項目名の理解が必要"
+    ],
+    "pricing": "月額1,250ドル〜（中小向けには非現実的）",
+    "usageExample": "「2023年第1四半期の欧州売上トップ5は？」と検索 → 自動でグラフ＋数値を返す",
+    "officialUrl": "https://www.thoughtspot.com"
   },
   {
     "name": "Wolfram Alpha",

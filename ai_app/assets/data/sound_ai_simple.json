@@ -39,82 +39,6 @@
     "officialUrl": "Boomy公式サイト"
   },
   {
-    "name": "SOUNDRAW（サウンドロー）",
-    "developer": "SOUNDRAW Inc.（日本・東京）",
-    "firstRelease": "2020年（v2は2025年1月）",
-    "modelType": "音楽生成AI（BGM自動作曲）",
-    "description": "高品質なBGMをジャンル・ムード選択で自動生成。完全ロイヤリティフリーで商用利用も安心。異ジャンルミックス・高音質・他社連携など多数強化。",
-    "strengths": [
-      "高品質なBGMをジャンル・ムード選択で自動生成",
-      "完全ロイヤリティフリーで商用利用も安心",
-      "異ジャンルミックス・高音質・他社連携など多数強化"
-    ],
-    "weaknesses": [
-      "無料プランなし（初回のみ試用可能）",
-      "1曲の長さは5分程度まで"
-    ],
-    "pricing": "年間契約で月額 $11〜$32 程度／Creatorプラン $19.99/月、Artist Pro $59.99/月（各年契約割引あり）",
-    "usageExample": "広告映像・ゲーム用のBGM制作、無人店舗・作業用の音楽生成、CanvaやFilmoraとの連携使用",
-    "officialUrl": "SOUNDRAW公式サイト"
-  },
-  {
-    "name": "Mubert（ミューバート）",
-    "developer": "Mubert Inc.（米国・デラウェア）",
-    "firstRelease": "2017年",
-    "modelType": "音楽生成AI（ループBGM・ストリーミング）",
-    "description": "150ジャンル以上・長時間BGMの自動生成。ストリーミング向き無限ループ設計。全素材が権利処理済で安心の商用利用。",
-    "strengths": [
-      "150ジャンル以上・長時間BGMの自動生成",
-      "ストリーミング向き無限ループ設計",
-      "全素材が権利処理済で安心の商用利用"
-    ],
-    "weaknesses": [
-      "無料プランは透かし音＆クレジット表記必要",
-      "音色の多様性や構成複雑性に課題あり"
-    ],
-    "pricing": "無料プランあり（制限付き）／Creatorプラン：$14/月、Proプラン：$39/月、Business：$199/月",
-    "usageExample": "Twitch配信・店内BGMの自動化、映像編集向けのBGM生成、ムードに合わせたループ音楽の量産",
-    "officialUrl": "Mubert公式サイト"
-  },
-  {
-    "name": "VOCALOID（ボーカロイド）",
-    "developer": "ヤマハ株式会社（日本）",
-    "firstRelease": "2004年1月（VOCALOID 1）",
-    "modelType": "歌声合成AI（バーチャルボーカル）",
-    "description": "「初音ミク」など人気キャラ多数。世界初の商用ボーカルシンセで文化・技術面で影響大。VOCALOID6でAI化、自然なブレス・抑揚追加。",
-    "strengths": [
-      "「初音ミク」など人気キャラ多数",
-      "世界初の商用ボーカルシンセ、文化・技術面で影響大",
-      "VOCALOID6でAI化、自然なブレス・抑揚追加"
-    ],
-    "weaknesses": [
-      "自動作曲・作詞機能なし、DTM知識が必要",
-      "製品価格が高く、初心者には導入ハードルあり"
-    ],
-    "pricing": "VOCALOID6：約¥25,000、別売ライブラリ：¥5,000〜¥20,000／無料体験版あり（機能限定）",
-    "usageExample": "オリジナル楽曲のボーカル制作、仮歌のデモ制作・多言語カバー曲の作成、初音ミクなどの音声キャラでの創作活動",
-    "officialUrl": "VOCALOID公式サイト"
-  },
-  {
-    "name": "Synthesizer V（シンセサイザV）",
-    "developer": "Dreamtonics社（日本・東京）",
-    "firstRelease": "2018年8月（技術プレビュー）、同年12月に正式版",
-    "modelType": "AI歌声合成ソフトウェア",
-    "description": "ボーカルの自然なビブラート、ブレス音、ピッチ表現が可能。多言語対応（日本語・英語・中国語など）。GUI操作で細かい調整ができ、初心者にも扱いやすい。",
-    "strengths": [
-      "ボーカルの自然なビブラート、ブレス音、ピッチ表現が可能",
-      "多言語対応（日本語・英語・中国語など）",
-      "GUI操作で細かい調整ができ、初心者にも扱いやすい"
-    ],
-    "weaknesses": [
-      "作曲機能は非搭載、メロディ・歌詞の準備が必要",
-      "高機能を使いこなすにはPro版＋有償ボイスが必要"
-    ],
-    "pricing": "無料ベーシック版あり（制限付き）／Pro版：約¥10,000／AIボイス：各¥8,000〜¥15,000",
-    "usageExample": "自作曲に仮歌を加える、多言語歌唱デモの制作、VOCALOIDで難しい英語歌唱の補完",
-    "officialUrl": "https://dreamtonics.com/synthesizerv"
-  },
-  {
     "name": "ElevenLabs（イレブンラボ）",
     "developer": "Eleven Labs社（米国）",
     "firstRelease": "2023年1月（β版公開）",
@@ -132,25 +56,6 @@
     "pricing": "無料プランあり／Starter $5・Creator $22・Pro $99（文字数ごとの制限あり）",
     "usageExample": "YouTubeやニュース動画のナレーション作成、ポッドキャストの音声化、キャラクターごとの声生成",
     "officialUrl": "https://elevenlabs.io"
-  },
-  {
-    "name": "Murf AI（マーフ・エーアイ）",
-    "developer": "Murf AI, Inc.（米国・インド）",
-    "firstRelease": "2021年頃",
-    "modelType": "ナレーション音声合成＋スライド編集スタジオ",
-    "description": "20言語・120種類以上の音声に対応。CanvaやGoogleスライドとの連携。BGMやタイミング調整もGUI上で簡単。",
-    "strengths": [
-      "20言語・120種類以上の音声に対応",
-      "CanvaやGoogleスライドとの連携",
-      "BGMやタイミング調整もGUI上で簡単"
-    ],
-    "weaknesses": [
-      "無料トライアルでは音声のダウンロード不可",
-      "クローン音声やAPI連携は高額・エンタープライズ向け"
-    ],
-    "pricing": "無料トライアルあり／Basic $19／Pro $26／API・カスタム音声は別料金",
-    "usageExample": "eラーニング教材の音声生成、YouTube/CMナレーション、プレゼン資料への自動音声付与",
-    "officialUrl": "https://murf.ai"
   },
   {
     "name": "Genny（ジェニー／LOVO AI）",
@@ -172,42 +77,42 @@
     "officialUrl": "https://genny.lovo.ai"
   },
   {
-    "name": "Resemble AI（リザンブルAI）",
-    "developer": "Resemble AI（カナダ・トロント）",
-    "firstRelease": "2017年頃",
-    "modelType": "高精度ボイスクローン・音声APIプラットフォーム",
-    "description": "数分の録音から声のクローンが作れる。APIでゲームやアプリに音声合成を組み込み可能。プロ用途（映画・TV・コールセンター）にも実績あり。",
+    "name": "Mubert（ミューバート）",
+    "developer": "Mubert Inc.（米国・デラウェア）",
+    "firstRelease": "2017年",
+    "modelType": "音楽生成AI（ループBGM・ストリーミング）",
+    "description": "150ジャンル以上・長時間BGMの自動生成。ストリーミング向き無限ループ設計。全素材が権利処理済で安心の商用利用。",
     "strengths": [
-      "数分の録音から声のクローンが作れる",
-      "APIでゲームやアプリに音声合成を組み込み可能",
-      "プロ用途（映画・TV・コールセンター）にも実績あり"
+      "150ジャンル以上・長時間BGMの自動生成",
+      "ストリーミング向き無限ループ設計",
+      "全素材が権利処理済で安心の商用利用"
     ],
     "weaknesses": [
-      "API利用には技術知識が必要で、個人向けには難度高め",
-      "従量課金制で音声合成の費用がかかりやすい"
+      "無料プランは透かし音＆クレジット表記必要",
+      "音色の多様性や構成複雑性に課題あり"
     ],
-    "pricing": "無料：10,000秒/月＋1種類のクローン音声／Starter $5／Creator $19（従量課金：$0.006/秒）",
-    "usageExample": "名前呼びかけ対応のNPC音声生成、自社のオペレーター音声で自動案内、映画セリフの差し替え・吹き替え用途",
-    "officialUrl": "https://www.resemble.ai"
+    "pricing": "無料プランあり（制限付き）／Creatorプラン：$14/月、Proプラン：$39/月、Business：$199/月",
+    "usageExample": "Twitch配信・店内BGMの自動化、映像編集向けのBGM生成、ムードに合わせたループ音楽の量産",
+    "officialUrl": "Mubert公式サイト"
   },
   {
-    "name": "Whisper（ウィスパー）",
-    "developer": "OpenAI（米国）",
-    "firstRelease": "2022年9月（オープンソース版）、2023年3月（API提供）",
-    "modelType": "音声認識AI（Speech-to-Text）",
-    "description": "多言語対応＆翻訳機能あり。雑音や訛りにも強い高精度文字起こし。オープンソースで自由に使える。",
+    "name": "Murf AI（マーフ・エーアイ）",
+    "developer": "Murf AI, Inc.（米国・インド）",
+    "firstRelease": "2021年頃",
+    "modelType": "ナレーション音声合成＋スライド編集スタジオ",
+    "description": "20言語・120種類以上の音声に対応。CanvaやGoogleスライドとの連携。BGMやタイミング調整もGUI上で簡単。",
     "strengths": [
-      "多言語対応＆翻訳機能あり",
-      "雑音や訛りにも強い高精度文字起こし",
-      "オープンソースで自由に使える"
+      "20言語・120種類以上の音声に対応",
+      "CanvaやGoogleスライドとの連携",
+      "BGMやタイミング調整もGUI上で簡単"
     ],
     "weaknesses": [
-      "稀に音声にない語を補完して誤変換あり",
-      "話者分離機能なし（会話は手動で話者区別が必要）"
+      "無料トライアルでは音声のダウンロード不可",
+      "クローン音声やAPI連携は高額・エンタープライズ向け"
     ],
-    "pricing": "オープンソース版：完全無料／Whisper API：1分あたり$0.006（超低価格）",
-    "usageExample": "Zoom会議や講義の自動文字起こし、YouTube動画の多言語字幕生成、音声コンテンツのブログ記事化",
-    "officialUrl": "https://openai.com/research/whisper"
+    "pricing": "無料トライアルあり／Basic $19／Pro $26／API・カスタム音声は別料金",
+    "usageExample": "eラーニング教材の音声生成、YouTube/CMナレーション、プレゼン資料への自動音声付与",
+    "officialUrl": "https://murf.ai"
   },
   {
     "name": "Otter.ai（オッター・エーアイ）",
@@ -227,5 +132,100 @@
     "pricing": "無料Basic：月600分まで／Pro：$8.33/月〜／Business：$20〜30/月（1ユーザーあたり）",
     "usageExample": "会議の議事録をリアルタイムで取得、大学講義のノート自動作成、取材やインタビューの書き起こし・要約",
     "officialUrl": "https://otter.ai"
+  },
+  {
+    "name": "Resemble AI（リザンブルAI）",
+    "developer": "Resemble AI（カナダ・トロント）",
+    "firstRelease": "2017年頃",
+    "modelType": "高精度ボイスクローン・音声APIプラットフォーム",
+    "description": "数分の録音から声のクローンが作れる。APIでゲームやアプリに音声合成を組み込み可能。プロ用途（映画・TV・コールセンター）にも実績あり。",
+    "strengths": [
+      "数分の録音から声のクローンが作れる",
+      "APIでゲームやアプリに音声合成を組み込み可能",
+      "プロ用途（映画・TV・コールセンター）にも実績あり"
+    ],
+    "weaknesses": [
+      "API利用には技術知識が必要で、個人向けには難度高め",
+      "従量課金制で音声合成の費用がかかりやすい"
+    ],
+    "pricing": "無料：10,000秒/月＋1種類のクローン音声／Starter $5／Creator $19（従量課金：$0.006/秒）",
+    "usageExample": "名前呼びかけ対応のNPC音声生成、自社のオペレーター音声で自動案内、映画セリフの差し替え・吹き替え用途",
+    "officialUrl": "https://www.resemble.ai"
+  },
+  {
+    "name": "SOUNDRAW（サウンドロー）",
+    "developer": "SOUNDRAW Inc.（日本・東京）",
+    "firstRelease": "2020年（v2は2025年1月）",
+    "modelType": "音楽生成AI（BGM自動作曲）",
+    "description": "高品質なBGMをジャンル・ムード選択で自動生成。完全ロイヤリティフリーで商用利用も安心。異ジャンルミックス・高音質・他社連携など多数強化。",
+    "strengths": [
+      "高品質なBGMをジャンル・ムード選択で自動生成",
+      "完全ロイヤリティフリーで商用利用も安心",
+      "異ジャンルミックス・高音質・他社連携など多数強化"
+    ],
+    "weaknesses": [
+      "無料プランなし（初回のみ試用可能）",
+      "1曲の長さは5分程度まで"
+    ],
+    "pricing": "年間契約で月額 $11〜$32 程度／Creatorプラン $19.99/月、Artist Pro $59.99/月（各年契約割引あり）",
+    "usageExample": "広告映像・ゲーム用のBGM制作、無人店舗・作業用の音楽生成、CanvaやFilmoraとの連携使用",
+    "officialUrl": "SOUNDRAW公式サイト"
+  },
+  {
+    "name": "Synthesizer V（シンセサイザV）",
+    "developer": "Dreamtonics社（日本・東京）",
+    "firstRelease": "2018年8月（技術プレビュー）、同年12月に正式版",
+    "modelType": "AI歌声合成ソフトウェア",
+    "description": "ボーカルの自然なビブラート、ブレス音、ピッチ表現が可能。多言語対応（日本語・英語・中国語など）。GUI操作で細かい調整ができ、初心者にも扱いやすい。",
+    "strengths": [
+      "ボーカルの自然なビブラート、ブレス音、ピッチ表現が可能",
+      "多言語対応（日本語・英語・中国語など）",
+      "GUI操作で細かい調整ができ、初心者にも扱いやすい"
+    ],
+    "weaknesses": [
+      "作曲機能は非搭載、メロディ・歌詞の準備が必要",
+      "高機能を使いこなすにはPro版＋有償ボイスが必要"
+    ],
+    "pricing": "無料ベーシック版あり（制限付き）／Pro版：約¥10,000／AIボイス：各¥8,000〜¥15,000",
+    "usageExample": "自作曲に仮歌を加える、多言語歌唱デモの制作、VOCALOIDで難しい英語歌唱の補完",
+    "officialUrl": "https://dreamtonics.com/synthesizerv"
+  },
+  {
+    "name": "VOCALOID（ボーカロイド）",
+    "developer": "ヤマハ株式会社（日本）",
+    "firstRelease": "2004年1月（VOCALOID 1）",
+    "modelType": "歌声合成AI（バーチャルボーカル）",
+    "description": "「初音ミク」など人気キャラ多数。世界初の商用ボーカルシンセで文化・技術面で影響大。VOCALOID6でAI化、自然なブレス・抑揚追加。",
+    "strengths": [
+      "「初音ミク」など人気キャラ多数",
+      "世界初の商用ボーカルシンセ、文化・技術面で影響大",
+      "VOCALOID6でAI化、自然なブレス・抑揚追加"
+    ],
+    "weaknesses": [
+      "自動作曲・作詞機能なし、DTM知識が必要",
+      "製品価格が高く、初心者には導入ハードルあり"
+    ],
+    "pricing": "VOCALOID6：約¥25,000、別売ライブラリ：¥5,000〜¥20,000／無料体験版あり（機能限定）",
+    "usageExample": "オリジナル楽曲のボーカル制作、仮歌のデモ制作・多言語カバー曲の作成、初音ミクなどの音声キャラでの創作活動",
+    "officialUrl": "VOCALOID公式サイト"
+  },
+  {
+    "name": "Whisper（ウィスパー）",
+    "developer": "OpenAI（米国）",
+    "firstRelease": "2022年9月（オープンソース版）、2023年3月（API提供）",
+    "modelType": "音声認識AI（Speech-to-Text）",
+    "description": "多言語対応＆翻訳機能あり。雑音や訛りにも強い高精度文字起こし。オープンソースで自由に使える。",
+    "strengths": [
+      "多言語対応＆翻訳機能あり",
+      "雑音や訛りにも強い高精度文字起こし",
+      "オープンソースで自由に使える"
+    ],
+    "weaknesses": [
+      "稀に音声にない語を補完して誤変換あり",
+      "話者分離機能なし（会話は手動で話者区別が必要）"
+    ],
+    "pricing": "オープンソース版：完全無料／Whisper API：1分あたり$0.006（超低価格）",
+    "usageExample": "Zoom会議や講義の自動文字起こし、YouTube動画の多言語字幕生成、音声コンテンツのブログ記事化",
+    "officialUrl": "https://openai.com/research/whisper"
   }
 ]
