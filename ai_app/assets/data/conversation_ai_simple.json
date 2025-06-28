@@ -38,6 +38,7 @@
     ],
     "pricing": "無料プラン／Gemini Advanced：Google One Premium（約¥2,400/月）に含まれる上位モデル",
     "usageExample": "今話題のスマホを教えてで最新情報・週末の旅行プランを考えてで簡易旅行提案・Googleドキュメント内での文章生成",
+    "imagePath": "assets/ai_icons/gemini.png",
     "officialUrl": "https://gemini.google.com/"
   },
   {
@@ -58,6 +59,7 @@
     ],
     "pricing": "無料プラン（使用制限あり）／Claude Pro：月額 $20／Claude Max：月額 $100〜200",
     "usageExample": "長文PDFの要約・丁寧なコード説明やステップバイステップの解説・雑談しながら知識を深める",
+    "imagePath": "assets/ai_icons/claude.png",
     "officialUrl": "https://claude.ai/"
   },
   {
