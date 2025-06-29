@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../ai_info.dart';
 import '../../../widgets/ai_card.dart';
-import 'package:flutter/services.dart';
 import '../ai_details/ai_details_page.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
 
 class ConversationAiListPage extends StatefulWidget {
   const ConversationAiListPage({super.key});
@@ -104,10 +104,7 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => AiDetailPage(
-                                      jsonPath: ai.detailJsonPath,
-                                      aiName: ai.name,
-                                      aiCategory: ai.category,
-                                      catchPhrase: ai.catchPhrase,
+                                      aiId: ai.aiId, // ← ここだけ
                                     ),
                                   ),
                                 );
@@ -121,3 +118,5 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
     );
   }
 }
+
+// AiInfoのaiIdプロパティを必ず用意してください。
