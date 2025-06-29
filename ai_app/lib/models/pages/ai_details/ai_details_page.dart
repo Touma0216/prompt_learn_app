@@ -1,115 +1,142 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
-// --- モデルクラス ---
-class AIExplainSection {
-  final String title;
-  final String content;
-
-  AIExplainSection({
-    required this.title,
-    required this.content,
-  });
-
-  factory AIExplainSection.fromJson(Map<String, dynamic> json) {
-    return AIExplainSection(
-      title: json['title'] ?? '',
-      content: json['content'] ?? '',
-    );
-  }
-}
-
-// --- 詳細ページ ---
 class AiDetailPage extends StatefulWidget {
-  final String jsonPath; // 例: 'lib/models/pages/ai_details/ai_details_json/chatgpt.json'
+  final String jsonPath;
   final String aiName;
-  final String? imagePath; // アイキャッチ画像（将来拡張用）
-  
   const AiDetailPage({
-    super.key,
+    Key? key,
     required this.jsonPath,
     required this.aiName,
-    this.imagePath,
-  });
+  }) : super(key: key);
 
   @override
   State<AiDetailPage> createState() => _AiDetailPageState();
 }
 
 class _AiDetailPageState extends State<AiDetailPage> {
-  late Future<List<AIExplainSection>> _sectionsFuture;
+  List<Map<String, dynamic>> _sections = [];
+  bool _loading = true;
 
   @override
   void initState() {
     super.initState();
-    _sectionsFuture = _loadSections();
+    _loadSections();
   }
 
-  Future<List<AIExplainSection>> _loadSections() async {
-    final String jsonStr = await rootBundle.loadString(widget.jsonPath);
-    final List<dynamic> jsonList = json.decode(jsonStr);
-    return jsonList.map((e) => AIExplainSection.fromJson(e)).toList();
+  Future<void> _loadSections() async {
+    try {
+      final jsonStr = await rootBundle.loadString(widget.jsonPath);
+      final List<dynamic> jsonList = json.decode(jsonStr);
+      setState(() {
+        _sections = jsonList.cast<Map<String, dynamic>>();
+        _loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _sections = [];
+        _loading = false;
+      });
+    }
+  }
+
+  IconData _sectionIcon(String sectionTitle) {
+    if (sectionTitle.contains("強み")) return Icons.thumb_up_alt;
+    if (sectionTitle.contains("弱み")) return Icons.thumb_down_alt;
+    if (sectionTitle.contains("使い方")) return Icons.lightbulb_outline;
+    if (sectionTitle.contains("料金")) return Icons.currency_yen;
+    if (sectionTitle.contains("特徴")) return Icons.star_border;
+    if (sectionTitle.contains("注意")) return Icons.warning_amber_rounded;
+    return Icons.info_outline;
   }
 
   @override
   Widget build(BuildContext context) {
+    final accentColor = const Color(0xFF64B5F6);
+
     return Scaffold(
+      backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
-        title: Text("${widget.aiName}の詳細"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text('${widget.aiName}の詳細'),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black87,
+        elevation: 1.5,
       ),
-      body: FutureBuilder<List<AIExplainSection>>(
-        future: _sectionsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("データが見つかりませんでした"));
-          }
-          final sections = snapshot.data!;
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: sections.length,
-            itemBuilder: (context, index) {
-              final section = sections[index];
-              return Card(
-                margin: const EdgeInsets.only(bottom: 16),
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: ExpansionTile(
-                  title: Text(
-                    section.title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : _sections.isEmpty
+              ? const Center(child: Text('データが見つかりませんでした'))
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // ピノイラスト（仮）
+                        Center(
+                          child: Image.asset(
+                            'assets/pino_talk.png',
+                            width: 90,
+                            height: 90,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        // 各セクション
+                        ..._sections.map((section) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(14),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.06),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: ExpansionTile(
+                              initiallyExpanded: true,
+                              leading: Icon(
+                                _sectionIcon(section["title"] ?? ""),
+                                color: accentColor,
+                              ),
+                              title: Text(
+                                section["title"] ?? "",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                  child: Text(
+                                    (section["content"] ?? "").isNotEmpty
+                                        ? section["content"]
+                                        : '（未入力）',
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ],
                     ),
                   ),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      child: MarkdownBody(
-                        data: section.content.isNotEmpty
-                            ? section.content
-                            : "_（未入力）_",
-                        styleSheet: MarkdownStyleSheet.fromTheme(
-                          Theme.of(context),
-                        ).copyWith(
-                          p: const TextStyle(fontSize: 15),
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
-              );
-            },
-          );
-        },
-      ),
     );
   }
 }
