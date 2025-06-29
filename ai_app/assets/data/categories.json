@@ -2,43 +2,43 @@
   {
     "id": "conversation",
     "title": "会話するAI",
-    "image": "assets/seven_icons/conversation_ai.png",
+    "image": "assets/seven_icons/conversation.png",
     "description": "チャットや質問応答が得意なAI"
   },
   {
     "id": "text",
     "title": "文章をつくるAI",
-    "image": "assets/seven_icons/text_ai.png",
+    "image": "assets/seven_icons/text.png",
     "description": "文章生成・要約・翻訳などを行うAI"
   },
   {
     "id": "image",
     "title": "絵をつくるAI",
-    "image": "assets/seven_icons/image_ai.png",
+    "image": "assets/seven_icons/image.png",
     "description": "イラストや3D画像などを生成するAI"
   },
   {
     "id": "sound",
     "title": "音をつくるAI",
-    "image": "assets/seven_icons/sound_ai.png",
+    "image": "assets/seven_icons/sound.png",
     "description": "音楽・声・TTS/STTなどを生成するAI"
   },
   {
     "id": "programming",
     "title": "プログラムを書くAI",
-    "image": "assets/seven_icons/programming_ai.png",
+    "image": "assets/seven_icons/programming.png",
     "description": "コード生成や支援を行うAI"
   },
   {
     "id": "movie",
     "title": "動画をつくるAI",
-    "image": "assets/seven_icons/movie_ai.png",
+    "image": "assets/seven_icons/movie.png",
     "description": "動画生成・アニメ風変換などのAI"
   },
   {
     "id": "data",
     "title": "データを扱うAI",
-    "image": "assets/seven_icons/data_ai.png",
+    "image": "assets/seven_icons/data.png",
     "description": "分析・可視化などデータ活用AI"
   }
 ]
