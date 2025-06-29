@@ -23,10 +23,10 @@ class AIExplainSection {
 
 // --- 詳細ページ ---
 class AiDetailPage extends StatefulWidget {
-  final String jsonPath; // 例: 'assets/data/ai_details/ai_details_json/conversation_ai.json'
+  final String jsonPath; // 例: 'lib/models/pages/ai_details/ai_details_json/chatgpt.json'
   final String aiName;
   final String? imagePath; // アイキャッチ画像（将来拡張用）
-
+  
   const AiDetailPage({
     super.key,
     required this.jsonPath,

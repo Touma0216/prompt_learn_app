@@ -8,11 +8,11 @@ class AiListPage extends StatelessWidget {
     final aiList = [
       {
         'name': 'ChatGPT',
-        'jsonPath': 'assets/data/ai_details/chatgpt.json',
+        'jsonPath': 'lib/models/pages/ai_details/ai_details_json/chatgpt.json',
       },
       {
         'name': 'Gemini',
-        'jsonPath': 'assets/data/ai_details/gemini.json',
+        'jsonPath': 'lib/models/pages/ai_details/ai_details_json/gemini.json',
       },
       // 必要に応じて追加
     ];

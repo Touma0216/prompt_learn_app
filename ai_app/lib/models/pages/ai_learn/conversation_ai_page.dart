@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../ai_info.dart';
 import '../../../widgets/ai_card.dart';
 import 'package:flutter/services.dart';
+import '../ai_details/ai_details_page.dart'; // 追加
 
 class ConversationAiListPage extends StatefulWidget {
   const ConversationAiListPage({super.key});
@@ -99,8 +100,15 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
                             return AiCard(
                               aiInfo: ai,
                               onTap: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('${ai.name}：詳細ページへ遷移予定')),
+                                // ここをNavigator.pushに！
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => AiDetailPage(
+                                      jsonPath: ai.detailJsonPath, // AiInfoにパスがある場合
+                                      aiName: ai.name,
+                                    ),
+                                  ),
                                 );
                               },
                             );
