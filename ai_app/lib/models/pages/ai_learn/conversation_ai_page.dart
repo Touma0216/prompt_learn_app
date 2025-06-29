@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../ai_info.dart';
 import '../../../widgets/ai_card.dart';
 import 'package:flutter/services.dart';
-import '../ai_details/ai_details_page.dart'; // 追加
+import '../ai_details/ai_details_page.dart';
 
 class ConversationAiListPage extends StatefulWidget {
   const ConversationAiListPage({super.key});
@@ -100,13 +100,14 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
                             return AiCard(
                               aiInfo: ai,
                               onTap: () {
-                                // ここをNavigator.pushに！
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => AiDetailPage(
-                                      jsonPath: ai.detailJsonPath, // AiInfoにパスがある場合
+                                      jsonPath: ai.detailJsonPath,
                                       aiName: ai.name,
+                                      aiCategory: ai.category,
+                                      catchPhrase: ai.catchPhrase,
                                     ),
                                   ),
                                 );

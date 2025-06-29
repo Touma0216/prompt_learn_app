@@ -61,6 +61,8 @@
     "usageExample": "面接の自己紹介を考えるサポート・高校生でも分かるように相対性理論を説明・明日のスケジュールを提案",
     "imagePath": "assets/ai_icons/simple.png",
     "detailJsonPath": "lib/models/pages/ai_details/ai_details_json/chatgpt.json",
+    "category": "conversation",
+    "catchPhrase": "対話で新しい発見を。あなたの相談役AI。",
     "officialUrl": "https://chat.openai.com/"
   },
   {

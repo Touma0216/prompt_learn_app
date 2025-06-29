@@ -8,7 +8,9 @@ class AiInfo {
   final String pricing;
   final String usageExample;
   final String officialUrl;
-  final String detailJsonPath; // ←追加
+  final String category;
+  final String catchPhrase;
+  final String detailJsonPath;
 
   AiInfo({
     required this.name,
@@ -20,7 +22,9 @@ class AiInfo {
     required this.pricing,
     required this.usageExample,
     required this.officialUrl,
-    required this.detailJsonPath, // ←追加
+    required this.category,
+    required this.catchPhrase,
+    required this.detailJsonPath,
   });
 
   factory AiInfo.fromJson(Map<String, dynamic> json) {
@@ -34,7 +38,9 @@ class AiInfo {
       pricing: json['pricing'] ?? '',
       usageExample: json['usageExample'] ?? '',
       officialUrl: json['officialUrl'] ?? '',
-      detailJsonPath: json['detailJsonPath'] ?? '', // ←追加
+      category: json['category'] ?? 'conversation',
+      catchPhrase: json['catchPhrase'] ?? '',
+      detailJsonPath: json['detailJsonPath'] ?? '',
     );
   }
 }
