@@ -1,15 +1,3 @@
----
-aiName: ChatGPT
-aiCategory: conversation
-catchPhrase: 多目的に使える対話AI
-strengths:
-  - 自然な会話が可能
-  - 多機能
-weaknesses:
-  - 日本語が苦手な場合あり
-  - 最新情報は不完全
----
-
  # ChatGPTとは？
 
 ChatGPTは、アメリカの「OpenAI」という企業が開発した対話型のAI（人工知能）です。  
