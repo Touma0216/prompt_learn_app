@@ -109,8 +109,8 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => AiDetailPage(
-                                      aiName: ai.name, // ← ここだけ
+                                    builder: (_) => AiDetailsPage(
+                                      aiName: ai.name,
                                     ),
                                   ),
                                 );

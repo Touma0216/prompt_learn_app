@@ -27,7 +27,7 @@ class AiListPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => AiDetailPage(
+                  builder: (_) => AiDetailsPage(
                     aiName: ai['name']!,
                   ),
                 ),
