@@ -4,27 +4,18 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:yaml/yaml.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// ------------------------------------------------------------
-/// カテゴリごとにピノの画像を分けるウィジェット
+// TODO: Replace this with your actual PinoImage widget or import it from the correct file.
 class PinoImage extends StatelessWidget {
   final String category;
-  const PinoImage({super.key, required this.category});
+  const PinoImage({Key? key, required this.category}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    String asset;
-    switch (category) {
-      case 'conversation':
-        asset = 'assets/images/pino_talk.png';
-        break;
-      case 'image':
-        asset = 'assets/images/pino_image.png';
-        break;
-      default:
-        asset = 'assets/images/pino_default.png';
-    }
-    return Image.asset(asset, width: 80, height: 80, fit: BoxFit.contain);
+    // Placeholder image, replace with your actual implementation.
+    return Icon(Icons.image, size: 48, color: Colors.grey);
   }
 }
+
 
 /// ------------------------------------------------------------
 /// Markdown を `##` ごとに分割した 1 セクション
@@ -53,8 +44,9 @@ class _AiDetailPageState extends State<AiDetailPage> {
   String category = '';
   List<String> strengths = [];
   List<String> weaknesses = [];
-  // 本文セクション
-  List<_Section> sections = [];
+  // 本文
+  List<_Section> sections = []; // 未使用だが将来の拡張用
+  String markdown = '';
 
   bool loading = true;
   String? errorText;
@@ -94,7 +86,7 @@ class _AiDetailPageState extends State<AiDetailPage> {
         markdownBody = raw;
       }
 
-      sections = _splitMarkdown(markdownBody);
+      markdown = markdownBody;
       setState(() => loading = false);
     } catch (e) {
       setState(() {
@@ -105,21 +97,6 @@ class _AiDetailPageState extends State<AiDetailPage> {
   }
 
   /// ----------------------------------------------------------
-  /// Markdown を `##` で分割してセクション化
-  List<_Section> _splitMarkdown(String md) {
-    final exp = RegExp(r'\n##\s+');
-    final parts = md.split(exp);
-    List<_Section> out = [];
-    for (int i = 0; i < parts.length; i++) {
-      final sec = parts[i];
-      if (i == 0 && !sec.trim().startsWith('#')) continue; // h1 で始まらない先頭は捨てる
-      final h = RegExp(r'^#+\s*(.*)').firstMatch(sec.trim());
-      final ttl = h?.group(1) ?? '';
-      final body = h != null ? sec.trim().substring(h.group(0)!.length).trim() : sec.trim();
-      out.add(_Section(ttl, body));
-    }
-    return out;
-  }
 
   /// ----------------------------------------------------------
   /// Markdown の表示スタイル
@@ -203,32 +180,24 @@ class _AiDetailPageState extends State<AiDetailPage> {
                 ),
               ),
 
-            // Markdown セクション
-            ...sections.map((s) => Container(
-                  margin: const EdgeInsets.symmetric(vertical: 6),
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
-                  child: ExpansionTile(
-                    initiallyExpanded: true,
-                    title: Text(s.title,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                        child: MarkdownBody(
-                          data: s.body,
-                          styleSheet: _style(context),
-                          onTapLink: (_, href, __) async {
-                            if (href == null) return;
-                            final uri = Uri.parse(href);
-                            if (await canLaunchUrl(uri)) {
-                              await launchUrl(uri, mode: LaunchMode.externalApplication);
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
+            // Markdown本文
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 6),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(12)),
+              child: MarkdownBody(
+                data: markdown,
+                styleSheet: _style(context),
+                onTapLink: (_, href, __) async {
+                  if (href == null) return;
+                  final uri = Uri.parse(href);
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
