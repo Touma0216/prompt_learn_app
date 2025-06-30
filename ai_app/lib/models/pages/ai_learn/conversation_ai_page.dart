@@ -26,7 +26,9 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
   }
 
   Future<void> loadAiList() async {
-    final String jsonStr = await rootBundle.loadString('assets/data/conversation_ai_simple.json');
+    final String jsonStr = await rootBundle.loadString(
+      'assets/data/conversation_ai_simple.json',
+    );
     final List<dynamic> jsonList = json.decode(jsonStr);
     setState(() {
       _aiList = jsonList.map((e) => AiInfo.fromJson(e)).toList();
@@ -42,9 +44,9 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
         _filteredList = _aiList;
       } else {
         final lower = text.toLowerCase();
-        _filteredList = _aiList.where((ai) =>
-          ai.name.toLowerCase().contains(lower)
-        ).toList();
+        _filteredList = _aiList
+            .where((ai) => ai.name.toLowerCase().contains(lower))
+            .toList();
       }
     });
   }
@@ -78,7 +80,10 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
                             ),
                       filled: true,
                       fillColor: Colors.grey[200],
-                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 12,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,
@@ -89,7 +94,8 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
                 Expanded(
                   child: _filteredList.isEmpty
                       ? const Center(
-                          child: Text('該当するAIは見つかりませんでした',
+                          child: Text(
+                            '該当するAIは見つかりませんでした',
                             style: TextStyle(fontSize: 16, color: Colors.grey),
                           ),
                         )
@@ -118,5 +124,3 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
     );
   }
 }
-
-// AiInfoのaiIdプロパティを必ず用意してください。
