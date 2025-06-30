@@ -9,18 +9,34 @@ import 'package:url_launcher/url_launcher.dart';
 class PinoImage extends StatelessWidget {
   final String category;
   const PinoImage({super.key, required this.category});
+
   @override
   Widget build(BuildContext context) {
     String asset;
     switch (category) {
       case 'conversation':
-        asset = 'assets/images/pino_talk.png';
+        asset = 'assets/seven_icons/conversation.png';
         break;
       case 'image':
-        asset = 'assets/images/pino_image.png';
+        asset = 'assets/seven_icons/image.png';
+        break;
+      case 'text':
+        asset = 'assets/seven_icons/text.png';
+        break;
+      case 'sound':
+        asset = 'assets/seven_icons/sound.png';
+        break;
+      case 'programming':
+        asset = 'assets/seven_icons/programming.png';
+        break;
+      case 'movie':
+        asset = 'assets/seven_icons/movie.png';
+        break;
+      case 'data':
+        asset = 'assets/seven_icons/data.png';
         break;
       default:
-        asset = 'assets/images/pino_default.png';
+        asset = 'assets/ai_icons/simple.png';
     }
     return Image.asset(asset, width: 80, height: 80, fit: BoxFit.contain);
   }
@@ -30,8 +46,17 @@ class PinoImage extends StatelessWidget {
 /// Markdown を `##` ごとに分割した 1 セクション
 class _Section {
   final String title;
-  final String body;
-  _Section(this.title, this.body);
+  final int level;
+  String body;
+  final GlobalKey key = GlobalKey();
+  _Section({required this.title, required this.level, required this.body});
+}
+
+class _TocItem {
+  final String title;
+  final int level;
+  final GlobalKey key;
+  _TocItem(this.title, this.level, this.key);
 }
 
 /// ------------------------------------------------------------
@@ -47,27 +72,23 @@ class AiDetailPage extends StatefulWidget {
 }
 
 class _AiDetailPageState extends State<AiDetailPage> {
-  // メタ情報
-  String title = '';
-  String catchPhrase = '';
-  String category = '';
-  List<String> strengths = [];
-  List<String> weaknesses = [];
-  // 本文セクション
-  List<_Section> sections = [];
-
-  bool loading = true;
+  String? _markdownContent;
+  Map<String, dynamic>? _aiMetadata;
+  List<_Section> _sections = [];
+  List<_TocItem> _tableOfContents = [];
+  bool _isLoading = true;
   String? errorText;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _loadMarkdown();
+    _loadAiContent();
   }
 
   /// ----------------------------------------------------------
   /// Markdown 読込
-  Future<void> _loadMarkdown() async {
+  Future<void> _loadAiContent() async {
     // 空白を取って .md を付ける  ──> ChatGPT → ChatGPT.md / Stable Diffusion → StableDiffusion.md
     final fileName = widget.aiName.replaceAll(' ', '') + '.md';
     final mdPath = 'assets/ai_details_md/$fileName';
@@ -80,54 +101,79 @@ class _AiDetailPageState extends State<AiDetailPage> {
       final m = reg.firstMatch(raw);
 
       String markdownBody;
+      Map<String, dynamic> meta = {};
       if (m != null) {
         final yamlMap = loadYaml(m.group(1)!) as YamlMap;
-        title = (yamlMap['aiName'] ?? widget.aiName).toString();
-        category = (yamlMap['aiCategory'] ?? '').toString();
-        catchPhrase = (yamlMap['catchPhrase'] ?? '').toString();
-        strengths = (yamlMap['strengths'] as YamlList?)?.map((e) => e.toString()).toList() ?? [];
-        weaknesses = (yamlMap['weaknesses'] as YamlList?)?.map((e) => e.toString()).toList() ?? [];
+        meta = Map<String, dynamic>.from(yamlMap);
         markdownBody = m.group(2)!;
       } else {
-        // YAML が無い場合は全文を本文として表示
-        title = widget.aiName;
         markdownBody = raw;
       }
 
-      sections = _splitMarkdown(markdownBody);
-      setState(() => loading = false);
+      _markdownContent = markdownBody;
+      _aiMetadata = meta;
+      _parseSections(markdownBody);
+      setState(() => _isLoading = false);
     } catch (e) {
       setState(() {
-        loading = false;
+        _isLoading = false;
         errorText = 'Markdown が見つかりません (path: $mdPath)';
       });
     }
   }
 
   /// ----------------------------------------------------------
-  /// Markdown を `##` で分割してセクション化
-  List<_Section> _splitMarkdown(String md) {
-    final exp = RegExp(r'\n##\s+');
-    final parts = md.split(exp);
-    List<_Section> out = [];
-    for (int i = 0; i < parts.length; i++) {
-      final sec = parts[i];
-      if (i == 0 && !sec.trim().startsWith('#')) continue; // h1 で始まらない先頭は捨てる
-      final h = RegExp(r'^#+\s*(.*)').firstMatch(sec.trim());
-      final ttl = h?.group(1) ?? '';
-      final body = h != null ? sec.trim().substring(h.group(0)!.length).trim() : sec.trim();
-      out.add(_Section(ttl, body));
+  /// Markdown を解析してセクションと目次を生成
+  void _parseSections(String mdText) {
+    final regex = RegExp(r'^(#{1,3})\s+(.*)', multiLine: true);
+    final matches = regex.allMatches(mdText);
+    if (matches.isEmpty) {
+      _sections = [
+        _Section(title: '', level: 1, body: mdText.trim()),
+      ];
+      return;
     }
-    return out;
+
+    _sections = [];
+    int lastEnd = 0;
+    for (final m in matches) {
+      final level = m.group(1)!.length;
+      final title = m.group(2)!;
+      if (_sections.isNotEmpty) {
+        _sections.last.body = mdText.substring(lastEnd, m.start).trim();
+      }
+      _sections.add(_Section(title: title, level: level, body: ''));
+      lastEnd = m.end;
+    }
+    _sections.last.body = mdText.substring(lastEnd).trim();
+
+    _tableOfContents = _sections
+        .where((s) => s.level == 2 || s.level == 3)
+        .map((s) => _TocItem(s.title, s.level, s.key))
+        .toList();
   }
 
   /// ----------------------------------------------------------
   /// Markdown の表示スタイル
   MarkdownStyleSheet _style(BuildContext ctx) =>
       MarkdownStyleSheet.fromTheme(Theme.of(ctx)).copyWith(
-        h1: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        h2: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+        h1: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        h2: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        h3: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         p: const TextStyle(fontSize: 16, height: 1.8),
+        listBullet: const TextStyle(fontSize: 16),
+        code: const TextStyle(
+          fontFamily: 'monospace',
+          backgroundColor: Color(0xFFE0E0E0),
+        ),
+        codeblockDecoration: BoxDecoration(
+          color: const Color(0xFFEEEEEE),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        blockquoteDecoration: BoxDecoration(
+          color: const Color(0xFFF0F0F0),
+          border: Border(left: BorderSide(color: Colors.grey.shade400, width: 4)),
+        ),
       );
 
   /// ----------------------------------------------------------
@@ -135,22 +181,30 @@ class _AiDetailPageState extends State<AiDetailPage> {
   Widget build(BuildContext context) {
     final accent = const Color(0xFF64B5F6);
 
-    if (loading) {
+    if (_isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     if (errorText != null) {
       return Scaffold(appBar: AppBar(), body: Center(child: Text(errorText!)));
     }
 
+    final meta = _aiMetadata ?? {};
+    final aiName = meta['aiName']?.toString() ?? widget.aiName;
+    final catchPhrase = meta['catchPhrase']?.toString() ?? '';
+    final category = meta['aiCategory']?.toString() ?? '';
+    final strengths = (meta['strengths'] as List?)?.map((e) => e.toString()).toList() ?? [];
+    final weaknesses = (meta['weaknesses'] as List?)?.map((e) => e.toString()).toList() ?? [];
+
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
-        title: Text('$title の詳細'),
+        title: Text('$aiName の詳細'),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +212,7 @@ class _AiDetailPageState extends State<AiDetailPage> {
             if (category.isNotEmpty)
               Center(child: PinoImage(category: category)),
             Center(
-              child: Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              child: Text(aiName, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             ),
             if (catchPhrase.isNotEmpty)
               Center(
@@ -170,7 +224,6 @@ class _AiDetailPageState extends State<AiDetailPage> {
               ),
             const SizedBox(height: 12),
 
-            // 強み / 弱みカード
             if (strengths.isNotEmpty || weaknesses.isNotEmpty)
               Card(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -183,7 +236,7 @@ class _AiDetailPageState extends State<AiDetailPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('強み', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
+                              Row(children: const [Icon(Icons.check_circle_outline, color: Colors.green), SizedBox(width: 4), Text('強み')]),
                               ...strengths.map((e) => Text('• $e')),
                             ],
                           ),
@@ -193,7 +246,7 @@ class _AiDetailPageState extends State<AiDetailPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('弱み', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+                              Row(children: const [Icon(Icons.cancel_outlined, color: Colors.red), SizedBox(width: 4), Text('弱み')]),
                               ...weaknesses.map((e) => Text('• $e')),
                             ],
                           ),
@@ -203,32 +256,72 @@ class _AiDetailPageState extends State<AiDetailPage> {
                 ),
               ),
 
-            // Markdown セクション
-            ...sections.map((s) => Container(
-                  margin: const EdgeInsets.symmetric(vertical: 6),
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
-                  child: ExpansionTile(
-                    initiallyExpanded: true,
-                    title: Text(s.title,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            if (_tableOfContents.isNotEmpty)
+              Card(
+                margin: const EdgeInsets.only(top: 12),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                        child: MarkdownBody(
-                          data: s.body,
-                          styleSheet: _style(context),
-                          onTapLink: (_, href, __) async {
-                            if (href == null) return;
-                            final uri = Uri.parse(href);
-                            if (await canLaunchUrl(uri)) {
-                              await launchUrl(uri, mode: LaunchMode.externalApplication);
+                      const Text('目次', style: TextStyle(fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 8),
+                      ..._tableOfContents.map(
+                        (item) => InkWell(
+                          onTap: () {
+                            final ctx = item.key.currentContext;
+                            if (ctx != null) {
+                              Scrollable.ensureVisible(ctx, duration: const Duration(milliseconds: 300));
                             }
                           },
+                          child: Padding(
+                            padding: EdgeInsets.only(left: (item.level - 2) * 16.0, top: 4, bottom: 4),
+                            child: Text(item.title, style: const TextStyle(color: Colors.blue)),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                )),
+                ),
+              ),
+
+            const SizedBox(height: 8),
+            ..._sections.map(
+              (s) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    key: s.key,
+                    padding: EdgeInsets.only(top: 16, bottom: 4, left: s.level == 3 ? 16 : 0),
+                    child: Text(
+                      s.title,
+                      style: TextStyle(
+                        fontSize: s.level == 1
+                            ? 24
+                            : s.level == 2
+                                ? 22
+                                : 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  MarkdownBody(
+                    data: s.body,
+                    styleSheet: _style(context),
+                    imageBuilder: (uri, title, alt) {
+                      return Image.asset(uri.path, fit: BoxFit.contain);
+                    },
+                    onTapLink: (_, href, __) async {
+                      if (href == null) return;
+                      final uri = Uri.parse(href);
+                      if (await canLaunchUrl(uri)) {
+                        await launchUrl(uri, mode: LaunchMode.externalApplication);
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
