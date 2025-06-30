@@ -2,11 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown/markdown.dart' as md;
 
 class AiDetailsPage extends StatefulWidget {
   final String aiName;
-  final String? mdFileName; // オプションでmdファイル名を直接指定可能
+  final String? mdFileName;
 
   const AiDetailsPage({
     super.key,
@@ -18,47 +17,92 @@ class AiDetailsPage extends StatefulWidget {
   State<AiDetailsPage> createState() => _AiDetailsPageState();
 }
 
+class MarkdownSection {
+  final String title;
+  final String level; // "h1" or "h2"
+  final String body;
+  final GlobalKey key;
+
+  MarkdownSection({
+    required this.title,
+    required this.level,
+    required this.body,
+    required this.key,
+  });
+}
+
 class _AiDetailsPageState extends State<AiDetailsPage> {
-  String _markdownData = '';
+  List<MarkdownSection> _sections = [];
+  bool _loading = true;
   final ScrollController _scrollController = ScrollController();
-  final List<_HeadingInfo> _headings = [];
-  final List<GlobalKey> _headingKeys = [];
 
   @override
   void initState() {
     super.initState();
-    _loadMarkdown();
+    _loadAndParseMarkdown();
   }
 
-  Future<void> _loadMarkdown() async {
-    // mdファイル名指定なければ {aiName}.md で探す
+  Future<void> _loadAndParseMarkdown() async {
     final mdFile = widget.mdFileName ?? '${widget.aiName}.md';
     final safeFile = mdFile.replaceAll(' ', '').replaceAll('　', '');
     final data = await rootBundle.loadString('assets/ai_details_md/$safeFile');
+    final sections = <MarkdownSection>[];
+
+    List<String> lines = LineSplitter.split(data).toList();
+    String? currentTitle;
+    String? currentLevel;
+    List<String> buffer = [];
+    GlobalKey? currentKey;
+
+    for (final line in lines) {
+      if (line.startsWith('# ')) {
+        // flush
+        if (currentTitle != null) {
+          sections.add(MarkdownSection(
+            title: currentTitle,
+            level: currentLevel!,
+            body: buffer.join('\n'),
+            key: currentKey!,
+          ));
+        }
+        currentTitle = line.replaceFirst('# ', '');
+        currentLevel = "h1";
+        currentKey = GlobalKey();
+        buffer = [];
+      } else if (line.startsWith('## ')) {
+        if (currentTitle != null) {
+          sections.add(MarkdownSection(
+            title: currentTitle,
+            level: currentLevel!,
+            body: buffer.join('\n'),
+            key: currentKey!,
+          ));
+        }
+        currentTitle = line.replaceFirst('## ', '');
+        currentLevel = "h2";
+        currentKey = GlobalKey();
+        buffer = [];
+      } else {
+        buffer.add(line);
+      }
+    }
+    // flush last
+    if (currentTitle != null) {
+      sections.add(MarkdownSection(
+        title: currentTitle,
+        level: currentLevel!,
+        body: buffer.join('\n'),
+        key: currentKey!,
+      ));
+    }
+
     setState(() {
-      _markdownData = data;
-      _extractHeadings(data);
+      _sections = sections;
+      _loading = false;
     });
   }
 
-  void _extractHeadings(String markdown) {
-    _headings.clear();
-    _headingKeys.clear();
-    final lines = LineSplitter.split(markdown).toList();
-    for (final line in lines) {
-      final trimmed = line.trim();
-      if (trimmed.startsWith('# ')) {
-        _headings.add(_HeadingInfo('h1', trimmed.replaceFirst('# ', '')));
-        _headingKeys.add(GlobalKey());
-      } else if (trimmed.startsWith('## ')) {
-        _headings.add(_HeadingInfo('h2', trimmed.replaceFirst('## ', '')));
-        _headingKeys.add(GlobalKey());
-      }
-    }
-  }
-
   Widget _buildToc() {
-    if (_headings.isEmpty) return const SizedBox.shrink();
     return Container(
       width: double.infinity,
       color: Colors.grey[200],
@@ -70,38 +114,49 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
           const Text(
             '目次',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 10),
-          ..._headings.asMap().entries.map((entry) {
-            final idx = entry.key;
-            final heading = entry.value;
-            final indent = heading.type == 'h2' ? 18.0 : 0.0;
-            final prefix = heading.type == 'h1' ? '■' : '▸';
-            final fontWeight = heading.type == 'h1' ? FontWeight.bold : FontWeight.normal;
-            final fontSize = heading.type == 'h1' ? 15.0 : 14.0;
+          ..._sections.asMap().entries.map((entry) {
+            final section = entry.value;
+            final indent = section.level == 'h2' ? 18.0 : 0.0;
+            final prefix = section.level == 'h1' ? '■' : '▸';
+            final fontWeight = section.level == 'h1' ? FontWeight.bold : FontWeight.normal;
+            final fontSize = section.level == 'h1' ? 15.0 : 14.0;
             final color = Colors.blue[800];
             return Padding(
               padding: EdgeInsets.only(left: indent, top: 5, bottom: 5),
               child: GestureDetector(
                 onTap: () {
-                  final key = _headingKeys[idx];
-                  final ctx = key.currentContext;
+                  final ctx = section.key.currentContext;
                   if (ctx != null) {
-                    Scrollable.ensureVisible(ctx, duration: const Duration(milliseconds: 350), curve: Curves.easeInOut);
+                    Scrollable.ensureVisible(
+                      ctx,
+                      duration: const Duration(milliseconds: 400),
+                      alignment: 0.1,
+                      curve: Curves.easeInOut,
+                    );
                   }
                 },
                 child: Row(
                   children: [
                     Text(
                       prefix,
-                      style: TextStyle(color: color, fontWeight: fontWeight, fontSize: fontSize, fontFamily: "monospace"),
+                      style: TextStyle(
+                        color: color,
+                        fontWeight: fontWeight,
+                        fontSize: fontSize,
+                        fontFamily: "monospace",
+                      ),
                     ),
                     const SizedBox(width: 8),
                     Flexible(
                       child: Text(
-                        heading.text,
-                        style: TextStyle(color: color, fontWeight: fontWeight, fontSize: fontSize),
+                        section.title,
+                        style: TextStyle(
+                          color: color,
+                          fontWeight: fontWeight,
+                          fontSize: fontSize,
+                        ),
                       ),
                     ),
                   ],
@@ -114,29 +169,13 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
     );
   }
 
-  Map<String, MarkdownElementBuilder> _headingBuilders() {
-    int idx = 0;
-    return {
-      'h1': _KeyedHeadingBuilder(_headingKeys, () => idx++),
-      'h2': _KeyedHeadingBuilder(_headingKeys, () => idx++),
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          widget.aiName,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        title: Text(widget.aiName),
       ),
-      body: _markdownData.isEmpty
+      body: _loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               controller: _scrollController,
@@ -147,45 +186,39 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
                   children: [
                     _buildToc(),
                     const SizedBox(height: 16),
-                    MarkdownBody(
-                      data: _markdownData,
-                      styleSheet: MarkdownStyleSheet(
-                        p: const TextStyle(fontSize: 16),
-                        h1: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                        h2: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      builders: _headingBuilders(),
-                    ),
+                    ..._sections.map((section) => Container(
+                          key: section.key,
+                          margin: const EdgeInsets.only(bottom: 32),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Markdownで見出し
+                              MarkdownBody(
+                                data: section.level == 'h1'
+                                  ? '# ${section.title}'
+                                  : '## ${section.title}',
+                                styleSheet: MarkdownStyleSheet(
+                                  h1: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                                  h2: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              // 本文Markdown（区切り線・リスト・テーブル・装飾 全部OK）
+                              MarkdownBody(
+                                data: section.body,
+                                styleSheet: MarkdownStyleSheet(
+                                  p: const TextStyle(fontSize: 16),
+                                  blockquote: TextStyle(color: Colors.grey[800], fontStyle: FontStyle.italic),
+                                  code: const TextStyle(fontFamily: "monospace", backgroundColor: Color(0xFFF7F7F7)),
+                                  tableHead: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
                   ],
                 ),
               ),
             ),
-    );
-  }
-}
-
-class _HeadingInfo {
-  final String type; // 'h1' or 'h2'
-  final String text;
-  _HeadingInfo(this.type, this.text);
-}
-
-class _KeyedHeadingBuilder extends MarkdownElementBuilder {
-  final List<GlobalKey> keys;
-  final int Function() getKeyIndex;
-  _KeyedHeadingBuilder(this.keys, this.getKeyIndex);
-
-  @override
-  Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {
-    final key = keys.length > getKeyIndex() ? keys[getKeyIndex()] : GlobalKey();
-    return Container(
-      key: key,
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.only(top: 12, bottom: 4),
-      child: Text(
-        element.textContent,
-        style: preferredStyle,
-      ),
     );
   }
 }
