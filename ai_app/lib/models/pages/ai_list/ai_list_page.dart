@@ -7,11 +7,9 @@ class AiListPage extends StatelessWidget {
     final aiList = [
       {
         'name': 'ChatGPT',
-        'aiId': 'chatgpt', // ← ここだけ
       },
       {
         'name': 'Gemini',
-        'aiId': 'gemini',
       },
       // 必要に応じて追加
     ];
@@ -30,7 +28,7 @@ class AiListPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => AiDetailPage(
-                    aiId: ai['aiId']!,
+                    aiName: ai['name']!,
                   ),
                 ),
               );
