@@ -1,6 +1,6 @@
 [
   {
-    "name": "ChatGPT",
+    "name": "ChatGPT(OpenAI)",
     "developer": "OpenAI（米国）",
     "firstRelease": "2022年11月",
     "modelType": "大規模言語モデル（GPT-3.5 / GPT-4）",
@@ -17,6 +17,7 @@
     ],
     "pricing": "無料（GPT-3.5）、有料（ChatGPT Plus: 月額20ドル）",
     "usageExample": "「このCSVの月別売上をグラフにして」と頼むと、グラフ生成＋解説付きで返答",
+    "imagePath": "assets/ai_icons/OpenAI-black-monoblossom.png",
     "officialUrl": "https://chat.openai.com"
   },
   {

@@ -40,7 +40,7 @@
     "officialUrl": "https://www.useblackbox.io/"
   },
   {
-    "name": "ChatGPT（コード生成目的）",
+    "name": "ChatGPT(OpenAI)",
     "developer": "OpenAI（米国）",
     "firstRelease": "2022年11月（GPT-3.5版）、2023年3月（GPT-4版）",
     "modelType": "汎用大規模言語モデル（GPT-3.5 / GPT-4）",
@@ -57,6 +57,7 @@
     ],
     "pricing": "無料：GPT-3.5（基本的なやりとり）、Plus：月額20ドル（GPT-4、優先利用、長文処理）、Enterprise/API：従量課金",
     "usageExample": "「FizzBuzzのPythonコードを作って」と言えば解説付きで返してくれる、「このエラーの原因は？」とエラー文を渡せば原因と修正案をくれる、関数の処理内容を自然文で指示し自動生成させる",
+    "imagePath": "assets/ai_icons/OpenAI-black-monoblossom.png",
     "officialUrl": "https://chat.openai.com/"
   },
   {
