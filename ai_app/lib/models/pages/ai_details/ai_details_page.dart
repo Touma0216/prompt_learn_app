@@ -44,14 +44,12 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
 
   Future<void> _loadHtmlWithCss() async {
     try {
-      final aiDir = widget.aiName;
-      final htmlFile = widget.htmlFileName ?? '${widget.aiName}.html';
-      final safeDir = aiDir.replaceAll(' ', '').replaceAll('　', '');
-      final safeHtmlFile = htmlFile.replaceAll(' ', '').replaceAll('　', '');
-
-      final basePath = 'assets/ai_details_layout/$safeDir/';
-      final htmlPath = '$basePath$safeHtmlFile';
-      final cssPath = '$basePath${safeHtmlFile.replaceAll(RegExp(r'\.html$', caseSensitive: false), '.css')}';
+      // --- 修正点：スペース除去しない ---
+      final aiDir = widget.aiName; // "conversation_ChatGPT"
+      final htmlFile = widget.htmlFileName ?? '${widget.aiName}.html'; // "ChatGPT(OpenAI).html"
+      final basePath = 'assets/ai_details_layout/$aiDir/';
+      final htmlPath = '$basePath$htmlFile';
+      final cssPath = '$basePath${htmlFile.replaceAll('.html', '.css')}';
 
       // HTMLロード
       String html = await rootBundle.loadString(htmlPath);
@@ -66,7 +64,6 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
 
       // CSSがあれば<head>直後に<link>挿入（data URIでインライン）
       if (css != null && !html.contains('rel="stylesheet"')) {
-        // headタグがなければbodyの前にstyle挿入
         if (html.contains(RegExp(r'<head[^>]*>', caseSensitive: false))) {
           html = html.replaceFirstMapped(
             RegExp(r'<head[^>]*>', caseSensitive: false),
