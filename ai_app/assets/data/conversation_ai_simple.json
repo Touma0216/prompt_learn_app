@@ -43,6 +43,7 @@
   },
   {
     "name": "ChatGPT(OpenAI)",
+    "id":"ChatGPT",
     "developer": "OpenAI（アメリカ）",
     "firstRelease": "2022年11月30日",
     "modelType": "大規模言語モデル（LLM）を基にした対話型AIチャットボット",

@@ -44,10 +44,8 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
 
   Future<void> _loadHtmlWithCss() async {
     try {
-      // --- 修正点：スペース除去しない ---
-      final aiDir = widget.aiName; // "conversation_ChatGPT"
-      final htmlFile = widget.htmlFileName ?? '${widget.aiName}.html'; // "ChatGPT(OpenAI).html"
-      final basePath = 'assets/ai_details_layout/$aiDir/';
+      final htmlFile = widget.htmlFileName ?? '${widget.aiName}.html'; // 例: ChatGPT.html
+      final basePath = 'assets/ai_details_layout/conversation/';
       final htmlPath = '$basePath$htmlFile';
       final cssPath = '$basePath${htmlFile.replaceAll('.html', '.css')}';
 
@@ -186,7 +184,6 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    // AppBarの高さ取得
     final appBarHeight = 56.0;
     final dividerHeight = 1.0;
 
@@ -196,11 +193,9 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
           ? const Center(child: CircularProgressIndicator())
           : Stack(
               children: [
-                // 本文（100%幅、左詰め）
                 SafeArea(
                   child: Column(
                     children: [
-                      // AppBar風：戻る＋AI名＋右端ハンバーガー（三）
                       Container(
                         width: double.infinity,
                         height: appBarHeight,
@@ -244,23 +239,20 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
                     ],
                   ),
                 ),
-                // 目次レイヤー
                 if (_menuOpen)
                   Positioned(
                     left: 0,
                     right: 0,
                     top: MediaQuery.of(context).padding.top + appBarHeight + dividerHeight,
-                    // AppBar+Divider分ぴったり下
                     child: Material(
                       elevation: 16,
                       color: Colors.white,
                       child: _buildToc(),
                     ),
                   ),
-                // 目次レイヤーの透過背景（タップで閉じる）
                 if (_menuOpen)
                   Positioned.fill(
-                    top: MediaQuery.of(context).padding.top + appBarHeight + dividerHeight + (_sections.length * 56.0), // 目次リスト下
+                    top: MediaQuery.of(context).padding.top + appBarHeight + dividerHeight + (_sections.length * 56.0),
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
