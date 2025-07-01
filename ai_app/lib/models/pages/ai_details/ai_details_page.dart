@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'dart:convert';
 
 class AiDetailsPage extends StatefulWidget {
   final String aiName;
@@ -38,18 +39,61 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
   @override
   void initState() {
     super.initState();
-    _loadHtml();
+    _loadHtmlWithCss();
   }
 
-  Future<void> _loadHtml() async {
-    final htmlFile = widget.htmlFileName ?? '${widget.aiName}.html';
-    final safeFile = htmlFile.replaceAll(' ', '').replaceAll('　', '');
-    final data = await rootBundle.loadString('assets/ai_details_html/$safeFile');
-    setState(() {
-      _htmlData = data;
-      _sections = _extractSections(data);
-      _loading = false;
-    });
+  Future<void> _loadHtmlWithCss() async {
+    try {
+      final aiDir = widget.aiName;
+      final htmlFile = widget.htmlFileName ?? '${widget.aiName}.html';
+      final safeDir = aiDir.replaceAll(' ', '').replaceAll('　', '');
+      final safeHtmlFile = htmlFile.replaceAll(' ', '').replaceAll('　', '');
+
+      final basePath = 'assets/ai_details_layout/$safeDir/';
+      final htmlPath = '$basePath$safeHtmlFile';
+      final cssPath = '$basePath${safeHtmlFile.replaceAll(RegExp(r'\.html$', caseSensitive: false), '.css')}';
+
+      // HTMLロード
+      String html = await rootBundle.loadString(htmlPath);
+
+      // CSSロード（なければ無視）
+      String? css;
+      try {
+        css = await rootBundle.loadString(cssPath);
+      } catch (e) {
+        css = null;
+      }
+
+      // CSSがあれば<head>直後に<link>挿入（data URIでインライン）
+      if (css != null && !html.contains('rel="stylesheet"')) {
+        // headタグがなければbodyの前にstyle挿入
+        if (html.contains(RegExp(r'<head[^>]*>', caseSensitive: false))) {
+          html = html.replaceFirstMapped(
+            RegExp(r'<head[^>]*>', caseSensitive: false),
+            (match) =>
+                '${match.group(0)}\n<link rel="stylesheet" type="text/css" href="data:text/css;base64,${base64Encode(css!.codeUnits)}">',
+          );
+        } else {
+          html = html.replaceFirstMapped(
+            RegExp(r'<body[^>]*>', caseSensitive: false),
+            (match) =>
+                '${match.group(0)}\n<style>${css!}</style>',
+          );
+        }
+      }
+
+      setState(() {
+        _htmlData = html;
+        _sections = _extractSections(html);
+        _loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _htmlData = '<div style="color:red;">HTML/CSSファイルが見つかりません</div>';
+        _sections = [];
+        _loading = false;
+      });
+    }
   }
 
   List<HtmlSection> _extractSections(String html) {

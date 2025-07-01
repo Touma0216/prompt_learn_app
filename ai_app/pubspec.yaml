@@ -30,6 +30,6 @@ flutter:
     - assets/data/movie_ai_simple.json
     - assets/data/data_ai_simple.json
     - assets/data/categories.json
-    - assets/ai_details_html/
+    - assets/ai_details_layout/conversation_ChatGPT/
     - assets/seven_icons/
     - assets/ai_icons/

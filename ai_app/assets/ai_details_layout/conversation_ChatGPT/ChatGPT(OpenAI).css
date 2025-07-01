@@ -1,0 +1,88 @@
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+}
+
+.main-content {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  background: white;
+}
+
+.ai-title {
+  font-size: 24px;
+  font-weight: bold;
+  border-left: 6px solid #4c9aff;
+  padding-left: 12px;
+  margin-top: 0;
+}
+
+.ai-subtitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 32px;
+}
+
+.ai-section {
+  margin-top: 24px;
+  padding-left: 12px;
+  border-left: 3px solid #ccc;
+}
+
+.ai-heading {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.ai-text {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.ai-list {
+  padding-left: 20px;
+}
+
+.ai-summary table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.ai-summary th,
+.ai-summary td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.ai-summary th {
+  background-color: #e8f1ff;
+}
+
+.toc {
+  background: #eef3fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc a {
+  color: #007acc;
+  text-decoration: none;
+}
+
+.toc a:hover {
+  text-decoration: underline;
+}
