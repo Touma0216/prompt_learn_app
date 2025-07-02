@@ -111,7 +111,7 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
                                   MaterialPageRoute(
                                     builder: (_) => AiDetailsPage(
                                       aiName: ai.name,
-                                    ),
+                                      aiId: ai.id,                                    ),
                                   ),
                                 );
                               },

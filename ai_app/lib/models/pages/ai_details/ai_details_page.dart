@@ -5,11 +5,13 @@ import 'dart:convert';
 
 class AiDetailsPage extends StatefulWidget {
   final String aiName;
+  final String? aiId;
   final String? htmlFileName;
 
   const AiDetailsPage({
     super.key,
     required this.aiName,
+    this.aiId,
     this.htmlFileName,
   });
 
@@ -44,8 +46,9 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
 
   Future<void> _loadHtmlWithCss() async {
     try {
-      final htmlFile = widget.htmlFileName ?? '${widget.aiName}.html'; // 例: ChatGPT.html
-      final basePath = 'assets/ai_details_layout/conversation/';
+      final id = widget.aiId ?? widget.aiName;
+      final htmlFile = widget.htmlFileName ?? '$id.html';
+      final basePath = 'assets/ai_details_layout/$id/';
       final htmlPath = '$basePath$htmlFile';
       final cssPath = '$basePath${htmlFile.replaceAll('.html', '.css')}';
 

@@ -6,10 +6,11 @@ class AiListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final aiList = [
       {
-        'name': 'ChatGPT',
-      },
+        'name': 'ChatGPT(OpenAI)',
+        'id': 'ChatGPT',      },
       {
         'name': 'Gemini',
+        'id': 'Gemini',
       },
       // 必要に応じて追加
     ];
@@ -29,6 +30,7 @@ class AiListPage extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (_) => AiDetailsPage(
                     aiName: ai['name']!,
+                    aiId: ai['id'], // AIのIDを渡す
                   ),
                 ),
               );
