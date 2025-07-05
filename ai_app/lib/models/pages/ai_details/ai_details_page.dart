@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'dart:convert';
 
 class AiDetailsPage extends StatefulWidget {
   final String aiName;
@@ -49,13 +48,10 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
       final id = widget.aiId ?? widget.aiName;
       final htmlFile = widget.htmlFileName ?? '$id.html';
       final basePath = 'assets/ai_details_layout/$id/';
-      final htmlPath = '$basePath$htmlFile';
+      final htmlPath = '$basePath${htmlFile.replaceAll('.html', '.html_')}';
       final cssPath = '$basePath${htmlFile.replaceAll('.html', '.css')}';
 
-      // HTMLロード
       String html = await rootBundle.loadString(htmlPath);
-
-      // CSSロード（なければ無視）
       String? css;
       try {
         css = await rootBundle.loadString(cssPath);
@@ -63,19 +59,18 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
         css = null;
       }
 
-      // CSSがあれば<head>直後に<link>挿入（data URIでインライン）
-      if (css != null && !html.contains('rel="stylesheet"')) {
+      if (css != null) {
+        final styleTag = '<style>$css</style>';
+
         if (html.contains(RegExp(r'<head[^>]*>', caseSensitive: false))) {
           html = html.replaceFirstMapped(
             RegExp(r'<head[^>]*>', caseSensitive: false),
-            (match) =>
-                '${match.group(0)}\n<link rel="stylesheet" type="text/css" href="data:text/css;base64,${base64Encode(css!.codeUnits)}">',
+            (match) => '${match.group(0)}\n$styleTag',
           );
         } else {
           html = html.replaceFirstMapped(
             RegExp(r'<body[^>]*>', caseSensitive: false),
-            (match) =>
-                '${match.group(0)}\n<style>${css!}</style>',
+            (match) => '${match.group(0)}\n$styleTag',
           );
         }
       }
