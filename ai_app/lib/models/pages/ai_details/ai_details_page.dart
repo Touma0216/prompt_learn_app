@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class AiDetailsPage extends StatefulWidget {
   final String aiName;
@@ -18,166 +18,158 @@ class AiDetailsPage extends StatefulWidget {
   State<AiDetailsPage> createState() => _AiDetailsPageState();
 }
 
-class HtmlSection {
+class MarkdownSection {
   final String title;
-  final String id;
   final GlobalKey key;
 
-  HtmlSection({
-    required this.title,
-    required this.id,
-    required this.key,
-  });
+  MarkdownSection(this.title, this.key);
 }
 
 class _AiDetailsPageState extends State<AiDetailsPage> {
-  String? _htmlData;
+  String? _markdownData;
   bool _loading = true;
   bool _menuOpen = false;
   final ScrollController _scrollController = ScrollController();
-  List<HtmlSection> _sections = [];
+  final Map<String, GlobalKey> _sectionKeys = {};
+  final List<MarkdownSection> _sections = [];
 
   @override
   void initState() {
     super.initState();
-    _loadHtmlWithCss();
+    _loadMarkdown();
   }
 
-  Future<void> _loadHtmlWithCss() async {
+  Future<void> _loadMarkdown() async {
     try {
       final id = widget.aiId ?? widget.aiName;
-      final htmlFile = widget.htmlFileName ?? '$id.html';
-      final basePath = 'assets/ai_details_layout/$id/';
-      final htmlPath = '$basePath${htmlFile.replaceAll('.html', '.html_')}';
-      final cssPath = '$basePath${htmlFile.replaceAll('.html', '.css')}';
+      final fileName = widget.htmlFileName ?? '$id.md';
+      final path = 'ai_details_layout/$id/$fileName';
 
-      String html = await rootBundle.loadString(htmlPath);
-      String? css;
-      try {
-        css = await rootBundle.loadString(cssPath);
-      } catch (e) {
-        css = null;
-      }
+      final markdown = await rootBundle.loadString(path);
 
-      if (css != null) {
-        final styleTag = '<style>$css</style>';
-
-        if (html.contains(RegExp(r'<head[^>]*>', caseSensitive: false))) {
-          html = html.replaceFirstMapped(
-            RegExp(r'<head[^>]*>', caseSensitive: false),
-            (match) => '${match.group(0)}\n$styleTag',
-          );
-        } else {
-          html = html.replaceFirstMapped(
-            RegExp(r'<body[^>]*>', caseSensitive: false),
-            (match) => '${match.group(0)}\n$styleTag',
-          );
-        }
+      final sectionTitles = _extractHeadings(markdown);
+      for (var title in sectionTitles) {
+        _sectionKeys[title] = GlobalKey();
+        _sections.add(MarkdownSection(title, _sectionKeys[title]!));
       }
 
       setState(() {
-        _htmlData = html;
-        _sections = _extractSections(html);
+        _markdownData = markdown;
         _loading = false;
       });
     } catch (e) {
       setState(() {
-        _htmlData = '<div style="color:red;">HTML/CSSファイルが見つかりません</div>';
-        _sections = [];
+        _markdownData = '読み込みエラー：Markdownファイルが見つかりません。';
         _loading = false;
       });
     }
   }
 
-  List<HtmlSection> _extractSections(String html) {
-    final reg = RegExp(r'<h([1-6])[^>]*id="([^"]+)"[^>]*>(.*?)<\/h\1>', caseSensitive: false, dotAll: true);
-    final matches = reg.allMatches(html);
-    return matches.map((m) {
-      final id = m.group(2)!;
-      final title = _stripHtmlTags(m.group(3)!);
-      return HtmlSection(title: title, id: id, key: GlobalKey());
-    }).toList();
+  List<String> _extractHeadings(String markdown) {
+    final lines = markdown.split('\n');
+    final headings = <String>[];
+    for (var line in lines) {
+      final trimmed = line.trim();
+      if (trimmed.startsWith('# ')) {
+        headings.add(trimmed.replaceFirst('# ', '').trim());
+      } else if (trimmed.startsWith('## ')) {
+        headings.add(trimmed.replaceFirst('## ', '').trim());
+      }
+    }
+    return headings;
   }
 
-  String _stripHtmlTags(String html) {
-    return html.replaceAll(RegExp(r'<[^>]+>'), '').trim();
-  }
-
-  void _scrollToAnchor(String id) {
-    final key = _anchorKeys[id];
-    if (key != null && key.currentContext != null) {
+  void _scrollToSection(String title) {
+    final key = _sectionKeys[title];
+    if (key?.currentContext != null) {
       Scrollable.ensureVisible(
-        key.currentContext!,
-        duration: const Duration(milliseconds: 400),
-        alignment: 0.1,
+        key!.currentContext!,
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     }
   }
 
-  Map<String, GlobalKey> get _anchorKeys {
-    final map = <String, GlobalKey>{};
-    for (final section in _sections) {
-      map[section.id] = section.key;
+  List<Widget> _buildMarkdownWidgets() {
+    if (_markdownData == null) return [];
+    final lines = _markdownData!.split('\n');
+    final widgets = <Widget>[];
+    final buffer = StringBuffer();
+
+    for (var line in lines) {
+      final trimmed = line.trim();
+      if (trimmed.startsWith('# ') || trimmed.startsWith('## ')) {
+        if (buffer.isNotEmpty) {
+          widgets.add(MarkdownBody(
+            data: buffer.toString(),
+            styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
+            imageBuilder: (uri, _, __) => Image.asset(uri.path),
+          ));
+          buffer.clear();
+        }
+        final title = trimmed.replaceFirst(RegExp(r'^#+ '), '').trim();
+        widgets.add(Container(
+          key: _sectionKeys[title],
+          child: MarkdownBody(
+            data: line,
+            styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
+          ),
+        ));
+      } else {
+        buffer.writeln(line);
+      }
     }
-    return map;
+    if (buffer.isNotEmpty) {
+      widgets.add(MarkdownBody(
+        data: buffer.toString(),
+        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
+        imageBuilder: (uri, _, __) => Image.asset(uri.path),
+      ));
+    }
+
+    return widgets;
   }
 
-  Widget _buildToc() {
+  Widget _buildTocMenu() {
     return Material(
+      elevation: 8,
       color: Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: _sections.map((section) {
-          return ListTile(
-            title: Text(
-              section.title,
-              style: const TextStyle(
-                color: Colors.blue,
-                fontSize: 16,
+        children: [
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '📚 目次',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            onTap: () {
-              setState(() {
-                _menuOpen = false;
-              });
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                _scrollToAnchor(section.id);
-              });
-            },
-            contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-            dense: true,
-          );
-        }).toList(),
+          ),
+          const Divider(height: 1, thickness: 1),
+          ..._sections.map((section) {
+            return ListTile(
+              title: Text(
+                section.title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              onTap: () {
+                _scrollToSection(section.title);
+                setState(() => _menuOpen = false);
+              },
+            );
+          }).toList(),
+        ],
       ),
     );
-  }
-
-  List<Widget> _buildHtmlWithAnchors() {
-    if (_htmlData == null) return [];
-    final widgets = <Widget>[];
-    final reg = RegExp(r'(<h([1-6])[^>]*id="([^"]+)"[^>]*>.*?<\/h\2>)', caseSensitive: false, dotAll: true);
-    int last = 0;
-    for (final match in reg.allMatches(_htmlData!)) {
-      if (match.start > last) {
-        widgets.add(Html(
-          data: _htmlData!.substring(last, match.start),
-        ));
-      }
-      final id = match.group(3)!;
-      final key = _anchorKeys[id];
-      widgets.add(
-        Container(
-          key: key,
-          child: Html(data: match.group(1)!),
-        ),
-      );
-      last = match.end;
-    }
-    if (last < _htmlData!.length) {
-      widgets.add(Html(data: _htmlData!.substring(last)));
-    }
-    return widgets;
   }
 
   @override
@@ -207,15 +199,15 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
                             Text(
                               widget.aiName,
                               style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             const Spacer(),
                             IconButton(
                               icon: const Icon(Icons.menu),
                               onPressed: () {
-                                setState(() {
-                                  _menuOpen = !_menuOpen;
-                                });
+                                setState(() => _menuOpen = !_menuOpen);
                               },
                               tooltip: '目次を開く',
                             ),
@@ -226,11 +218,10 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
                       Expanded(
                         child: SingleChildScrollView(
                           controller: _scrollController,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 0, vertical: 24),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: _buildHtmlWithAnchors(),
+                            children: _buildMarkdownWidgets(),
                           ),
                         ),
                       ),
@@ -238,30 +229,27 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
                   ),
                 ),
                 if (_menuOpen)
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: MediaQuery.of(context).padding.top + appBarHeight + dividerHeight,
-                    child: Material(
-                      elevation: 16,
-                      color: Colors.white,
-                      child: _buildToc(),
-                    ),
-                  ),
-                if (_menuOpen)
-                  Positioned.fill(
-                    top: MediaQuery.of(context).padding.top + appBarHeight + dividerHeight + (_sections.length * 56.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _menuOpen = false;
-                        });
-                      },
-                      child: Container(
-                        color: Colors.black38,
+                  ...[
+                    // 暗転エリア（AppBarと目次以外）
+                    Positioned.fill(
+                      top: MediaQuery.of(context).padding.top +
+                          appBarHeight +
+                          dividerHeight +
+                          (_sections.length * 56.0 + 56),
+                      child: GestureDetector(
+                        onTap: () => setState(() => _menuOpen = false),
+                        child: Container(color: Colors.black38),
                       ),
                     ),
-                  ),
+
+                    // 明るい目次（タイトル＋リスト）
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top + appBarHeight + dividerHeight,
+                      left: 0,
+                      right: 0,
+                      child: _buildTocMenu(),
+                    ),
+                  ],
               ],
             ),
     );
