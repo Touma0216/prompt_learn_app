@@ -1,26 +1,5 @@
 [
   {
-    "name": "ChatGPT(OpenAI)",
-    "developer": "OpenAI（米国）",
-    "firstRelease": "2022年11月",
-    "modelType": "大規模言語モデル（GPT-3.5 / GPT-4）",
-    "description": "自然言語でCSVファイル分析やグラフ生成が可能。データの意味や傾向を初心者向けに解説でき、対話形式で少しずつ分析の幅を広げられる。",
-    "strengths": [
-      "自然言語でCSVファイル分析やグラフ生成が可能",
-      "データの意味や傾向を初心者向けに解説できる",
-      "対話形式で少しずつ分析の幅を広げられる"
-    ],
-    "weaknesses": [
-      "幻覚（誤情報）の可能性があり、内容の検証が必要",
-      "データサイズや処理時間に制限あり",
-      "高精度な統計分析には不向きな場合も"
-    ],
-    "pricing": "無料（GPT-3.5）、有料（ChatGPT Plus: 月額20ドル）",
-    "usageExample": "「このCSVの月別売上をグラフにして」と頼むと、グラフ生成＋解説付きで返答",
-    "imagePath": "assets/ai_icons/OpenAI-black-monoblossom.png",
-    "officialUrl": "https://chat.openai.com"
-  },
-  {
     "name": "Excel「分析」機能",
     "developer": "Microsoft（米国）",
     "firstRelease": "2018年（旧称 Ideas）",
@@ -59,46 +38,6 @@
     "pricing": "無料で利用可能（ベータ段階）",
     "usageExample": "「このデータでプレゼンを作って」と頼むと、構成と要約案を作成してドキュメント化可能",
     "officialUrl": "https://bard.google.com"
-  },
-  {
-    "name": "Google Lens",
-    "developer": "Google（米国）",
-    "firstRelease": "2017年10月",
-    "modelType": "コンピュータビジョン（画像解析AI）",
-    "description": "カメラで映した物体をリアルタイムで解析。テキスト翻訳や画像ベースの情報取得も強力で日常利用に便利。",
-    "strengths": [
-      "カメラで映した物体をリアルタイムで解析",
-      "テキスト翻訳・植物の名前・建物の認識など幅広い",
-      "日常で使える画像ベースの情報取得に強い"
-    ],
-    "weaknesses": [
-      "オフラインでは利用不可（通信必須）",
-      "一部ニッチな対象物には誤認がある",
-      "カメラを常時使うため、使用マナーも重要"
-    ],
-    "pricing": "完全無料（Googleアプリで利用可能）",
-    "usageExample": "海外のレストランでメニューを写すと日本語に翻訳、花にかざせば植物名を即表示",
-    "officialUrl": "https://lens.google"
-  },
-  {
-    "name": "Microsoft 365 Copilot",
-    "developer": "Microsoft（米国）",
-    "firstRelease": "2023年3月",
-    "modelType": "GPTベースのOffice統合AIアシスタント",
-    "description": "ExcelやWord、PowerPoint内で自然言語指示が使え、表やスライド、分析文まで一括生成。企業データ連携やメール文生成も可能。",
-    "strengths": [
-      "ExcelやWord、PowerPoint内で自然言語指示が使える",
-      "表やスライド、分析文まで一括生成可能",
-      "企業データとの連携やメール文生成も可能"
-    ],
-    "weaknesses": [
-      "基本は企業向け（個人利用は一部制限あり）",
-      "月額30ドルでやや高額",
-      "言い間違いをAIが誤認識して誤動作する場合も"
-    ],
-    "pricing": "法人: 月額30ドル/ユーザー、一部個人向けWindows統合版は無料提供中",
-    "usageExample": "「この表をもとに来月の売上予測をして」と言えば、グラフとレポート案を自動作成",
-    "officialUrl": "https://www.microsoft.com/ja-jp/microsoft-365/copilot"
   },
   {
     "name": "Otter.ai",

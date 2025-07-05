@@ -1,25 +1,5 @@
 [
   {
-    "name": "Copy.ai",
-    "developer": "CopyAI, Inc.（アメリカ）",
-    "firstRelease": "2020年7月",
-    "modelType": "文章生成（キャッチコピー・広告・ブログ等）",
-    "description": "多用途テンプレートと多言語対応で、広告文やブログ・SNS投稿など幅広い用途に使える文章生成AI。",
-    "strengths": [
-      "多用途テンプレートが豊富で初心者もすぐ使える",
-      "日本語を含む75言語に対応",
-      "無料プランありで気軽に試せる"
-    ],
-    "weaknesses": [
-      "出力精度にバラつきあり、人間の確認必須",
-      "英語中心のUIで日本語表現はやや直訳的",
-      "長文作成や構成力は限定的"
-    ],
-    "pricing": "無料プラン：月2,000語まで／有料プラン：月額 $49〜（年払いで割引あり）",
-    "usageExample": "SNS投稿文の案出し・ブログ記事タイトルの作成・商品紹介文の自動生成",
-    "officialUrl": "https://www.copy.ai/"
-  },
-  {
     "name": "DeepL Translator",
     "developer": "DeepL SE（ドイツ）",
     "firstRelease": "2017年8月",
@@ -60,45 +40,6 @@
     "officialUrl": "https://translate.google.com/"
   },
   {
-    "name": "Grammarly",
-    "developer": "Grammarly Inc.（アメリカ）",
-    "firstRelease": "2009年（2023年にAI生成機能追加）",
-    "modelType": "英文校正・生成支援AI",
-    "description": "英語の文法チェック・トーン調整など英文ライティングを強力にサポートするAI。拡張機能も充実。",
-    "strengths": [
-      "英文の文法チェックが非常に高精度",
-      "トーン調整や自動返信文の提案も可能",
-      "拡張機能でブラウザ・Office等と連携"
-    ],
-    "weaknesses": [
-      "日本語未対応（英語専用）",
-      "無料版では高度な提案不可"
-    ],
-    "pricing": "無料プランあり／有料：月$12〜30",
-    "usageExample": "英語の文法チェックと修正・メール返信の自動提案・英文のトーン調整（丁寧・カジュアルなど）",
-    "officialUrl": "https://www.grammarly.com/"
-  },
-  {
-    "name": "Jasper",
-    "developer": "Jasper Inc.（アメリカ）",
-    "firstRelease": "2021年1月",
-    "modelType": "GPTベースの文章生成特化AI",
-    "description": "豊富なテンプレートとスタイル指定対応で、誰でも簡単に高品質なブログや広告文を作成できる文章生成AI。",
-    "strengths": [
-      "豊富なテンプレートでブログ・広告・SNS文章が即作成できる",
-      "ライティング初心者でも手軽に高品質な文章が書ける",
-      "トーンやスタイルを指定可能で用途に応じた文章に対応"
-    ],
-    "weaknesses": [
-      "無料プランがなく、必ず有料プランへの登録が必要",
-      "日本語はやや不自然になることがある",
-      "出力内容の事実確認が必要"
-    ],
-    "pricing": "有料プランのみ（7日間無料トライアルあり）／月額 $39～（年払い）",
-    "usageExample": "ブログ記事の下書き作成・商品紹介文のテンプレ化・広告コピーの量産",
-    "officialUrl": "https://www.jasper.ai/"
-  },
-  {
     "name": "Notion AI",
     "developer": "Notion Labs Inc.（アメリカ）",
     "firstRelease": "2023年2月",
@@ -117,84 +58,5 @@
     "pricing": "月額$10（Notionとは別課金）／無料枠あり（20回程度）",
     "usageExample": "会議メモの要約・箇条書きのアイデア展開・文章の言い回し改善",
     "officialUrl": "https://www.notion.so/product/ai"
-  },
-  {
-    "name": "QuillBot",
-    "developer": "QuillBot Inc.（アメリカ・インド）",
-    "firstRelease": "2017年",
-    "modelType": "英文パラフレーズ・要約AI",
-    "description": "英文の言い換え、要約、文法チェックに優れたAI。操作も簡単で学術・ビジネス用途に人気。",
-    "strengths": [
-      "英文の言い換えが得意（学術・ビジネス向け）",
-      "要約・文法チェック・語彙改善も一括で可能",
-      "簡単なUIで操作が明快"
-    ],
-    "weaknesses": [
-      "日本語未対応",
-      "無料版は機能・語数に制限あり",
-      "意図と違う表現に変換される場合あり"
-    ],
-    "pricing": "無料プランあり（制限付き）／プレミアム：月$8〜20程度",
-    "usageExample": "英文の自然な言い換え練習・エッセイやレポートの要約・スペルミスや文法エラーの修正",
-    "officialUrl": "https://quillbot.com/"
-  },
-  {
-    "name": "Rytr",
-    "developer": "Rytr Inc.（アメリカ）",
-    "firstRelease": "2021年4月",
-    "modelType": "短文生成、校正、リライト支援",
-    "description": "無料でも十分使え、短文作成やリライト・校正支援に強いコスパ抜群の文章生成AI。",
-    "strengths": [
-      "無料でも毎月1万文字まで生成可能",
-      "非常に安価（月$9で無制限）",
-      "多言語・トーン指定対応で細かな調整ができる"
-    ],
-    "weaknesses": [
-      "長文作成は不向き（部分生成向き）",
-      "シンプルな表現が多く、創造性に欠けることも"
-    ],
-    "pricing": "無料：月1万文字／有料：月$9（無制限）",
-    "usageExample": "英文メールの作成・簡単なキャッチコピーや説明文の生成・広告やSNS文のたたき台作成",
-    "officialUrl": "https://rytr.me/"
-  },
-  {
-    "name": "Sudowrite",
-    "developer": "Sudowrite Inc.（アメリカ）",
-    "firstRelease": "2021年7月",
-    "modelType": "小説・創作向けAI執筆支援",
-    "description": "物語の続きを自動生成したり情景描写を強化するなど、創作に特化した英語向けAI執筆支援サービス。",
-    "strengths": [
-      "物語の続きを書く「Write」機能",
-      "情景描写の提案「Describe」機能",
-      "英語ベースだが創作サポートが豊富"
-    ],
-    "weaknesses": [
-      "日本語未対応（英語創作専用）",
-      "長編執筆には制約あり",
-      "有料枠で文字数制限がある"
-    ],
-    "pricing": "月額$10〜100（文字数に応じて）／無料トライアルあり",
-    "usageExample": "小説の続きを自動生成・キャラや舞台の描写を強化・創作プロットの補助や構成案の提案",
-    "officialUrl": "https://www.sudowrite.com/"
-  },
-  {
-    "name": "Writesonic",
-    "developer": "Writesonic Inc.（アメリカ）",
-    "firstRelease": "2020年10月",
-    "modelType": "SEO記事・広告文章生成、AIチャットBotなど総合型",
-    "description": "SEO記事の構成や広告文の自動生成、ChatGPT系Botも統合した多機能な文章生成AI。",
-    "strengths": [
-      "ブログから広告文、要約まで一括生成できる",
-      "SEO強化に特化した機能が豊富",
-      "ChatGPT風の調べ物AI「ChatSonic」も統合"
-    ],
-    "weaknesses": [
-      "UIが複雑で慣れに時間がかかる",
-      "高機能な分、料金が割高に感じる場合も",
-      "日本語の流暢さには若干の改善余地あり"
-    ],
-    "pricing": "無料トライアルあり／有料プラン：月額 $16～$99（機能に応じて）",
-    "usageExample": "SEO記事の構成作成・商品LP文案の草案作り・調べ物しながら記事を書く",
-    "officialUrl": "https://writesonic.com/"
   }
 ]
