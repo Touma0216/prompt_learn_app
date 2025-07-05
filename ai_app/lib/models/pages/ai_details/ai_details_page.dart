@@ -25,18 +25,43 @@ class MarkdownSection {
   MarkdownSection(this.title, this.key);
 }
 
-class _AiDetailsPageState extends State<AiDetailsPage> {
+class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProviderStateMixin {
   String? _markdownData;
   bool _loading = true;
   bool _menuOpen = false;
   final ScrollController _scrollController = ScrollController();
   final Map<String, GlobalKey> _sectionKeys = {};
   final List<MarkdownSection> _sections = [];
+  
+  // アニメーション用のコントローラー
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
     super.initState();
     _loadMarkdown();
+    
+    // アニメーションコントローラーの初期化
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    
+    // スライドアニメーションの設定（上から下へ）
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, -1), // 上から開始
+      end: Offset.zero,          // 元の位置で終了
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadMarkdown() async {
@@ -90,6 +115,27 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
     }
   }
 
+  // メニューの開閉を制御する関数
+  void _toggleMenu() {
+    setState(() {
+      _menuOpen = !_menuOpen;
+    });
+    
+    if (_menuOpen) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+  }
+
+  // メニューを閉じる関数
+  void _closeMenu() {
+    setState(() {
+      _menuOpen = false;
+    });
+    _animationController.reverse();
+  }
+
   List<Widget> _buildMarkdownWidgets() {
     if (_markdownData == null) return [];
     final lines = _markdownData!.split('\n');
@@ -131,43 +177,46 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
   }
 
   Widget _buildTocMenu() {
-    return Material(
-      elevation: 8,
-      color: Colors.white,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '📚 目次',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+    return SlideTransition(
+      position: _slideAnimation,
+      child: Material(
+        elevation: 8,
+        color: Colors.white,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  '📚 目次',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          const Divider(height: 1, thickness: 1),
-          ..._sections.map((section) {
-            return ListTile(
-              title: Text(
-                section.title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
+            const Divider(height: 1, thickness: 1),
+            ..._sections.map((section) {
+              return ListTile(
+                title: Text(
+                  section.title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
-              ),
-              onTap: () {
-                _scrollToSection(section.title);
-                setState(() => _menuOpen = false);
-              },
-            );
-          }).toList(),
-        ],
+                onTap: () {
+                  _scrollToSection(section.title);
+                  _closeMenu();
+                },
+              );
+            }).toList(),
+          ],
+        ),
       ),
     );
   }
@@ -176,6 +225,7 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
   Widget build(BuildContext context) {
     final appBarHeight = 56.0;
     final dividerHeight = 1.0;
+    final menuTop = MediaQuery.of(context).padding.top + appBarHeight + dividerHeight;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -183,35 +233,33 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
           ? const Center(child: CircularProgressIndicator())
           : Stack(
               children: [
-                SafeArea(
+                // 本体：AppBar＋Markdown表示
+                Positioned.fill(
                   child: Column(
                     children: [
-                      Container(
-                        width: double.infinity,
+                      SizedBox(
                         height: appBarHeight,
-                        color: Colors.white,
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.arrow_back),
-                              onPressed: () => Navigator.of(context).pop(),
-                            ),
-                            Text(
-                              widget.aiName,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                        child: Container(
+                          color: Colors.white,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.arrow_back),
+                                onPressed: () => Navigator.of(context).pop(),
                               ),
-                            ),
-                            const Spacer(),
-                            IconButton(
-                              icon: const Icon(Icons.menu),
-                              onPressed: () {
-                                setState(() => _menuOpen = !_menuOpen);
-                              },
-                              tooltip: '目次を開く',
-                            ),
-                          ],
+                              Text(
+                                widget.aiName,
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              const Spacer(),
+                              IconButton(
+                                icon: const Icon(Icons.menu),
+                                onPressed: _toggleMenu,
+                                tooltip: '目次を開く',
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const Divider(height: 1, thickness: 1),
@@ -228,28 +276,25 @@ class _AiDetailsPageState extends State<AiDetailsPage> {
                     ],
                   ),
                 ),
-                if (_menuOpen)
-                  ...[
-                    // 暗転エリア（AppBarと目次以外）
-                    Positioned.fill(
-                      top: MediaQuery.of(context).padding.top +
-                          appBarHeight +
-                          dividerHeight +
-                          (_sections.length * 56.0 + 56),
-                      child: GestureDetector(
-                        onTap: () => setState(() => _menuOpen = false),
-                        child: Container(color: Colors.black38),
-                      ),
-                    ),
 
-                    // 明るい目次（タイトル＋リスト）
-                    Positioned(
-                      top: MediaQuery.of(context).padding.top + appBarHeight + dividerHeight,
-                      left: 0,
-                      right: 0,
-                      child: _buildTocMenu(),
+                // 暗転背景（AppBar以外の領域）
+                if (_menuOpen)
+                  Positioned.fill(
+                    top: menuTop,
+                    child: GestureDetector(
+                      onTap: _closeMenu,
+                      child: Container(color: Colors.black38),
                     ),
-                  ],
+                  ),
+
+                // 目次メニュー（AppBarの下に固定）
+                if (_menuOpen)
+                  Positioned(
+                    top: menuTop,
+                    left: 0,
+                    right: 0,
+                    child: _buildTocMenu(),
+                  ),
               ],
             ),
     );
