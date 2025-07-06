@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../ai_category.dart';
+import '../components/convenience_features/convenience_card.dart'; // ここ
 import 'conversation_ai_page.dart';
 import 'text_ai_page.dart';
 import 'image_ai_page.dart';
@@ -61,17 +62,25 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
     }
   }
 
-  int _calcCrossAxisCount(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    if (width >= 900) return 4;
-    if (width >= 600) return 3;
-    return 2;
-  }
-
-  // モバイルとWebで適切な比率を返す関数
-  double _getChildAspectRatio(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    return width < 600 ? 0.75 : 0.85; // モバイル: 0.75, Web: 0.85
+  IconData _getCategoryIcon(String id) {
+    switch (id) {
+      case "conversation":
+        return Icons.chat_bubble_outline;
+      case "text":
+        return Icons.text_fields;
+      case "image":
+        return Icons.image;
+      case "sound":
+        return Icons.music_note;
+      case "programming":
+        return Icons.code;
+      case "movie":
+        return Icons.movie_creation_outlined;
+      case "data":
+        return Icons.bar_chart;
+      default:
+        return Icons.extension;
+    }
   }
 
   @override
@@ -80,104 +89,20 @@ class _AiLearnCategoryPageState extends State<AiLearnCategoryPage> {
       appBar: AppBar(title: const Text('AIジャンルを選ぶ')),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
-          : _CategoryGrid(
-              categories: _categories,
-              onCategoryTap: _onCategoryTap,
-              calcCrossAxisCount: _calcCrossAxisCount,
-              getChildAspectRatio: _getChildAspectRatio,
+          : ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: _categories.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 16),
+              itemBuilder: (context, index) {
+                final category = _categories[index];
+                return ConvenienceCard(
+                  icon: _getCategoryIcon(category.id),
+                  title: category.title,
+                  description: category.description,
+                  onTap: () => _onCategoryTap(context, category),
+                );
+              },
             ),
-    );
-  }
-}
-
-class _CategoryGrid extends StatelessWidget {
-  final List<AiCategory> categories;
-  final void Function(BuildContext, AiCategory) onCategoryTap;
-  final int Function(BuildContext) calcCrossAxisCount;
-  final double Function(BuildContext) getChildAspectRatio;
-
-  const _CategoryGrid({
-    required this.categories,
-    required this.onCategoryTap,
-    required this.calcCrossAxisCount,
-    required this.getChildAspectRatio,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: calcCrossAxisCount(context),
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: getChildAspectRatio(context), // 動的に比率を設定
-        ),
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          final category = categories[index];
-          return InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: () => onCategoryTap(context, category),
-            child: Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: Image.asset(
-                            category.image,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Container(
-                              color: Colors.grey.shade200,
-                              child: const Center(
-                                child: Icon(
-                                  Icons.extension,
-                                  size: 48,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      category.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      category.description,
-                      style: TextStyle(fontSize: 13, color: Colors.grey[700]),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
     );
   }
 }

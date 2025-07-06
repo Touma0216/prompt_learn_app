@@ -22,8 +22,8 @@ class AiDetailsPage extends StatefulWidget {
 
 class MarkdownSection {
   final String title;
-  final String uniqueKey;  // 一意のキー
-  final int level;         // 見出しレベル（1または2）
+  final String uniqueKey;
+  final int level;
   final GlobalKey key;
 
   MarkdownSection(this.title, this.uniqueKey, this.level, this.key);
@@ -36,8 +36,7 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
   final ScrollController _scrollController = ScrollController();
   final Map<String, GlobalKey> _sectionKeys = {};
   final List<MarkdownSection> _sections = [];
-  
-  // アニメーション用のコントローラー
+
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimation;
 
@@ -49,17 +48,13 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
     } else {
       _loadMarkdown();
     }
-    
-    // アニメーションコントローラーの初期化
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
-    // スライドアニメーションの設定（上から下へ）
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, -1), // 上から開始
-      end: Offset.zero,          // 元の位置で終了
+      begin: const Offset(0, -1),
+      end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
@@ -78,11 +73,8 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
       final id = widget.aiId ?? widget.aiName;
       final fileName = widget.htmlFileName ?? '$id.md';
       final path = 'ai_details_layout/$id/$fileName';
-
       final markdown = await rootBundle.loadString(path);
-
       _initializeMarkdown(markdown);
-
     } catch (e) {
       setState(() {
         _markdownData = '読み込みエラー：Markdownファイルが見つかりません。\n\nエラー詳細: ${e.toString()}';
@@ -95,7 +87,6 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
     final sections = _extractHeadings(markdown);
     _sections.clear();
     _sectionKeys.clear();
-
     for (var section in sections) {
       _sectionKeys[section.uniqueKey] = GlobalKey();
       _sections.add(MarkdownSection(
@@ -105,32 +96,27 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
         _sectionKeys[section.uniqueKey]!,
       ));
     }
-
     setState(() {
       _markdownData = markdown;
       _loading = false;
     });
   }
+
   List<MarkdownSection> _extractHeadings(String markdown) {
     final lines = markdown.split('\n');
     final sections = <MarkdownSection>[];
-    final titleCounts = <String, int>{}; // タイトルの出現回数を追跡
-    
+    final titleCounts = <String, int>{};
     for (var i = 0; i < lines.length; i++) {
       final line = lines[i];
       final trimmed = line.trim();
-      
       if (trimmed.startsWith('# ') || trimmed.startsWith('## ')) {
         final level = trimmed.startsWith('# ') ? 1 : 2;
         final title = trimmed.replaceFirst(RegExp(r'^#+ '), '').trim();
-        
         if (title.isNotEmpty) {
-          // 重複するタイトルの場合、カウントを増やして一意のキーを生成
           titleCounts[title] = (titleCounts[title] ?? 0) + 1;
-          final uniqueKey = titleCounts[title]! > 1 
+          final uniqueKey = titleCounts[title]! > 1
               ? '${title}_${titleCounts[title]}'
               : title;
-          
           sections.add(MarkdownSection(
             title,
             uniqueKey,
@@ -140,7 +126,6 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
         }
       }
     }
-    
     return sections;
   }
 
@@ -154,18 +139,15 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
           curve: Curves.easeInOut,
         );
       } catch (e) {
-        // スクロールエラーをキャッチして無視
         debugPrint('スクロールエラー: $e');
       }
     }
   }
 
-  // メニューの開閉を制御する関数
   void _toggleMenu() {
     setState(() {
       _menuOpen = !_menuOpen;
     });
-    
     if (_menuOpen) {
       _animationController.forward();
     } else {
@@ -173,7 +155,6 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
     }
   }
 
-  // メニューを閉じる関数
   void _closeMenu() {
     setState(() {
       _menuOpen = false;
@@ -183,35 +164,31 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
 
   List<Widget> _buildMarkdownWidgets() {
     if (_markdownData == null) return [];
-    
     final lines = _markdownData!.split('\n');
     final widgets = <Widget>[];
     final buffer = StringBuffer();
-    final titleCounts = <String, int>{}; // タイトルの出現回数を追跡
+    final titleCounts = <String, int>{};
 
     for (var i = 0; i < lines.length; i++) {
       final line = lines[i];
       final trimmed = line.trim();
-      
+
       if (trimmed.startsWith('# ') || trimmed.startsWith('## ')) {
-        // 前のバッファの内容を追加
         if (buffer.isNotEmpty) {
           widgets.add(MarkdownBody(
             data: buffer.toString(),
             styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
+            // simple.png等をMarkdown内で ![]() で呼べるように
             imageBuilder: (uri, _, __) => Image.asset(uri.path),
           ));
           buffer.clear();
         }
-        
-        // 見出しを追加
         final title = trimmed.replaceFirst(RegExp(r'^#+ '), '').trim();
         if (title.isNotEmpty) {
           titleCounts[title] = (titleCounts[title] ?? 0) + 1;
-          final uniqueKey = titleCounts[title]! > 1 
+          final uniqueKey = titleCounts[title]! > 1
               ? '${title}_${titleCounts[title]}'
               : title;
-          
           widgets.add(Container(
             key: _sectionKeys[uniqueKey],
             child: MarkdownBody(
@@ -224,8 +201,7 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
         buffer.writeln(line);
       }
     }
-    
-    // 最後のバッファの内容を追加
+
     if (buffer.isNotEmpty) {
       widgets.add(MarkdownBody(
         data: buffer.toString(),
@@ -245,7 +221,7 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
         color: Colors.white,
         child: Container(
           constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.6, // 最大高さを制限
+            maxHeight: MediaQuery.of(context).size.height * 0.6,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -270,7 +246,7 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
                     children: _sections.map((section) {
                       return ListTile(
                         contentPadding: EdgeInsets.only(
-                          left: section.level == 1 ? 16.0 : 32.0, // レベル2は字下げ
+                          left: section.level == 1 ? 16.0 : 32.0,
                           right: 16.0,
                         ),
                         title: Text(
@@ -310,7 +286,6 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
           ? const Center(child: CircularProgressIndicator())
           : Stack(
               children: [
-                // 本体：AppBar＋Markdown表示
                 Positioned.fill(
                   child: Column(
                     children: [
@@ -328,7 +303,7 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
                                 child: Text(
                                   widget.aiName,
                                   style: const TextStyle(
-                                    fontSize: 20, 
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   overflow: TextOverflow.ellipsis,
@@ -357,8 +332,6 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
                     ],
                   ),
                 ),
-
-                // 暗転背景（AppBar以外の領域）
                 if (_menuOpen)
                   Positioned.fill(
                     top: menuTop,
@@ -367,8 +340,6 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
                       child: Container(color: Colors.black38),
                     ),
                   ),
-
-                // 目次メニュー（AppBarの下に固定）
                 if (_menuOpen)
                   Positioned(
                     top: menuTop,
