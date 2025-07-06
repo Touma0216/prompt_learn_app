@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../ai_info.dart';
 import '../../../widgets/ai_card.dart';
-import '../ai_details/ai_details_page.dart';
+import '../../../widgets/loading_screen.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
@@ -109,9 +109,10 @@ class _ConversationAiListPageState extends State<ConversationAiListPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => AiDetailsPage(
+                                    builder: (_) => LoadingScreen(
                                       aiName: ai.name,
-                                      aiId: ai.id,                                    ),
+                                      aiId: ai.id,
+                                    ),
                                   ),
                                 );
                               },

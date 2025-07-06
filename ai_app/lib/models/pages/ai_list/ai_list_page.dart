@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../ai_details/ai_details_page.dart';
+import '../../../widgets/loading_screen.dart';
 
 class AiListPage extends StatelessWidget {
   @override
@@ -23,14 +23,14 @@ class AiListPage extends StatelessWidget {
           final ai = aiList[index];
           return ListTile(
             title: Text(ai['name']!),
-            trailing: Icon(Icons.chevron_right),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => AiDetailsPage(
+                  builder: (_) => LoadingScreen(
                     aiName: ai['name']!,
-                    aiId: ai['id'], // AIのIDを渡す
+                    aiId: ai['id']!,
                   ),
                 ),
               );

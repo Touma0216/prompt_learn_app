@@ -6,12 +6,14 @@ class AiDetailsPage extends StatefulWidget {
   final String aiName;
   final String? aiId;
   final String? htmlFileName;
+  final String? markdownData;
 
   const AiDetailsPage({
     super.key,
     required this.aiName,
     this.aiId,
     this.htmlFileName,
+    this.markdownData,
   });
 
   @override
@@ -42,7 +44,11 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    _loadMarkdown();
+    if (widget.markdownData != null) {
+      _initializeMarkdown(widget.markdownData!);
+    } else {
+      _loadMarkdown();
+    }
     
     // アニメーションコントローラーの初期化
     _animationController = AnimationController(
@@ -75,24 +81,8 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
 
       final markdown = await rootBundle.loadString(path);
 
-      final sections = _extractHeadings(markdown);
-      _sections.clear();
-      _sectionKeys.clear();
-      
-      for (var section in sections) {
-        _sectionKeys[section.uniqueKey] = GlobalKey();
-        _sections.add(MarkdownSection(
-          section.title,
-          section.uniqueKey,
-          section.level,
-          _sectionKeys[section.uniqueKey]!,
-        ));
-      }
+      _initializeMarkdown(markdown);
 
-      setState(() {
-        _markdownData = markdown;
-        _loading = false;
-      });
     } catch (e) {
       setState(() {
         _markdownData = '読み込みエラー：Markdownファイルが見つかりません。\n\nエラー詳細: ${e.toString()}';
@@ -101,6 +91,26 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
     }
   }
 
+  void _initializeMarkdown(String markdown) {
+    final sections = _extractHeadings(markdown);
+    _sections.clear();
+    _sectionKeys.clear();
+
+    for (var section in sections) {
+      _sectionKeys[section.uniqueKey] = GlobalKey();
+      _sections.add(MarkdownSection(
+        section.title,
+        section.uniqueKey,
+        section.level,
+        _sectionKeys[section.uniqueKey]!,
+      ));
+    }
+
+    setState(() {
+      _markdownData = markdown;
+      _loading = false;
+    });
+  }
   List<MarkdownSection> _extractHeadings(String markdown) {
     final lines = markdown.split('\n');
     final sections = <MarkdownSection>[];
