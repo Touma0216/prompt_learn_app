@@ -20,9 +20,11 @@ class AiDetailsPage extends StatefulWidget {
 
 class MarkdownSection {
   final String title;
+  final String uniqueKey;  // 一意のキー
+  final int level;         // 見出しレベル（1または2）
   final GlobalKey key;
 
-  MarkdownSection(this.title, this.key);
+  MarkdownSection(this.title, this.uniqueKey, this.level, this.key);
 }
 
 class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProviderStateMixin {
@@ -61,6 +63,7 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
   @override
   void dispose() {
     _animationController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -72,10 +75,18 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
 
       final markdown = await rootBundle.loadString(path);
 
-      final sectionTitles = _extractHeadings(markdown);
-      for (var title in sectionTitles) {
-        _sectionKeys[title] = GlobalKey();
-        _sections.add(MarkdownSection(title, _sectionKeys[title]!));
+      final sections = _extractHeadings(markdown);
+      _sections.clear();
+      _sectionKeys.clear();
+      
+      for (var section in sections) {
+        _sectionKeys[section.uniqueKey] = GlobalKey();
+        _sections.add(MarkdownSection(
+          section.title,
+          section.uniqueKey,
+          section.level,
+          _sectionKeys[section.uniqueKey]!,
+        ));
       }
 
       setState(() {
@@ -84,34 +95,58 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
       });
     } catch (e) {
       setState(() {
-        _markdownData = '読み込みエラー：Markdownファイルが見つかりません。';
+        _markdownData = '読み込みエラー：Markdownファイルが見つかりません。\n\nエラー詳細: ${e.toString()}';
         _loading = false;
       });
     }
   }
 
-  List<String> _extractHeadings(String markdown) {
+  List<MarkdownSection> _extractHeadings(String markdown) {
     final lines = markdown.split('\n');
-    final headings = <String>[];
-    for (var line in lines) {
+    final sections = <MarkdownSection>[];
+    final titleCounts = <String, int>{}; // タイトルの出現回数を追跡
+    
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
       final trimmed = line.trim();
-      if (trimmed.startsWith('# ')) {
-        headings.add(trimmed.replaceFirst('# ', '').trim());
-      } else if (trimmed.startsWith('## ')) {
-        headings.add(trimmed.replaceFirst('## ', '').trim());
+      
+      if (trimmed.startsWith('# ') || trimmed.startsWith('## ')) {
+        final level = trimmed.startsWith('# ') ? 1 : 2;
+        final title = trimmed.replaceFirst(RegExp(r'^#+ '), '').trim();
+        
+        if (title.isNotEmpty) {
+          // 重複するタイトルの場合、カウントを増やして一意のキーを生成
+          titleCounts[title] = (titleCounts[title] ?? 0) + 1;
+          final uniqueKey = titleCounts[title]! > 1 
+              ? '${title}_${titleCounts[title]}'
+              : title;
+          
+          sections.add(MarkdownSection(
+            title,
+            uniqueKey,
+            level,
+            GlobalKey(),
+          ));
+        }
       }
     }
-    return headings;
+    
+    return sections;
   }
 
-  void _scrollToSection(String title) {
-    final key = _sectionKeys[title];
+  void _scrollToSection(String uniqueKey) {
+    final key = _sectionKeys[uniqueKey];
     if (key?.currentContext != null) {
-      Scrollable.ensureVisible(
-        key!.currentContext!,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      try {
+        Scrollable.ensureVisible(
+          key!.currentContext!,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      } catch (e) {
+        // スクロールエラーをキャッチして無視
+        debugPrint('スクロールエラー: $e');
+      }
     }
   }
 
@@ -138,13 +173,18 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
 
   List<Widget> _buildMarkdownWidgets() {
     if (_markdownData == null) return [];
+    
     final lines = _markdownData!.split('\n');
     final widgets = <Widget>[];
     final buffer = StringBuffer();
+    final titleCounts = <String, int>{}; // タイトルの出現回数を追跡
 
-    for (var line in lines) {
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
       final trimmed = line.trim();
+      
       if (trimmed.startsWith('# ') || trimmed.startsWith('## ')) {
+        // 前のバッファの内容を追加
         if (buffer.isNotEmpty) {
           widgets.add(MarkdownBody(
             data: buffer.toString(),
@@ -153,18 +193,29 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
           ));
           buffer.clear();
         }
+        
+        // 見出しを追加
         final title = trimmed.replaceFirst(RegExp(r'^#+ '), '').trim();
-        widgets.add(Container(
-          key: _sectionKeys[title],
-          child: MarkdownBody(
-            data: line,
-            styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
-          ),
-        ));
+        if (title.isNotEmpty) {
+          titleCounts[title] = (titleCounts[title] ?? 0) + 1;
+          final uniqueKey = titleCounts[title]! > 1 
+              ? '${title}_${titleCounts[title]}'
+              : title;
+          
+          widgets.add(Container(
+            key: _sectionKeys[uniqueKey],
+            child: MarkdownBody(
+              data: line,
+              styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
+            ),
+          ));
+        }
       } else {
         buffer.writeln(line);
       }
     }
+    
+    // 最後のバッファの内容を追加
     if (buffer.isNotEmpty) {
       widgets.add(MarkdownBody(
         data: buffer.toString(),
@@ -182,40 +233,56 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
       child: Material(
         elevation: 8,
         color: Colors.white,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  '📚 目次',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+        child: Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.6, // 最大高さを制限
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Padding(
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '📚 目次',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const Divider(height: 1, thickness: 1),
-            ..._sections.map((section) {
-              return ListTile(
-                title: Text(
-                  section.title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
+              const Divider(height: 1, thickness: 1),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: _sections.map((section) {
+                      return ListTile(
+                        contentPadding: EdgeInsets.only(
+                          left: section.level == 1 ? 16.0 : 32.0, // レベル2は字下げ
+                          right: 16.0,
+                        ),
+                        title: Text(
+                          section.title,
+                          style: TextStyle(
+                            fontSize: section.level == 1 ? 16.0 : 14.0,
+                            fontWeight: section.level == 1 ? FontWeight.w600 : FontWeight.normal,
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                        onTap: () {
+                          _scrollToSection(section.uniqueKey);
+                          _closeMenu();
+                        },
+                      );
+                    }).toList(),
                   ),
                 ),
-                onTap: () {
-                  _scrollToSection(section.title);
-                  _closeMenu();
-                },
-              );
-            }).toList(),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -247,12 +314,16 @@ class _AiDetailsPageState extends State<AiDetailsPage> with SingleTickerProvider
                                 icon: const Icon(Icons.arrow_back),
                                 onPressed: () => Navigator.of(context).pop(),
                               ),
-                              Text(
-                                widget.aiName,
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              Expanded(
+                                child: Text(
+                                  widget.aiName,
+                                  style: const TextStyle(
+                                    fontSize: 20, 
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                              const Spacer(),
                               IconButton(
                                 icon: const Icon(Icons.menu),
                                 onPressed: _toggleMenu,
