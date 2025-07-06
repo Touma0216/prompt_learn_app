@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'ai_learn/ai_learn_category_page.dart';
+import 'convenience_features/convenience_list_page.dart';
 
 // 仮のPlaceholderPage
 class PlaceholderPage extends StatelessWidget {
@@ -202,7 +203,14 @@ class TopPage extends StatelessWidget {
                                 builder: (_) => const AiLearnCategoryPage(),
                               ),
                             );
-                          } else {
+                          } 
+                            else if (feature['label'] == '便利機能') {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const ConvenienceListPage(),
+                                ),
+                              );
+                            }else {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) => PlaceholderPage(title: feature['label']),

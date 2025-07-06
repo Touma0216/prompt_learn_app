@@ -17,40 +17,14 @@ class ConvenienceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
+      child: ListTile(
+        leading: Icon(icon, size: 40),
+        title: Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        subtitle: Text(description),
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(icon, size: 40, color: Theme.of(context).colorScheme.primary),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      description,
-                      style: const TextStyle(fontSize: 14, color: Colors.black54),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+        trailing: const Icon(Icons.arrow_forward_ios),
       ),
     );
   }
